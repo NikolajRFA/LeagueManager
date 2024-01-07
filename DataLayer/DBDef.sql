@@ -3,7 +3,7 @@ DROP TABLE IF EXISTS team;
 DROP TABLE IF EXISTS player;
 DROP TABLE IF EXISTS league;
 
-CREATE TYPE role as ENUM ('top', 'jungle', 'mid', 'bottom', 'support')
+CREATE TYPE role as ENUM ('top', 'jungle', 'mid', 'bottom', 'support');
 
 CREATE TABLE player (
                         id SERIAL PRIMARY KEY,
