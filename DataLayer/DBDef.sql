@@ -12,6 +12,7 @@ CREATE TABLE player (
                         last_name VARCHAR(50),
                         alias VARCHAR(50),
                         age INTEGER,
+                        gender varchar(6),
                         nationality VARCHAR(5),
                         game_sense INTEGER,
                         team_fighting INTEGER,
@@ -46,4 +47,21 @@ CREATE UNIQUE INDEX player_team_overlap
     ON member (player_id)
     WHERE to_date >= from_date;
 
+INSERT INTO league (name, region, num_teams) VALUES ('League 1', 'EU', 20);
 
+INSERT INTO team (name, league_id) VALUES ('Blue Team', 1);
+INSERT INTO team (name, league_id) VALUES ('Red Team', 1);
+
+-- CREATE 10 PLAYERS BEFOREHAND
+INSERT INTO member (player_id, team_id, role, from_date, to_date) VALUES 
+(1,  1, 'top',     CURRENT_DATE, null),
+(2,  1, 'jungle',  CURRENT_DATE, null),
+(3,  1, 'mid',     CURRENT_DATE, null),
+(4,  1, 'bottom',  CURRENT_DATE, null),
+(5,  1, 'support', CURRENT_DATE, null),
+(6,  2, 'top',     CURRENT_DATE, null),
+(7,  2, 'jungle',  CURRENT_DATE, null),
+(8,  2, 'mid',     CURRENT_DATE, null),
+(9,  2, 'bottom',  CURRENT_DATE, null),
+(10, 2, 'support', CURRENT_DATE, null);
+                                                                      

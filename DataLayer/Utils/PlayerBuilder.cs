@@ -16,6 +16,7 @@ public class PlayerBuilder
             LastName = user.Name.Last,
             Alias = user.Login.Username,
             Age = WeightedAge(14, 45, 5.0, 22.0),
+            Gender = user.Gender.ToString(),
             Nationality = user.Nationality.ToString(),
             GameSense = rand.Next(50, 100),
             TeamFighting = rand.Next(50, 100),

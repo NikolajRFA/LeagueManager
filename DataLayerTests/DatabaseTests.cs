@@ -1,4 +1,6 @@
 using DataLayer;
+using DataLayer.Entities;
+using DataLayer.Utils;
 using Microsoft.EntityFrameworkCore;
 
 namespace DataLayerTests;
@@ -30,5 +32,22 @@ public class DatabaseTests
             .Include(x => x.Player)
             .Include(x => x.Team)
             .FirstOrDefault();
+    }
+
+    [Fact]
+    public void InsertPlayers_10_Success()
+    {
+        var db = new Database();
+        var beforeInsert = db.Players.Count();
+        
+        var players = new List<Player>();
+        for (int i = 0; i < 10; i++)
+        {
+            players.Add(PlayerBuilder.RandomPlayer());
+        }
+        
+        db.Players.AddRange(players);
+        db.SaveChanges();
+        Assert.Equal(beforeInsert + 10, db.Players.Count());
     }
 }
