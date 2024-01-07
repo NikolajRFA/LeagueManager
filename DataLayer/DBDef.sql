@@ -3,6 +3,7 @@ DROP TABLE IF EXISTS team;
 DROP TABLE IF EXISTS player;
 DROP TABLE IF EXISTS league;
 
+DROP TYPE role;
 CREATE TYPE role as ENUM ('top', 'jungle', 'mid', 'bottom', 'support');
 
 CREATE TABLE player (
@@ -11,6 +12,7 @@ CREATE TABLE player (
                         last_name VARCHAR(50),
                         alias VARCHAR(50),
                         age INTEGER,
+                        nationality VARCHAR(5),
                         game_sense INTEGER,
                         team_fighting INTEGER,
                         dueling INTEGER,

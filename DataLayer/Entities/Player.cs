@@ -7,6 +7,7 @@ public class Player
     public string LastName { get; set; }
     public string Alias { get; set; }
     public int Age { get; set; }
+    public string Nationality { get; set; }
     public int GameSense { get; set; }
     public int TeamFighting { get; set; }
     public int Dueling { get; set; }
