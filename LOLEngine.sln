@@ -4,6 +4,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataLayer", "DataLayer\Data
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataLayerTests", "DataLayerTests\DataLayerTests.csproj", "{F105F1F3-3B04-4AD9-A060-DE0A4ACF7B92}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "API", "API\API.csproj", "{6EAA4D13-3325-46C9-8397-019634C2F493}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -18,5 +20,9 @@ Global
 		{F105F1F3-3B04-4AD9-A060-DE0A4ACF7B92}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F105F1F3-3B04-4AD9-A060-DE0A4ACF7B92}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F105F1F3-3B04-4AD9-A060-DE0A4ACF7B92}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6EAA4D13-3325-46C9-8397-019634C2F493}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6EAA4D13-3325-46C9-8397-019634C2F493}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6EAA4D13-3325-46C9-8397-019634C2F493}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6EAA4D13-3325-46C9-8397-019634C2F493}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
