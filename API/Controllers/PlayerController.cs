@@ -10,6 +10,15 @@ namespace API.Controllers;
 [ApiController]
 public class PlayerController(PlayerDataService dataService, LinkGenerator linkGenerator, IMapper mapper) : GenericControllerBase(linkGenerator, mapper)
 {
+    [HttpGet(Name = nameof(GetPlayers))]
+    public IActionResult GetPlayers(int page = 0, int pageSize = 10)
+    {
+        var (players, total) = dataService.GetPlayers(page, pageSize);
+        var dtos = new List<PlayerDto>();
+        dtos.AddRange(Mapper.Map<List<PlayerDto>>(players));
+        return Ok(Paging(dtos, total, new PagingValues { Page = page, PageSize = pageSize }, nameof(GetPlayers)));
+    }
+    
     [HttpGet("{id}", Name = nameof(GetPlayer))]
     public IActionResult GetPlayer(int id)
     {
