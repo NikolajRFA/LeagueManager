@@ -32,7 +32,7 @@ var secret = builder.Configuration.GetSection("Auth:Secret").Value;
         };
     });*/
 
-//builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 //builder.Services.AddSingleton<IDataService, DataService>();
 
@@ -48,6 +48,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
 
 //app.UseHttpsRedirection();
 

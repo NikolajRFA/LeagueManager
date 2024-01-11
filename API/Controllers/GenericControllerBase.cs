@@ -1,12 +1,21 @@
 ﻿using System.Security.Claims;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers;
 
-public abstract class GenericControllerBase(LinkGenerator linkGenerator) : ControllerBase
+public abstract class GenericControllerBase : ControllerBase
 {
     protected int? UserId => ExtractUserIdFromClaim();
+    protected IMapper Mapper { get; }
+    private readonly LinkGenerator _linkGenerator;
 
+    public GenericControllerBase(LinkGenerator linkGenerator, IMapper mapper)
+    {
+        Mapper = mapper;
+        _linkGenerator = linkGenerator;
+    }
+    
     protected object Paging<T>(IEnumerable<T> items, int total, PagingValues pagingValues, string endpointName)
     {
         var nextPagingValues = (PagingValues)pagingValues.Clone();
@@ -37,7 +46,7 @@ public abstract class GenericControllerBase(LinkGenerator linkGenerator) : Contr
 
     protected string GetUrl(string name, object values)
     {
-        return linkGenerator.GetUriByName(HttpContext, name, values) ?? "Not specified";
+        return _linkGenerator.GetUriByName(HttpContext, name, values) ?? "Not specified";
     }
     
     protected int? ExtractUserIdFromClaim()
