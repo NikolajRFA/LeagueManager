@@ -9,7 +9,7 @@ public class Database : DbContext
     public DbSet<Team> Teams { get; set; }
     public DbSet<League> Leagues { get; set; }
     public DbSet<Member> Members { get; set; }
-    
+
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         optionsBuilder.EnableSensitiveDataLogging();
@@ -34,6 +34,8 @@ public class Database : DbContext
         {
             entity.ToTable("team");
             entity.HasKey(x => x.Id);
+            entity.HasMany<Member>(x => x.Members)
+                .WithOne(x => x.Team);
         });
 
         modelBuilder.Entity<League>(entity =>
@@ -46,6 +48,10 @@ public class Database : DbContext
         {
             entity.ToTable("member");
             entity.HasKey(x => new { x.PlayerId, x.TeamId });
+            entity.HasOne<Player>(x => x.Player)
+                .WithMany(x => x.Members);
+            entity.HasOne<Team>(x => x.Team)
+                .WithMany(x => x.Members);
         });
     }
 }

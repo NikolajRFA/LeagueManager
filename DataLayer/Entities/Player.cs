@@ -16,4 +16,5 @@ public class Player
     public int WaveMgmt { get; set; }
     public int Farming { get; set; }
     public List<Team> Teams { get; set; }
+    public List<Member> Members { get; set; }
 }
