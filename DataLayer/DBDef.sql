@@ -43,6 +43,13 @@ CREATE TABLE member (
                         to_date DATE
 );
 
+CREATE TABLE game (
+                      id SERIAL PRIMARY KEY,
+                      blue_side INT REFERENCES team(id),
+                      red_side INT REFERENCES team(id),
+                      winner INT REFERENCES team(id)
+);
+
 CREATE UNIQUE INDEX player_team_overlap
     ON member (player_id)
     WHERE to_date >= from_date;
@@ -64,4 +71,6 @@ INSERT INTO member (player_id, team_id, role, from_date, to_date) VALUES
 (8,  2, 'mid',     CURRENT_DATE, null),
 (9,  2, 'bottom',  CURRENT_DATE, null),
 (10, 2, 'support', CURRENT_DATE, null);
+
+INSERT INTO game (blue_side, red_side, winner) VALUES (1, 2, 1);
                                                                       

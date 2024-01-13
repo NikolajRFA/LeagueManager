@@ -7,8 +7,9 @@ public class Database : DbContext
 {
     public DbSet<Player> Players { get; set; }
     public DbSet<Team> Teams { get; set; }
-    public DbSet<League> Leagues { get; set; }
     public DbSet<Member> Members { get; set; }
+    public DbSet<League> Leagues { get; set; }
+    public DbSet<Game> Games { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
@@ -37,13 +38,7 @@ public class Database : DbContext
             entity.HasMany<Member>(x => x.Members)
                 .WithOne(x => x.Team);
         });
-
-        modelBuilder.Entity<League>(entity =>
-        {
-            entity.ToTable("league");
-            entity.HasKey(x => x.Id);
-        });
-
+        
         modelBuilder.Entity<Member>(entity =>
         {
             entity.ToTable("member");
@@ -52,6 +47,21 @@ public class Database : DbContext
                 .WithMany(x => x.Members);
             entity.HasOne<Team>(x => x.Team)
                 .WithMany(x => x.Members);
+        });
+
+        modelBuilder.Entity<League>(entity =>
+        {
+            entity.ToTable("league");
+            entity.HasKey(x => x.Id);
+        });
+
+        modelBuilder.Entity<Game>(entity =>
+        {
+            entity.ToTable("game");
+            entity.HasKey(x => x.Id);
+            entity.HasOne<Team>(x => x.BlueSideTeam);
+            entity.HasOne<Team>(x => x.RedSideTeam);
+            entity.HasOne<Team>(x => x.WinnerTeam);
         });
     }
 }
