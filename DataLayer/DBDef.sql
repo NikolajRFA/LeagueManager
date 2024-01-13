@@ -47,9 +47,19 @@ CREATE TABLE member (
 
 CREATE TABLE game (
                       id SERIAL PRIMARY KEY,
-                      blue_side_id INT REFERENCES team(id),
-                      red_side_id INT REFERENCES team(id),
-                      winner_id INT REFERENCES team(id)
+                      blue_side_id INT REFERENCES team(id) NOT NULL,
+                      red_side_id INT REFERENCES team(id) NOT NULL,
+                      blue_side_top_id INT REFERENCES player(id) NOT NULL,
+                      blue_side_jng_id INT REFERENCES player(id) NOT NULL,
+                      blue_side_mid_id INT REFERENCES player(id) NOT NULL,
+                      blue_side_bot_id INT REFERENCES player(id) NOT NULL,
+                      blue_side_sup_id INT REFERENCES player(id) NOT NULL,
+                      red_side_top_id INT REFERENCES player(id) NOT NULL,
+                      red_side_jng_id INT REFERENCES player(id) NOT NULL,
+                      red_side_mid_id INT REFERENCES player(id) NOT NULL,
+                      red_side_bot_id INT REFERENCES player(id) NOT NULL,
+                      red_side_sup_id INT REFERENCES player(id) NOT NULL,
+                      winner_id INT REFERENCES team(id) NOT NULL
 );
 
 CREATE UNIQUE INDEX player_team_overlap
@@ -74,5 +84,8 @@ INSERT INTO member (player_id, team_id, role, from_date, to_date, is_active) VAL
 (9,  2, 'bottom',  CURRENT_DATE, null, false),
 (10, 2, 'support', CURRENT_DATE, null, false);
 
-INSERT INTO game (blue_side_id, red_side_id, winner_id) VALUES (1, 2, 1);
+INSERT INTO game (blue_side_id, red_side_id, 
+                  blue_side_top_id, blue_side_jng_id, blue_side_mid_id, blue_side_bot_id, blue_side_sup_id,
+                  red_side_top_id, red_side_jng_id, red_side_mid_id, red_side_bot_id, red_side_sup_id, 
+                  winner_id) VALUES (1, 2, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 1);
                                                                       

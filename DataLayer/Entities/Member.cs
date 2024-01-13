@@ -7,6 +7,7 @@ public class Member
     public string Role { get; set; }
     public DateOnly FromDate { get; set; }
     public DateOnly ToDate { get; set; }
+    public bool IsActive { get; set; }
     public Player Player { get; set; }
     public Team Team { get; set; }
 }

@@ -38,6 +38,7 @@ public class TeamController(TeamDataService dataService, LinkGenerator linkGener
         {
             var teamPlayerDto = Mapper.Map<TeamPlayerDto>(player);
             teamPlayerDto.Role = team.Members.First(x => x.PlayerId == player.Id).Role;
+            teamPlayerDto.IsActive = team.Members.First(x => x.PlayerId == player.Id).IsActive;
             teamPlayerDtos.Add(teamPlayerDto);
         }
         return new TeamDto
