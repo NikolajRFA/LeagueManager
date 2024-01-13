@@ -10,6 +10,7 @@ public class TeamDataService
         var db = new Database();
         return (db.Teams
                 .Include(x => x.Players)
+                .Include(x => x.League)
                 .Skip(page * pageSize)
                 .Take(pageSize)
                 .ToList(),
@@ -20,6 +21,8 @@ public class TeamDataService
     {
         var db = new Database();
         return db.Teams
+            .Include(x => x.Players)
+            .Include(x => x.League)
             .FirstOrDefault(x => x.Id == id);
     }
 }

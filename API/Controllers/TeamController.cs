@@ -22,6 +22,15 @@ public class TeamController(TeamDataService dataService, LinkGenerator linkGener
         return Ok(Paging(dtos, total, new PagingValues { Page = page, PageSize = pageSize }, nameof(GetTeams)));
     }
 
+    [HttpGet("{id}", Name = nameof(GetTeam))]
+    public IActionResult GetTeam(int id)
+    {
+        var team = dataService.GetTeam(id);
+        if (team == null) return NotFound();
+
+        return Ok(MapTeam(team));
+    }
+
     private TeamDto MapTeam(Team team)
     {
         var teamPlayerDtos = new List<TeamPlayerDto>();
@@ -34,6 +43,7 @@ public class TeamController(TeamDataService dataService, LinkGenerator linkGener
         return new TeamDto
         {
             Name = team.Name,
+            League = team.League.Name,
             Players = teamPlayerDtos
         };
     }
