@@ -59,9 +59,9 @@ public class Database : DbContext
         {
             entity.ToTable("game");
             entity.HasKey(x => x.Id);
-            entity.HasOne<Team>(x => x.BlueSideTeam);
-            entity.HasOne<Team>(x => x.RedSideTeam);
-            entity.HasOne<Team>(x => x.WinnerTeam);
+            entity.HasOne<Team>(x => x.BlueSide);
+            entity.HasOne<Team>(x => x.RedSide);
+            entity.HasOne<Team>(x => x.Winner);
         });
     }
 }
