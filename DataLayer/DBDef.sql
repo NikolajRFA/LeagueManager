@@ -1,3 +1,4 @@
+DROP TABLE IF EXISTS participation;
 DROP TABLE IF EXISTS game;
 DROP TABLE IF EXISTS member;
 DROP TABLE IF EXISTS team;
@@ -49,17 +50,15 @@ CREATE TABLE game (
                       id SERIAL PRIMARY KEY,
                       blue_side_id INT REFERENCES team(id) NOT NULL,
                       red_side_id INT REFERENCES team(id) NOT NULL,
-                      blue_side_top_id INT REFERENCES player(id) NOT NULL,
-                      blue_side_jng_id INT REFERENCES player(id) NOT NULL,
-                      blue_side_mid_id INT REFERENCES player(id) NOT NULL,
-                      blue_side_bot_id INT REFERENCES player(id) NOT NULL,
-                      blue_side_sup_id INT REFERENCES player(id) NOT NULL,
-                      red_side_top_id INT REFERENCES player(id) NOT NULL,
-                      red_side_jng_id INT REFERENCES player(id) NOT NULL,
-                      red_side_mid_id INT REFERENCES player(id) NOT NULL,
-                      red_side_bot_id INT REFERENCES player(id) NOT NULL,
-                      red_side_sup_id INT REFERENCES player(id) NOT NULL,
-                      winner_id INT REFERENCES team(id) NOT NULL
+                      winner_id INT REFERENCES team(id)
+);
+
+CREATE TABLE participation (
+    game_id INT REFERENCES game (id) NOT NULL,
+    player_id INT REFERENCES player (id) NOT NULL,
+    role ROLE,
+    team_id INT REFERENCES team (id),
+    PRIMARY KEY (game_id, player_id)
 );
 
 CREATE UNIQUE INDEX player_team_overlap
@@ -71,7 +70,18 @@ INSERT INTO league (name, region, num_teams) VALUES ('League 1', 'EU', 20);
 INSERT INTO team (name, league_id) VALUES ('Blue Team', 1);
 INSERT INTO team (name, league_id) VALUES ('Red Team', 1);
 
--- CREATE 10 PLAYERS BEFOREHAND
+INSERT INTO player (id, first_name, last_name, alias, age, gender, nationality, game_sense, team_fighting, dueling, jgl_pathing, wave_mgmt, farming) VALUES (1, 'Alex', 'Brown', 'crazycat109', 22, 'Male', 'NZ', 66, 64, 95, 73, 72, 69);
+INSERT INTO player (id, first_name, last_name, alias, age, gender, nationality, game_sense, team_fighting, dueling, jgl_pathing, wave_mgmt, farming) VALUES (2, 'Virginia', 'Téllez', 'angrytiger613', 20, 'Female', 'MX', 75, 92, 88, 99, 95, 73);
+INSERT INTO player (id, first_name, last_name, alias, age, gender, nationality, game_sense, team_fighting, dueling, jgl_pathing, wave_mgmt, farming) VALUES (3, 'Zeilane', 'da Cruz', 'bluecat471', 24, 'Female', 'BR', 57, 85, 70, 90, 69, 73);
+INSERT INTO player (id, first_name, last_name, alias, age, gender, nationality, game_sense, team_fighting, dueling, jgl_pathing, wave_mgmt, farming) VALUES (4, 'Eckehard', 'Wolf', 'angryladybug611', 15, 'Male', 'DE', 67, 73, 76, 51, 81, 73);
+INSERT INTO player (id, first_name, last_name, alias, age, gender, nationality, game_sense, team_fighting, dueling, jgl_pathing, wave_mgmt, farming) VALUES (5, 'Alessio', 'Leroy', 'bigswan216', 24, 'Male', 'FR', 69, 92, 93, 55, 82, 90);
+INSERT INTO player (id, first_name, last_name, alias, age, gender, nationality, game_sense, team_fighting, dueling, jgl_pathing, wave_mgmt, farming) VALUES (6, 'Runa', 'Salvesen', 'bigmeercat861', 31, 'Female', 'NO', 69, 66, 84, 75, 72, 73);
+INSERT INTO player (id, first_name, last_name, alias, age, gender, nationality, game_sense, team_fighting, dueling, jgl_pathing, wave_mgmt, farming) VALUES (7, 'Yasmina', 'Rijpkema', 'blacktiger316', 21, 'Female', 'NL', 74, 58, 61, 81, 62, 98);
+INSERT INTO player (id, first_name, last_name, alias, age, gender, nationality, game_sense, team_fighting, dueling, jgl_pathing, wave_mgmt, farming) VALUES (8, 'Marcus', 'Rasmussen', 'tinypeacock861', 21, 'Male', 'DK', 70, 66, 71, 83, 51, 92);
+INSERT INTO player (id, first_name, last_name, alias, age, gender, nationality, game_sense, team_fighting, dueling, jgl_pathing, wave_mgmt, farming) VALUES (9, 'Tony', 'Rey', 'purplerabbit174', 30, 'Male', 'FR', 97, 66, 50, 70, 92, 80);
+INSERT INTO player (id, first_name, last_name, alias, age, gender, nationality, game_sense, team_fighting, dueling, jgl_pathing, wave_mgmt, farming) VALUES (10, 'Dobrivoje', 'Mišković', 'organiclion133', 25, 'Male', 'RS', 78, 91, 97, 60, 99, 94);
+
+
 INSERT INTO member (player_id, team_id, role, from_date, to_date, is_active) VALUES 
 (1,  1, 'top',     CURRENT_DATE, null, false),
 (2,  1, 'jungle',  CURRENT_DATE, null, false),
@@ -84,8 +94,17 @@ INSERT INTO member (player_id, team_id, role, from_date, to_date, is_active) VAL
 (9,  2, 'bottom',  CURRENT_DATE, null, false),
 (10, 2, 'support', CURRENT_DATE, null, false);
 
-INSERT INTO game (blue_side_id, red_side_id, 
-                  blue_side_top_id, blue_side_jng_id, blue_side_mid_id, blue_side_bot_id, blue_side_sup_id,
-                  red_side_top_id, red_side_jng_id, red_side_mid_id, red_side_bot_id, red_side_sup_id, 
-                  winner_id) VALUES (1, 2, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 1);
+INSERT INTO game (blue_side_id, red_side_id, winner_id) VALUES (1, 2, NULL);
+
+INSERT INTO participation (game_id, player_id, role, team_id)
+VALUES (1, 1, 'top', 1),
+       (1, 2, 'jungle', 1),
+       (1, 3, 'mid', 1),
+       (1, 4, 'bottom', 1),
+       (1, 5, 'support', 1),
+       (1, 6, 'top', 2),
+       (1, 7, 'jungle', 2),
+       (1, 8, 'mid', 2),
+       (1, 9, 'bottom', 2),
+       (1, 10, 'support', 2)
                                                                       

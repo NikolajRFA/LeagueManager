@@ -10,6 +10,7 @@ public class Database : DbContext
     public DbSet<Member> Members { get; set; }
     public DbSet<League> Leagues { get; set; }
     public DbSet<Game> Games { get; set; }
+    public DbSet<Participation> Participations { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
@@ -29,6 +30,9 @@ public class Database : DbContext
             entity.HasMany(x => x.Teams)
                 .WithMany(x => x.Players)
                 .UsingEntity<Member>();
+            entity.HasMany(x => x.Games)
+                .WithMany(x => x.Players)
+                .UsingEntity<Participation>();
         });
 
         modelBuilder.Entity<Team>(entity =>
@@ -62,6 +66,12 @@ public class Database : DbContext
             entity.HasOne<Team>(x => x.BlueSide);
             entity.HasOne<Team>(x => x.RedSide);
             entity.HasOne<Team>(x => x.Winner);
+        });
+
+        modelBuilder.Entity<Participation>(entity =>
+        {
+            entity.ToTable("participation");
+            entity.HasKey(x => new { x.GameId, x.PlayerId });
         });
     }
 }
