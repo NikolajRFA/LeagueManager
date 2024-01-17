@@ -1,4 +1,5 @@
 ﻿using DataLayer.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace DataLayer.DataServices;
 
@@ -17,5 +18,13 @@ public class GameDataService
     {
         var db = new Database();
         return db.Games.FirstOrDefault(x => x.Id == id);
+    }
+
+    public List<Game>? GetGamesFromPlayer(int playerId)
+    {
+        var db = new Database();
+        return db.Players
+            .Include(x => x.Games)
+            .FirstOrDefault(x => x.Id == playerId)?.Games;
     }
 }
