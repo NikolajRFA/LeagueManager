@@ -89,4 +89,20 @@ public class DatabaseTests
             _testOutputHelper.WriteLine($"{player.FirstName} {player.LastName} {player.Age} {player.Nationality}");
         }
     }
+
+    [Fact]
+    public void GetGamesFromPlayer_PlayerId1_Success()
+    {
+        var db = new Database();
+        var games = db.Players
+            .Include(x => x.Games)
+            .FirstOrDefault(x => x.Id == 1)!.Games;
+        
+        Assert.NotNull(games);
+
+        foreach (var game in games)
+        {
+            _testOutputHelper.WriteLine($"{game.Id}");
+        }
+    }
 }

@@ -66,6 +66,11 @@ public class Database : DbContext
             entity.HasOne<Team>(x => x.BlueSide);
             entity.HasOne<Team>(x => x.RedSide);
             entity.HasOne<Team>(x => x.Winner);
+            
+            entity.HasMany(x => x.Players)
+                .WithMany(x => x.Games)
+                .UsingEntity<Participation>();
+                
         });
 
         modelBuilder.Entity<Participation>(entity =>
