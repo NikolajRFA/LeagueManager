@@ -1,3 +1,4 @@
+using System.Text.RegularExpressions;
 using DataLayer;
 using DataLayer.Entities;
 using DataLayer.Utils;
@@ -104,5 +105,16 @@ public class DatabaseTests
         {
             _testOutputHelper.WriteLine($"{game.Id}");
         }
+    }
+
+    [Fact]
+    public void GetDateFromGame_GameId1_Success()
+    {
+        var db = new Database();
+        var date = db.Games.FirstOrDefault(x => x.Id == 1)!.Date;
+        
+        Assert.Matches(@"\d{2}-\d{2}-\d{4}", date.ToString());
+        
+        _testOutputHelper.WriteLine(date.ToString());
     }
 }

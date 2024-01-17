@@ -50,7 +50,8 @@ CREATE TABLE game (
                       id SERIAL PRIMARY KEY,
                       blue_side_id INT REFERENCES team(id) NOT NULL,
                       red_side_id INT REFERENCES team(id) NOT NULL,
-                      winner_id INT REFERENCES team(id)
+                      winner_id INT REFERENCES team(id),
+                      date DATE NOT NULL
 );
 
 CREATE TABLE participation (
@@ -94,7 +95,7 @@ INSERT INTO member (player_id, team_id, role, from_date, to_date, is_active) VAL
 (9,  2, 'bottom',  CURRENT_DATE, null, false),
 (10, 2, 'support', CURRENT_DATE, null, false);
 
-INSERT INTO game (blue_side_id, red_side_id, winner_id) VALUES (1, 2, NULL);
+INSERT INTO game (blue_side_id, red_side_id, winner_id, date) VALUES (1, 2, NULL, now());
 
 INSERT INTO participation (game_id, player_id, role, team_id)
 VALUES (1, 1, 'top', 1),

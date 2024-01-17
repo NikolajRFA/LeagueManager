@@ -6,6 +6,7 @@ public class Game
     public int BlueSideId { get; set; }
     public int RedSideId { get; set; }
     public int? WinnerId { get; set; }
+    public DateOnly Date { get; set; }
     public Team BlueSide { get; set; }
     public Team RedSide { get; set; }
     public Team? Winner { get; set; }
