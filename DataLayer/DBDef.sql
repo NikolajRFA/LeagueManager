@@ -5,7 +5,7 @@ DROP TABLE IF EXISTS team;
 DROP TABLE IF EXISTS player;
 DROP TABLE IF EXISTS league;
 
-DROP TYPE role;
+DROP TYPE IF EXISTS role;
 CREATE TYPE role as ENUM ('top', 'jungle', 'mid', 'bottom', 'support');
 
 CREATE TABLE player (
