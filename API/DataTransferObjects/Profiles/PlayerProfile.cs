@@ -1,5 +1,5 @@
-﻿using AutoMapper;
-using DataLayer.Entities;
+﻿using API.DataTransferObjects.Player;
+using AutoMapper;
 
 namespace API.DataTransferObjects.Profiles;
 
@@ -7,7 +7,7 @@ public class PlayerProfile : Profile
 {
     public PlayerProfile()
     {
-        CreateMap<Player, PlayerDto>();
-        CreateMap<Player, TeamPlayerDto>();
+        CreateMap<DataLayer.Entities.Player, PlayerDto>();
+        CreateMap<DataLayer.Entities.Player, TeamPlayerDto>();
     }
 }

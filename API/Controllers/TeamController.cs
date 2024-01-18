@@ -1,4 +1,5 @@
 ﻿using API.DataTransferObjects;
+using API.DataTransferObjects.Player;
 using AutoMapper;
 using DataLayer.DataServices;
 using DataLayer.Entities;
