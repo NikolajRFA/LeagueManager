@@ -27,4 +27,12 @@ public class GameDataService
             .Include(x => x.Games)
             .FirstOrDefault(x => x.Id == playerId)?.Games;
     }
+
+    public List<Player>? GetPlayersFromGame(int gameId)
+    {
+        var db = new Database();
+        return db.Games
+            .Include(x => x.Players)
+            .FirstOrDefault(x => x.Id == gameId)?.Players;
+    }
 }

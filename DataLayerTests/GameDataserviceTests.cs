@@ -17,4 +17,18 @@ public class GameDataserviceTests
         var dataService = new GameDataService();
         Assert.Null(dataService.GetGamesFromPlayer(-1));
     }
+
+    [Fact]
+    public void GetPlayersFromGame_Id1_Success()
+    {
+        var dataService = new GameDataService();
+        Assert.NotNull(dataService.GetPlayersFromGame(1));
+    }
+    
+    [Fact]
+    public void GetPlayersFromGame_NonExistent_ReturnsNull()
+    {
+        var dataService = new GameDataService();
+        Assert.Null(dataService.GetPlayersFromGame(-1));
+    }
 }
