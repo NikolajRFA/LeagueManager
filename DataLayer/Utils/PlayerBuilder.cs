@@ -18,12 +18,12 @@ public class PlayerBuilder
             Age = WeightedAge(14, 45, 5.0, 22.0),
             Gender = user.Gender.ToString(),
             Nationality = user.Nationality.ToString(),
-            GameSense = rand.Next(50, 100),
-            TeamFighting = rand.Next(50, 100),
-            Dueling = rand.Next(50, 100),
-            JglPathing = rand.Next(50, 100),
-            WaveMgmt = rand.Next(50, 100),
-            Farming = rand.Next(50, 100)
+            GameSense = rand.Next(Settings.MinSkillLvl, Settings.MaxSkillLvl + 1),
+            TeamFighting = rand.Next(Settings.MinSkillLvl, Settings.MaxSkillLvl + 1),
+            Dueling = rand.Next(Settings.MinSkillLvl, Settings.MaxSkillLvl + 1),
+            JglPathing = rand.Next(Settings.MinSkillLvl, Settings.MaxSkillLvl + 1),
+            WaveMgmt = rand.Next(Settings.MinSkillLvl, Settings.MaxSkillLvl + 1),
+            Farming = rand.Next(Settings.MinSkillLvl, Settings.MaxSkillLvl + 1)
         };
     }
     

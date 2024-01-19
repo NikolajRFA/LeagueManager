@@ -31,4 +31,11 @@ public class GameDataserviceTests
         var dataService = new GameDataService();
         Assert.Null(dataService.GetPlayersFromGame(-1));
     }
+
+    [Fact]
+    public void PlayGame_Team1AndTeam2_Success()
+    {
+        var dataService = new GameDataService();
+        dataService.PlayGame(1, 2, DateOnly.FromDateTime(DateTime.Now));
+    }
 }

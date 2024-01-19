@@ -1,5 +1,8 @@
 ﻿using DataLayer.Entities;
+using DataLayer.Utils;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using Npgsql;
 
 namespace DataLayer;
 
@@ -11,6 +14,7 @@ public class Database : DbContext
     public DbSet<League> Leagues { get; set; }
     public DbSet<Game> Games { get; set; }
     public DbSet<Participation> Participations { get; set; }
+    public DbSet<TotalSkillResult> TotalSkillResults { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
@@ -63,6 +67,8 @@ public class Database : DbContext
         {
             entity.ToTable("game");
             entity.HasKey(x => x.Id);
+            entity.Property(p => p.Id)
+                .ValueGeneratedOnAdd();
             entity.HasOne<Team>(x => x.BlueSide);
             entity.HasOne<Team>(x => x.RedSide);
             entity.HasOne<Team>(x => x.Winner);
@@ -78,5 +84,7 @@ public class Database : DbContext
             entity.ToTable("participation");
             entity.HasKey(x => new { x.GameId, x.PlayerId });
         });
+        
+        modelBuilder.Entity<TotalSkillResult>().HasNoKey().ToView(null);
     }
 }

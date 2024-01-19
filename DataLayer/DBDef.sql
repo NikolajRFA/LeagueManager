@@ -106,5 +106,22 @@ VALUES (1, 1, 'top', 1),
        (1, 7, 'jungle', 2),
        (1, 8, 'mid', 2),
        (1, 9, 'bottom', 2),
-       (1, 10, 'support', 2)
-                                                                      
+       (1, 10, 'support', 2);
+
+
+CREATE OR REPLACE FUNCTION get_total_player_skill(player_id INT)
+    RETURNS int
+    LANGUAGE plpgsql
+AS
+$$
+DECLARE
+    total_skill INT;
+BEGIN
+    SELECT game_sense + team_fighting + dueling + jgl_pathing + wave_mgmt + farming
+    INTO total_skill
+    FROM player
+    WHERE id = player_id;
+
+    RETURN total_skill;
+end;
+$$;
