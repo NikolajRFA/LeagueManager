@@ -6,7 +6,7 @@ DROP TABLE IF EXISTS player;
 DROP TABLE IF EXISTS league;
 
 DROP TYPE IF EXISTS role;
-CREATE TYPE role as ENUM ('top', 'jungle', 'mid', 'bottom', 'support');
+--CREATE TYPE role as ENUM ('top', 'jungle', 'mid', 'bottom', 'support');
 
 CREATE TABLE player (
                         id SERIAL PRIMARY KEY,
@@ -40,7 +40,7 @@ CREATE TABLE team (
 CREATE TABLE member (
                         player_id INTEGER REFERENCES player(id),
                         team_id INTEGER REFERENCES team(id),
-                        role ROLE,
+                        role VARCHAR(10) NOT NULL DEFAULT ('benched'),
                         from_date DATE,
                         to_date DATE
 );
@@ -56,7 +56,7 @@ CREATE TABLE game (
 CREATE TABLE participation (
     game_id INT REFERENCES game (id) NOT NULL,
     player_id INT REFERENCES player (id) NOT NULL,
-    role ROLE,
+    role VARCHAR(10) NOT NULL,
     team_id INT REFERENCES team (id),
     PRIMARY KEY (game_id, player_id)
 );
@@ -94,7 +94,7 @@ INSERT INTO member (player_id, team_id, role, from_date, to_date) VALUES
 (9,  2, 'bottom',  CURRENT_DATE, null),
 (10, 2, 'support', CURRENT_DATE, null);
 
-INSERT INTO game (blue_side_id, red_side_id, winner_id, date) VALUES (1, 2, NULL, now());
+INSERT INTO game (blue_side_id, red_side_id, winner_id, date) VALUES (1, 2, 1, now());
 
 INSERT INTO participation (game_id, player_id, role, team_id)
 VALUES (1, 1, 'top', 1),
