@@ -125,3 +125,74 @@ BEGIN
     RETURN total_skill;
 end;
 $$;
+
+CREATE OR REPLACE PROCEDURE play_game(blue_side_team_id INT, red_side_team_id INT, game_date DATE)
+    LANGUAGE plpgsql
+AS
+$$
+DECLARE
+    new_game_id INT := nextval('game_id_seq');
+    min_skill_lvl INT := 50;
+    player_amount_of_skills INT := 6;
+    min_total_skill_blue_side INT;
+    min_total_skill_red_side INT;
+    total_skill_blue_side INT;
+    total_skill_red_side INT;
+    blue_side_performance INT;
+    red_side_performance INT;
+BEGIN
+    -- Create new game with the teams
+    INSERT INTO game (id, blue_side_id, red_side_id, date)
+    VALUES (new_game_id, blue_side_team_id, red_side_team_id, game_date);
+    
+    -- Add members to participation table
+    INSERT INTO participation (game_id, player_id, role, team_id)
+    SELECT new_game_id,
+           player_id,
+           role,
+           team_id
+    FROM member
+    WHERE (team_id = blue_side_team_id OR team_id = red_side_team_id)
+      AND role != 'benched'
+      AND from_date <= game_date
+      AND (to_date >= game_date OR to_date IS NULL);
+
+    -- Get minimum team skill levels based on the number of players in the teams
+    SELECT min_skill_lvl *
+           (SELECT count(*) FROM participation WHERE game_id = new_game_id AND team_id = blue_side_team_id) *
+           player_amount_of_skills
+    INTO min_total_skill_blue_side;
+    SELECT min_skill_lvl *
+           (SELECT count(*) FROM participation WHERE game_id = new_game_id AND team_id = red_side_team_id) *
+           player_amount_of_skills
+    INTO min_total_skill_red_side;
+    
+    -- Calculate team total skill levels based on the teams players
+    SELECT sum(get_total_player_skill(player_id))
+    INTO total_skill_blue_side
+    FROM participation
+    WHERE game_id = new_game_id AND team_id = blue_side_team_id;
+    SELECT sum(get_total_player_skill(player_id))
+    INTO total_skill_red_side
+    FROM participation
+    WHERE game_id = new_game_id AND team_id = red_side_team_id;
+    
+    -- Use randomness to find a game winner
+    SELECT floor(random() * (total_skill_blue_side - min_total_skill_blue_side + 1) + min_total_skill_blue_side)::int
+    INTO blue_side_performance;
+    SELECT floor(random() * (total_skill_red_side - min_total_skill_red_side + 1) + min_total_skill_red_side)::int
+    INTO red_side_performance;
+    
+    UPDATE game
+    SET winner_id = CASE 
+        WHEN blue_side_performance > red_side_performance THEN blue_side_id
+        WHEN blue_side_performance = red_side_performance THEN
+            CASE
+                WHEN random() < 0.5 THEN blue_side_id
+                ELSE red_side_id
+            END
+        ELSE red_side_id
+    END
+    WHERE id = new_game_id;
+end;
+$$;
