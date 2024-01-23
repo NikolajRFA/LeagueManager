@@ -1,0 +1,14 @@
+﻿namespace API.DataTransferObjects;
+
+public class GameDto
+{
+    public string Url { get; set; }
+    public string BlueSide { get; set; }
+    public string BlueSideUrl { get; set; }
+    public string RedSide { get; set; }
+    public string RedSideUrl { get; set; }
+    public string? Winner { get; set; }
+    public string? WinnerUrl { get; set; }
+    
+    public DateOnly Date { get; set; }
+}

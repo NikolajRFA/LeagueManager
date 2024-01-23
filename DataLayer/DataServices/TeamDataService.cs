@@ -25,4 +25,20 @@ public class TeamDataService
             .Include(x => x.League)
             .FirstOrDefault(x => x.Id == id);
     }
+    
+    public (List<Game>, int) GetGames(int teamId, int page, int pageSize)
+    {
+        var db = new Database();
+        var games = db.Games
+            .Include(x => x.BlueSide)
+            .Include(x => x.RedSide)
+            .Include(x => x.Winner)
+            .Where(x => x.Id == teamId);
+
+        return (games
+                .Skip(page * pageSize)
+                .Take(pageSize)
+                .ToList(),
+            games.Count());
+    }
 }

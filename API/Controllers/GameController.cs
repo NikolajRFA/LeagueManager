@@ -1,7 +1,10 @@
-﻿using API.Models;
+﻿using API.DataTransferObjects;
+using API.Models;
 using AutoMapper;
 using DataLayer.DataServices;
+using DataLayer.Entities;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.JSInterop.Infrastructure;
 
 namespace API.Controllers;
 
@@ -15,6 +18,15 @@ public class GameController(GameDataService dataService, LinkGenerator linkGener
         var (teams, total) = dataService.GetGames(page, pageSize);
 
         return Ok(Paging(teams, total, new PagingValues { Page = page, PageSize = pageSize }, nameof(GetGames)));
+    }
+
+    [HttpGet("{id}", Name = nameof(GetGame))]
+    public IActionResult GetGame(int id)
+    {
+        var game = dataService.GetGame(id);
+        if (game == null) return NotFound();
+
+        return Ok(MapGame(game));
     }
 
     [HttpPost("play", Name = nameof(PlayGame))]

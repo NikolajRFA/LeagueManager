@@ -10,6 +10,9 @@ public class GameDataService
     {
         var db = new Database();
         return (db.Games
+            .Include(x => x.BlueSide)
+            .Include(x => x.RedSide)
+            .Include(x => x.Winner)
             .Skip(page * pageSize)
             .Take(pageSize)
             .ToList(), db.Games.Count());
@@ -18,7 +21,11 @@ public class GameDataService
     public Game? GetGame(int id)
     {
         var db = new Database();
-        return db.Games.FirstOrDefault(x => x.Id == id);
+        return db.Games
+            .Include(x => x.BlueSide)
+            .Include(x => x.RedSide)
+            .Include(x => x.Winner)
+            .FirstOrDefault(x => x.Id == id);
     }
 
     public List<Game>? GetGamesFromPlayer(int playerId)

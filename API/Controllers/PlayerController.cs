@@ -31,6 +31,7 @@ public class PlayerController(PlayerDataService dataService, LinkGenerator linkG
     private PlayerDto MapPlayer(Player player)
     {
         var dto = Mapper.Map<PlayerDto>(player);
+        dto.Url = GetUrl(nameof(GetPlayer), new { player.Id });
         return dto;
     }
 }

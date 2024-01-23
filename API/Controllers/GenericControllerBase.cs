@@ -1,5 +1,7 @@
 ﻿using System.Security.Claims;
+using API.DataTransferObjects;
 using AutoMapper;
+using DataLayer.Entities;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers;
@@ -60,6 +62,19 @@ public abstract class GenericControllerBase : ControllerBase
 
         return userId;
     }
+    
+    protected GameDto MapGame(Game game)
+    {
+        var dto = Mapper.Map<GameDto>(game);
+        dto.Url = GetUrl(nameof(GameController.GetGame), new { game.Id });
+        dto.BlueSideUrl = GetUrl(nameof(TeamController.GetTeam), new { Id = game.BlueSideId });
+        dto.RedSideUrl = GetUrl(nameof(TeamController.GetTeam), new { Id = game.RedSideId });
+        dto.WinnerUrl = GetUrl(nameof(TeamController.GetTeam), new { Id = game.WinnerId });
+        dto.BlueSide = game.BlueSide.Name;
+        dto.RedSide = game.RedSide.Name;
+        dto.Winner = game.Winner?.Name;
+        return dto;
+    }
 }
 
 public class PagingValues : ICloneable
@@ -71,4 +86,9 @@ public class PagingValues : ICloneable
     {
         return MemberwiseClone();
     }
+}
+
+public class IdPagingValues : PagingValues
+{
+    public int Id { get; set; }
 }
