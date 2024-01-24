@@ -28,6 +28,21 @@ public class PlayerController(PlayerDataService dataService, LinkGenerator linkG
         return Ok(MapPlayer(player));
     }
 
+    [HttpGet("{id}/games", Name = nameof(GetGamesFromPlayer))]
+    public IActionResult GetGamesFromPlayer(int id, int page = 0, int pageSize = 10)
+    {
+        var (games, total) = dataService.GetGamesFromPlayer(id, page, pageSize);
+        
+        var dtos = new List<GameDto>();
+        foreach (var game in games)
+        {
+            dtos.Add(MapGame(game));
+        }
+
+        return Ok(Paging(dtos, total, new IdPagingValues { Id = id, PageSize = pageSize, Page = page },
+            nameof(GetGamesFromPlayer)));
+    }
+
     private PlayerDto MapPlayer(Player player)
     {
         var dto = Mapper.Map<PlayerDto>(player);
