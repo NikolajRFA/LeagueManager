@@ -1,3 +1,6 @@
+CREATE EXTENSION IF NOT EXISTS pg_trgm;
+SET pg_trgm.similarity_threshold = 0.15;
+
 DROP TABLE IF EXISTS participation;
 DROP TABLE IF EXISTS game;
 DROP TABLE IF EXISTS member;
@@ -33,6 +36,7 @@ CREATE TABLE player_name_wi (
                                 PRIMARY KEY (player_id, "column")
 );
 CREATE INDEX lower_case_word ON player_name_wi(lower(word));
+CREATE INDEX players_on_word_gin_trgm_idx ON player_name_wi USING GIN(word gin_trgm_ops);
 
 CREATE TABLE league (
                         id SERIAL PRIMARY KEY,
