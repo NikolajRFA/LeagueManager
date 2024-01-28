@@ -2,6 +2,7 @@ DROP TABLE IF EXISTS participation;
 DROP TABLE IF EXISTS game;
 DROP TABLE IF EXISTS member;
 DROP TABLE IF EXISTS team;
+DROP TABLE IF EXISTS player_name_wi;
 DROP TABLE IF EXISTS player;
 DROP TABLE IF EXISTS league;
 
@@ -23,6 +24,15 @@ CREATE TABLE player (
                         wave_mgmt INTEGER,
                         farming INTEGER
 );
+
+CREATE TABLE player_name_wi (
+                                player_id INTEGER REFERENCES player(id),
+                                word VARCHAR(100),
+                                relevance INTEGER,
+                                "column" VARCHAR(20),
+                                PRIMARY KEY (player_id, "column")
+);
+CREATE INDEX lower_case_word ON player_name_wi(lower(word));
 
 CREATE TABLE league (
                         id SERIAL PRIMARY KEY,
@@ -81,6 +91,33 @@ INSERT INTO player (id, first_name, last_name, alias, age, gender, nationality, 
 INSERT INTO player (id, first_name, last_name, alias, age, gender, nationality, game_sense, team_fighting, dueling, jgl_pathing, wave_mgmt, farming) VALUES (9, 'Tony', 'Rey', 'purplerabbit174', 30, 'Male', 'FR', 97, 66, 50, 70, 92, 80);
 INSERT INTO player (id, first_name, last_name, alias, age, gender, nationality, game_sense, team_fighting, dueling, jgl_pathing, wave_mgmt, farming) VALUES (10, 'Dobrivoje', 'Mišković', 'organiclion133', 25, 'Male', 'RS', 78, 91, 97, 60, 99, 94);
 
+CREATE OR REPLACE PROCEDURE update_player_name_wi()
+LANGUAGE plpgsql
+AS
+    $$
+    BEGIN
+        DELETE FROM player_name_wi;
+        
+        INSERT INTO player_name_wi
+        SELECT id,
+                first_name AS word,
+                1 AS relevance,
+                'first_name' AS "column"
+         FROM player
+         UNION
+         SELECT id,
+                last_name AS word,
+                2 AS relevance,
+                'last_name' AS "column"
+         FROM player
+         UNION
+         SELECT id,
+                alias AS word,
+                3 AS relevance,
+                'alias' AS "column"
+         FROM player;
+    end;
+    $$;
 
 INSERT INTO member (player_id, team_id, role, from_date, to_date) VALUES 
 (1,  1, 'top',     CURRENT_DATE, null),
@@ -109,6 +146,7 @@ VALUES (1, 1, 'top', 1),
        (1, 10, 'support', 2);
 
 
+-- Functions and procedures
 CREATE OR REPLACE FUNCTION get_total_player_skill(player_id INT)
     RETURNS int
     LANGUAGE plpgsql
