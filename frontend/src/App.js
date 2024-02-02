@@ -3,6 +3,9 @@ import {BrowserRouter, Route, Routes} from "react-router-dom";
 import Home from "./Pages/Home";
 import Player from "./Pages/Player";
 import Dashboard from "./Pages/Dashboard/Dashboard";
+import Template from "./Template/Template";
+import {Button} from "@mui/material";
+import Test from "./Pages/Test";
 
 function App() {
     return (
@@ -11,6 +14,7 @@ function App() {
                 <Route path="/" element={<Home/>}/>
                 <Route path="/player" element={<Player/>}/>
                 <Route path="/dashboard" element={<Dashboard/>}/>
+                <Route path="/test" element={<Test/>}/>
             </Routes>
         </BrowserRouter>
     );
