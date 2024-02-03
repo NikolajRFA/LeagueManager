@@ -15,7 +15,11 @@ public class PlayerController(PlayerDataService dataService, LinkGenerator linkG
     {
         var (players, total) = dataService.GetPlayers(page, pageSize);
         var dtos = new List<PlayerDto>();
-        dtos.AddRange(Mapper.Map<List<PlayerDto>>(players));
+        foreach (var player in players)
+        {
+            dtos.Add(MapPlayer(player));
+        }
+        
         return Ok(Paging(dtos, total, new PagingValues { Page = page, PageSize = pageSize }, nameof(GetPlayers)));
     }
     
