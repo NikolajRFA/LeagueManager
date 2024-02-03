@@ -4,11 +4,12 @@ import Template from "../Template/Template";
 import Chart from "./Dashboard/Chart";
 import Deposits from "./Dashboard/Deposits";
 import Orders from "./Dashboard/Orders";
-import {Box, Button, Chip, LinearProgress, linearProgressClasses, Typography} from "@mui/material";
+import {Avatar, Box, Button, Chip, LinearProgress, linearProgressClasses, Stack, Typography} from "@mui/material";
 import {useState} from "react";
 import {usePlayer} from "../BusinessLogic/usePlayer";
 import {styled} from "@mui/material/styles";
 import Loading from "../Components/Loading";
+import PersonIcon from '@mui/icons-material/Person';
 
 export default function Test() {
     const playerData = usePlayer();
@@ -65,8 +66,16 @@ export default function Test() {
                         }}
                     >
                         {/*<Chart />*/}
-                        <Chip label="I am a chip, click me!" variant={chipState} color="success"
-                              onClick={handleChipClick}/>
+                        <Stack spacing={2} sx={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+                            <Avatar variant='rounded' sx={{width: 50, height: 50, marginRight: '10px'}}>
+                                <PersonIcon/>
+                            </Avatar>
+                            <Typography>
+                                {playerData.firstName} '{playerData.alias}' {playerData.lastName}
+                            </Typography>
+                            <Chip label="I am a chip, click me!" variant={chipState} color="success"
+                                  onClick={handleChipClick}/>
+                        </Stack>
                     </Paper>
                 </Grid>
 
