@@ -104,56 +104,43 @@ export default function Test() {
                         }}
                     >
                         <Grid container>
-
                             <Grid item xs={12} md={8} lg={6}>
                                 <Loading isLoading={!playerData.gameSense}>
-                                    {/*BorderLinearProgress variant="determinate" value={20} />*/}
                                     <Typography variant="body2" color="text.secondary">Game Sense</Typography>
                                     <LinearProgressWithLabel value={playerData.gameSense}/>
                                 </Loading>
                             </Grid>
                             <Grid item xs={12} md={8} lg={6}>
                                 <Loading isLoading={!playerData.teamFighting}>
-                                    {/*BorderLinearProgress variant="determinate" value={20} />*/}
                                     <Typography variant="body2" color="text.secondary">Team Fighting</Typography>
                                     <LinearProgressWithLabel value={playerData.teamFighting}/>
                                 </Loading>
                             </Grid>
                             <Grid item xs={12} md={8} lg={6}>
                                 <Loading isLoading={!playerData.dueling}>
-                                    {/*BorderLinearProgress variant="determinate" value={20} />*/}
                                     <Typography variant="body2" color="text.secondary">Dueling</Typography>
                                     <LinearProgressWithLabel value={playerData.dueling}/>
                                 </Loading>
                             </Grid>
                             <Grid item xs={12} md={8} lg={6}>
                                 <Loading isLoading={!playerData.jglPathing}>
-                                    {/*BorderLinearProgress variant="determinate" value={20} />*/}
                                     <Typography variant="body2" color="text.secondary">Jungle Pathing</Typography>
                                     <LinearProgressWithLabel value={playerData.jglPathing}/>
                                 </Loading>
                             </Grid>
                             <Grid item xs={12} md={8} lg={6}>
                                 <Loading isLoading={!playerData.waveMgmt}>
-                                    {/*BorderLinearProgress variant="determinate" value={20} />*/}
                                     <Typography variant="body2" color="text.secondary">Wave Management</Typography>
                                     <LinearProgressWithLabel value={playerData.waveMgmt}/>
                                 </Loading>
                             </Grid>
                             <Grid item xs={12} md={8} lg={6}>
-                                <Loading isLoading={!playerData.waveMgmt}>
-                                    {/*BorderLinearProgress variant="determinate" value={20} />*/}
+                                <Loading isLoading={!playerData.farming}>
                                     <Typography variant="body2" color="text.secondary">Farming</Typography>
                                     <LinearProgressWithLabel value={playerData.farming}/>
                                 </Loading>
                             </Grid>
-                            {/*<Grid item lg={1}>
-                                <Typography variant="body2" color="text.secondary">
-                                    12%
-                                </Typography>
-                            </Grid>*/}
                         </Grid>
-                        {/*<Deposits />*/}
                     </Paper>
                 </Grid>
 
