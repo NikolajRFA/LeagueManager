@@ -73,6 +73,19 @@ export default function Test() {
                             <Typography>
                                 {playerData.firstName} '{playerData.alias}' {playerData.lastName}
                             </Typography>
+                            <Loading isLoading={!playerData.nationality}>
+                                <Box
+                                    component="img"
+                                    /*sx={{
+                                        height: 233,
+                                        width: 350,
+                                        maxHeight: { xs: 233, md: 167 },
+                                        maxWidth: { xs: 350, md: 250 },
+                                    }}*/
+                                    alt={playerData.nationality}
+                                    src={`https://flagsapi.com/${playerData.nationality}/flat/48.png`}
+                                />
+                            </Loading>
                             <Chip label="I am a chip, click me!" variant={chipState} color="success"
                                   onClick={handleChipClick}/>
                         </Stack>
