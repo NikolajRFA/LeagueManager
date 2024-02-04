@@ -10,9 +10,11 @@ import {usePlayer} from "../BusinessLogic/usePlayer";
 import {styled} from "@mui/material/styles";
 import Loading from "../Components/Loading";
 import PersonIcon from '@mui/icons-material/Person';
+import {useParams} from "react-router-dom";
 
-export default function Test() {
-    const playerData = usePlayer();
+export default function Player() {
+    const {id} = useParams();
+    const playerData = usePlayer(id);
     const [chipState, setChipState] = useState('outlined')
 
     const handleChipClick = () => {
@@ -70,9 +72,14 @@ export default function Test() {
                             <Avatar variant='rounded' sx={{width: 50, height: 50, marginRight: '10px'}}>
                                 <PersonIcon/>
                             </Avatar>
-                            <Typography>
-                                {playerData.firstName} '{playerData.alias}' {playerData.lastName}
-                            </Typography>
+                            <Stack spacing={0} style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+                                <Typography variant="subtitle1">
+                                    {playerData.firstName} '{playerData.alias}' {playerData.lastName}
+                                </Typography>
+                                <Typography variant="subtitle2">
+                                    {playerData.age}
+                                </Typography>
+                            </Stack>
                             <Loading isLoading={!playerData.nationality}>
                                 <Box
                                     component="img"
@@ -86,8 +93,8 @@ export default function Test() {
                                     src={`https://flagsapi.com/${playerData.nationality}/flat/48.png`}
                                 />
                             </Loading>
-                            <Chip label="I am a chip, click me!" variant={chipState} color="success"
-                                  onClick={handleChipClick}/>
+                            {/*<Chip label="I am a chip, click me!" variant={chipState} color="success"
+                                  onClick={handleChipClick}/>*/}
                         </Stack>
                     </Paper>
                 </Grid>
@@ -104,37 +111,37 @@ export default function Test() {
                         }}
                     >
                         <Grid container>
-                            <Grid item xs={12} md={8} lg={6}>
+                            <Grid item xs={6} md={6} lg={6}>
                                 <Loading isLoading={!playerData.gameSense}>
                                     <Typography variant="body2" color="text.secondary">Game Sense</Typography>
                                     <LinearProgressWithLabel value={playerData.gameSense}/>
                                 </Loading>
                             </Grid>
-                            <Grid item xs={12} md={8} lg={6}>
+                            <Grid item xs={6} md={6} lg={6}>
                                 <Loading isLoading={!playerData.teamFighting}>
                                     <Typography variant="body2" color="text.secondary">Team Fighting</Typography>
                                     <LinearProgressWithLabel value={playerData.teamFighting}/>
                                 </Loading>
                             </Grid>
-                            <Grid item xs={12} md={8} lg={6}>
+                            <Grid item xs={6} md={6} lg={6}>
                                 <Loading isLoading={!playerData.dueling}>
                                     <Typography variant="body2" color="text.secondary">Dueling</Typography>
                                     <LinearProgressWithLabel value={playerData.dueling}/>
                                 </Loading>
                             </Grid>
-                            <Grid item xs={12} md={8} lg={6}>
+                            <Grid item xs={6} md={6} lg={6}>
                                 <Loading isLoading={!playerData.jglPathing}>
                                     <Typography variant="body2" color="text.secondary">Jungle Pathing</Typography>
                                     <LinearProgressWithLabel value={playerData.jglPathing}/>
                                 </Loading>
                             </Grid>
-                            <Grid item xs={12} md={8} lg={6}>
+                            <Grid item xs={6} md={6} lg={6}>
                                 <Loading isLoading={!playerData.waveMgmt}>
                                     <Typography variant="body2" color="text.secondary">Wave Management</Typography>
                                     <LinearProgressWithLabel value={playerData.waveMgmt}/>
                                 </Loading>
                             </Grid>
-                            <Grid item xs={12} md={8} lg={6}>
+                            <Grid item xs={6} md={6} lg={6}>
                                 <Loading isLoading={!playerData.farming}>
                                     <Typography variant="body2" color="text.secondary">Farming</Typography>
                                     <LinearProgressWithLabel value={playerData.farming}/>

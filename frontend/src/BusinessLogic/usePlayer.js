@@ -2,13 +2,13 @@ import {useState, useEffect} from "react";
 import axios from "axios";
 import API from "./API";
 
-export function usePlayer() {
+export function usePlayer(id) {
     const [playerData, setPlayerData] = useState({});
 
     useEffect(() => {
         // Get player data from API
         // TODO: Handle api response properly
-        axios.get(`${API.url}players/1`)
+        axios.get(`${API.url}players/${id}`)
             .then(res => setPlayerData({
                 url: res.data.url,
                 firstName: res.data.firstName,
