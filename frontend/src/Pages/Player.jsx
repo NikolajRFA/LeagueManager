@@ -3,7 +3,7 @@ import Paper from "@mui/material/Paper";
 import Template from "../Template/Template";
 import Chart from "./Dashboard/Chart";
 import Deposits from "./Dashboard/Deposits";
-import Orders from "./Dashboard/Orders";
+import Games from "./Player/Games";
 import {Avatar, Box, Button, Chip, LinearProgress, linearProgressClasses, Stack, Typography} from "@mui/material";
 import {useState} from "react";
 import {usePlayer} from "../BusinessLogic/usePlayer";
@@ -76,7 +76,7 @@ export default function Player() {
 
                 <Grid item xs={12}>
                     <Paper sx={{p: 2, display: 'flex', flexDirection: 'column'}}>
-                        <Orders/>
+                        <Games/>
                     </Paper>
                 </Grid>
             </Grid>

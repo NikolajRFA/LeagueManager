@@ -24,6 +24,7 @@ public class PlayerDataService
     
     public (List<Game>, int) GetGamesFromPlayer(int playerId, int page = 0, int pageSize = 10)
     {
+        // TODO: Include participation data
         var db = new Database();
         var games = db.Players
             .Include(x => x.Games)

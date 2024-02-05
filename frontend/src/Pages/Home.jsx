@@ -2,9 +2,11 @@ import logo from "../logo.svg";
 import {Button} from "@mui/material";
 import Loading from "../Components/Loading";
 import {usePlayer} from "../BusinessLogic/usePlayer";
+import {useNavigate} from "react-router-dom";
 
 export default function Home() {
     const playerData = usePlayer();
+    const navigate = useNavigate();
 
     return (
         <div className="App">
@@ -16,7 +18,7 @@ export default function Home() {
                 <Button variant="contained" onClick={() => alert('Button was clicked!')}>Contained</Button>
                 <Loading isLoading={Object.keys(playerData).length === 0}>
                     <Button variant="contained"
-                            onClick={() => alert(`Player API url is: ${playerData.url}`)}>{playerData.firstName} '{playerData.alias}' {playerData.lastName}: {playerData.age}</Button>
+                            onClick={() => navigate("/players/1")}>{playerData.firstName} '{playerData.alias}' {playerData.lastName}: {playerData.age}</Button>
                 </Loading>
                 <a
                     className="App-link"
