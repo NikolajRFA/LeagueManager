@@ -22,20 +22,19 @@ public class PlayerDataService
             .FirstOrDefault(x => x.Id == id);
     }
     
-    public (List<Game>, int) GetGamesFromPlayer(int playerId, int page = 0, int pageSize = 10)
+    public (List<Participation>, int) GetGamesFromPlayer(int playerId, int page = 0, int pageSize = 10)
     {
-        // TODO: Include participation data
         var db = new Database();
-        var games = db.Players
-            .Include(x => x.Games)
+        var participations = db.Participations
+            .Where(x => x.PlayerId == playerId)
+            .Include(x => x.Game)
             .ThenInclude(x => x.BlueSide)
-            .Include(x => x.Games)
+            .Include(x => x.Game)
             .ThenInclude(x => x.RedSide)
-            .Include(x => x.Games)
-            .ThenInclude(x => x.Winner)
-            .FirstOrDefault(x => x.Id == playerId)?.Games;
-        if (games == null) games = new List<Game>();
+            .Include(x => x.Game)
+            .ThenInclude(x => x.Winner);
+        //if (participations == null) participations = new List<Participation>();
         
-        return (games.Skip(page * pageSize).Take(pageSize).ToList(), games.Count);
+        return (participations.Skip(page * pageSize).Take(pageSize).ToList(), participations.Count());
     }
 }

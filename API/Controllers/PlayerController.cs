@@ -4,6 +4,7 @@ using AutoMapper;
 using DataLayer.DataServices;
 using DataLayer.Entities;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.JSInterop.Infrastructure;
 
 namespace API.Controllers;
 
@@ -36,21 +37,27 @@ public class PlayerController(PlayerDataService dataService, LinkGenerator linkG
     [HttpGet("{id}/games", Name = nameof(GetGamesFromPlayer))]
     public IActionResult GetGamesFromPlayer(int id, int page = 0, int pageSize = 10)
     {
-        var (games, total) = dataService.GetGamesFromPlayer(id, page, pageSize);
+        var (participations, total) = dataService.GetGamesFromPlayer(id, page, pageSize);
         
         var dtos = new List<PlayerGameDto>();
-        // TODO: Implement PlayerGameDto
-        foreach (var game in games)
+        foreach (var participation in participations)
         {
-            var dto = Mapper.Map<PlayerGameDto>(game);
-            dto.Url = GetUrl(nameof(GameController.GetGame), new { game.Id });
-            dto.BlueSideUrl = GetUrl(nameof(TeamController.GetTeam), new { Id = game.BlueSideId });
-            dto.RedSideUrl = GetUrl(nameof(TeamController.GetTeam), new { Id = game.RedSideId });
-            dto.WinnerUrl = GetUrl(nameof(TeamController.GetTeam), new { Id = game.WinnerId });
-            dto.BlueSide = game.BlueSide.Name;
-            dto.RedSide = game.RedSide.Name;
-            dto.Winner = game.Winner?.Name;
-            dto.PlayerUrl = GetUrl(nameof(GetPlayer), new { id });
+            //var dto = Mapper.Map<PlayerGameDto>(participation);
+            var dto = new PlayerGameDto
+            {
+                Url = GetUrl(nameof(GameController.GetGame), new { Id = participation.GameId }),
+                BlueSideUrl = GetUrl(nameof(TeamController.GetTeam), new { Id = participation.Game.BlueSideId }),
+                RedSideUrl = GetUrl(nameof(TeamController.GetTeam), new { Id = participation.Game.RedSideId }),
+                WinnerUrl = GetUrl(nameof(TeamController.GetTeam), new { Id = participation.Game.WinnerId }),
+                BlueSide = participation.Game.BlueSide.Name,
+                RedSide = participation.Game.RedSide.Name,
+                Winner = participation.Game.Winner?.Name,
+                Date = participation.Game.Date,
+                PlayerUrl = GetUrl(nameof(GetPlayer), new { id }),
+                PlayerTeamUrl = GetUrl(nameof(TeamController.GetTeam), new { Id = participation.TeamId }),
+                Role = participation.Role
+            };
+
             dtos.Add(dto);
         }
 
