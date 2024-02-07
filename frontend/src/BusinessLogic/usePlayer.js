@@ -25,7 +25,6 @@ export function usePlayer(id) {
                 farming: res.data.farming
             }))
             .catch(err => console.error(err));
-        console.log(playerData);
     }, []);
 
     return playerData;
