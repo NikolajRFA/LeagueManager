@@ -39,11 +39,7 @@ public class PlayerController(PlayerDataService dataService, LinkGenerator linkG
     {
         var (participations, total) = dataService.GetGamesFromPlayer(id, page, pageSize);
         
-        var dtos = new List<PlayerGameDto>();
-        foreach (var participation in participations)
-        {
-            //var dto = Mapper.Map<PlayerGameDto>(participation);
-            var dto = new PlayerGameDto
+        var dtos = participations.Select(participation => new PlayerGameDto
             {
                 Url = GetUrl(nameof(GameController.GetGame), new { Id = participation.GameId }),
                 BlueSideUrl = GetUrl(nameof(TeamController.GetTeam), new { Id = participation.Game.BlueSideId }),
@@ -56,10 +52,8 @@ public class PlayerController(PlayerDataService dataService, LinkGenerator linkG
                 PlayerUrl = GetUrl(nameof(GetPlayer), new { id }),
                 PlayerTeamUrl = GetUrl(nameof(TeamController.GetTeam), new { Id = participation.TeamId }),
                 Role = participation.Role
-            };
-
-            dtos.Add(dto);
-        }
+            })
+            .ToList();
 
         return Ok(Paging(dtos, total, new IdPagingValues { Id = id, PageSize = pageSize, Page = page },
             nameof(GetGamesFromPlayer)));
