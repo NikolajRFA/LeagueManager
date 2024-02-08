@@ -10,7 +10,8 @@ namespace API.Controllers;
 
 [Route("players")]
 [ApiController]
-public class PlayerController(PlayerDataService dataService, LinkGenerator linkGenerator, IMapper mapper) : GenericControllerBase(linkGenerator, mapper)
+public class PlayerController(PlayerDataService dataService, LinkGenerator linkGenerator, IMapper mapper)
+    : GenericControllerBase(linkGenerator, mapper)
 {
     [HttpGet(Name = nameof(GetPlayers))]
     public IActionResult GetPlayers(int page = 0, int pageSize = 10)
@@ -21,10 +22,10 @@ public class PlayerController(PlayerDataService dataService, LinkGenerator linkG
         {
             dtos.Add(MapPlayer(player));
         }
-        
+
         return Ok(Paging(dtos, total, new PagingValues { Page = page, PageSize = pageSize }, nameof(GetPlayers)));
     }
-    
+
     [HttpGet("{id}", Name = nameof(GetPlayer))]
     public IActionResult GetPlayer(int id)
     {
@@ -38,20 +39,27 @@ public class PlayerController(PlayerDataService dataService, LinkGenerator linkG
     public IActionResult GetGamesFromPlayer(int id, int page = 0, int pageSize = 10)
     {
         var (participations, total) = dataService.GetGamesFromPlayer(id, page, pageSize);
-        
+
         var dtos = participations.Select(participation => new PlayerGameDto
             {
-                Url = GetUrl(nameof(GameController.GetGame), new { Id = participation.GameId }),
-                BlueSideUrl = GetUrl(nameof(TeamController.GetTeam), new { Id = participation.Game.BlueSideId }),
-                RedSideUrl = GetUrl(nameof(TeamController.GetTeam), new { Id = participation.Game.RedSideId }),
+                GameUrl = GetUrl(nameof(GameController.GetGame), new { Id = participation.GameId }),
+                PlayerUrl = GetUrl(nameof(GetPlayer), new { id }),
+                Role = participation.Role,
+                TeamUrl = GetUrl(nameof(TeamController.GetTeam), new { Id = participation.TeamId }),
+                Team = participation.Team.Name,
+                VersusUrl = GetUrl(nameof(TeamController.GetTeam),
+                    new
+                    {
+                        Id = participation.TeamId == participation.Game.BlueSideId
+                            ? participation.Game.RedSideId
+                            : participation.Game.BlueSideId
+                    }),
+                Versus = participation.TeamId == participation.Game.BlueSideId
+                    ? participation.Game.RedSide.Name
+                    : participation.Game.BlueSide.Name,
                 WinnerUrl = GetUrl(nameof(TeamController.GetTeam), new { Id = participation.Game.WinnerId }),
-                BlueSide = participation.Game.BlueSide.Name,
-                RedSide = participation.Game.RedSide.Name,
                 Winner = participation.Game.Winner?.Name,
                 Date = participation.Game.Date,
-                PlayerUrl = GetUrl(nameof(GetPlayer), new { id }),
-                PlayerTeamUrl = GetUrl(nameof(TeamController.GetTeam), new { Id = participation.TeamId }),
-                Role = participation.Role
             })
             .ToList();
 

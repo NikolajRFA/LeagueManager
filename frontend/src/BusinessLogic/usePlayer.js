@@ -7,7 +7,6 @@ export function usePlayer(id) {
 
     useEffect(() => {
         // Get player data from API
-        // TODO: Handle api response properly
         axios.get(`${API.url}players/${id}`)
             .then(res => setPlayerData({
                 url: res.data.url,

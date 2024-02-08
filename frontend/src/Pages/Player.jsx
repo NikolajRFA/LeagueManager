@@ -76,7 +76,7 @@ export default function Player() {
 
                 <Grid item xs={12}>
                     <Paper sx={{p: 2, display: 'flex', flexDirection: 'column'}}>
-                        <Games/>
+                        <Games playerId={id}/>
                     </Paper>
                 </Grid>
             </Grid>

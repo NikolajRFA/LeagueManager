@@ -168,6 +168,7 @@ BEGIN
 end;
 $$;
 
+-- TODO: Transactionalize procedure, and add control of if players are added to the participation table.
 CREATE OR REPLACE PROCEDURE play_game(blue_side_team_id INT, red_side_team_id INT, game_date DATE)
     LANGUAGE plpgsql
 AS
