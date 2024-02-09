@@ -14,6 +14,7 @@ import {useParams} from "react-router-dom";
 import PlayerStats from "./Player/PlayerStats";
 import PlayerInfo from "./Player/PlayerInfo";
 
+// TODO: Add some way to see the players current team.
 export default function Player() {
     const {id} = useParams();
     const playerData = usePlayer(id);

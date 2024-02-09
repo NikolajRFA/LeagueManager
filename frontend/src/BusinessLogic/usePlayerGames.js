@@ -24,6 +24,7 @@ export default function usePlayerGames(id) {
                     versus: item.versus,
                     winnerUrl: item.winnerUrl,
                     winner: item.winner,
+                    won: item.won,
                     date: item.date
                 }))
             }))

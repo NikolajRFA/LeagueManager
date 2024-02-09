@@ -82,7 +82,7 @@ CREATE UNIQUE INDEX player_team_overlap
 INSERT INTO league (name, region, num_teams) VALUES ('League 1', 'EU', 20);
 
 INSERT INTO team (name, league_id) VALUES ('Blue Team', 1);
-INSERT INTO team (name, league_id) VALUES ('Red Team', 1);
+INSERT INTO team (name, league_id) VALUES ('Team Magic Rabbits', 1);
 
 INSERT INTO player (id, first_name, last_name, alias, age, gender, nationality, game_sense, team_fighting, dueling, jgl_pathing, wave_mgmt, farming) VALUES (1, 'Alex', 'Brown', 'crazycat109', 22, 'Male', 'NZ', 66, 64, 95, 73, 72, 69);
 INSERT INTO player (id, first_name, last_name, alias, age, gender, nationality, game_sense, team_fighting, dueling, jgl_pathing, wave_mgmt, farming) VALUES (2, 'Virginia', 'Téllez', 'angrytiger613', 20, 'Female', 'MX', 75, 92, 88, 99, 95, 73);
@@ -90,7 +90,7 @@ INSERT INTO player (id, first_name, last_name, alias, age, gender, nationality, 
 INSERT INTO player (id, first_name, last_name, alias, age, gender, nationality, game_sense, team_fighting, dueling, jgl_pathing, wave_mgmt, farming) VALUES (4, 'Eckehard', 'Wolf', 'angryladybug611', 15, 'Male', 'DE', 67, 73, 76, 51, 81, 73);
 INSERT INTO player (id, first_name, last_name, alias, age, gender, nationality, game_sense, team_fighting, dueling, jgl_pathing, wave_mgmt, farming) VALUES (5, 'Alessio', 'Leroy', 'bigswan216', 24, 'Male', 'FR', 69, 92, 93, 55, 82, 90);
 INSERT INTO player (id, first_name, last_name, alias, age, gender, nationality, game_sense, team_fighting, dueling, jgl_pathing, wave_mgmt, farming) VALUES (6, 'Runa', 'Salvesen', 'bigmeercat861', 31, 'Female', 'NO', 69, 66, 84, 75, 72, 73);
-INSERT INTO player (id, first_name, last_name, alias, age, gender, nationality, game_sense, team_fighting, dueling, jgl_pathing, wave_mgmt, farming) VALUES (7, 'Yasmina', 'Rijpkema', 'blacktiger316', 21, 'Female', 'NL', 74, 58, 61, 81, 62, 98);
+INSERT INTO player (id, first_name, last_name, alias, age, gender, nationality, game_sense, team_fighting, dueling, jgl_pathing, wave_mgmt, farming) VALUES (7, 'Alex', 'Milton', 'TMR_Milton', 23, 'Male', 'DK', 74, 58, 61, 81, 62, 98);
 INSERT INTO player (id, first_name, last_name, alias, age, gender, nationality, game_sense, team_fighting, dueling, jgl_pathing, wave_mgmt, farming) VALUES (8, 'Marcus', 'Rasmussen', 'tinypeacock861', 21, 'Male', 'DK', 70, 66, 71, 83, 51, 92);
 INSERT INTO player (id, first_name, last_name, alias, age, gender, nationality, game_sense, team_fighting, dueling, jgl_pathing, wave_mgmt, farming) VALUES (9, 'Tony', 'Rey', 'purplerabbit174', 30, 'Male', 'FR', 97, 66, 50, 70, 92, 80);
 INSERT INTO player (id, first_name, last_name, alias, age, gender, nationality, game_sense, team_fighting, dueling, jgl_pathing, wave_mgmt, farming) VALUES (10, 'Dobrivoje', 'Mišković', 'organiclion133', 25, 'Male', 'RS', 78, 91, 97, 60, 99, 94);

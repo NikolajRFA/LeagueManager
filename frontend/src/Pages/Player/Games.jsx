@@ -30,7 +30,11 @@ export default function Games({playerId}) {
                 </TableHead>
                 <TableBody>
                     {games.items ? games.items.map((item) => (
-                        <TableRow key={item.url} onClick={() => navigate(`/games/${item.gameUrl.split("/").pop()}`)} style={{cursor: "pointer"}}>
+                        <TableRow key={item.url} onClick={() => navigate(`/games/${item.gameUrl.split("/").pop()}`)}
+                                  style={{
+                                      cursor: "pointer",
+                                      backgroundColor: item.won ? "#90ee90" : "#FFC0CB"
+                                  }}>
                             <TableCell>{item.date}</TableCell>
                             <TableCell>{item.role}</TableCell>
                             <TableCell>{item.team}</TableCell>

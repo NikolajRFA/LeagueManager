@@ -59,6 +59,7 @@ public class PlayerController(PlayerDataService dataService, LinkGenerator linkG
                     : participation.Game.BlueSide.Name,
                 WinnerUrl = GetUrl(nameof(TeamController.GetTeam), new { Id = participation.Game.WinnerId }),
                 Winner = participation.Game.Winner?.Name,
+                Won = participation.TeamId == participation.Game.WinnerId,
                 Date = participation.Game.Date,
             })
             .ToList();
