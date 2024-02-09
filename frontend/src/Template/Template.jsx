@@ -33,6 +33,7 @@ function Copyright(props) {
 
 const drawerWidth = 240;
 
+// TODO: Add search field
 const AppBar = styled(MuiAppBar, {
     shouldForwardProp: (prop) => prop !== 'open',
 })(({theme, open}) => ({
