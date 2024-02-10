@@ -21,7 +21,9 @@ export function usePlayer(id) {
                 dueling: res.data.dueling,
                 jglPathing: res.data.jglPathing,
                 waveMgmt: res.data.waveMgmt,
-                farming: res.data.farming
+                farming: res.data.farming,
+                activeTeamUrl: res.data.activeTeamUrl,
+                activeTeam: res.data.activeTeam
             }))
             .catch(err => console.error(err));
     }, []);

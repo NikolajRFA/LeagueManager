@@ -19,6 +19,8 @@ public class PlayerDataService
     {
         var db = new Database();
         return db.Players
+            .Include(x => x.Members)
+            .ThenInclude(x => x.Team)
             .FirstOrDefault(x => x.Id == id);
     }
     

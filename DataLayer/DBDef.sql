@@ -94,6 +94,7 @@ INSERT INTO player (id, first_name, last_name, alias, age, gender, nationality, 
 INSERT INTO player (id, first_name, last_name, alias, age, gender, nationality, game_sense, team_fighting, dueling, jgl_pathing, wave_mgmt, farming) VALUES (8, 'Marcus', 'Rasmussen', 'tinypeacock861', 21, 'Male', 'DK', 70, 66, 71, 83, 51, 92);
 INSERT INTO player (id, first_name, last_name, alias, age, gender, nationality, game_sense, team_fighting, dueling, jgl_pathing, wave_mgmt, farming) VALUES (9, 'Tony', 'Rey', 'purplerabbit174', 30, 'Male', 'FR', 97, 66, 50, 70, 92, 80);
 INSERT INTO player (id, first_name, last_name, alias, age, gender, nationality, game_sense, team_fighting, dueling, jgl_pathing, wave_mgmt, farming) VALUES (10, 'Dobrivoje', 'Mišković', 'organiclion133', 25, 'Male', 'RS', 78, 91, 97, 60, 99, 94);
+INSERT INTO player (id, first_name, last_name, alias, age, gender, nationality, game_sense, team_fighting, dueling, jgl_pathing, wave_mgmt, farming) VALUES (11, 'Adam', 'Larsson', 'organiclion133', 25, 'Male', 'SE', 78, 91, 97, 60, 99, 94);
 
 CREATE OR REPLACE PROCEDURE update_player_name_wi()
 LANGUAGE plpgsql

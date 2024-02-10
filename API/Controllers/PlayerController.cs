@@ -72,6 +72,9 @@ public class PlayerController(PlayerDataService dataService, LinkGenerator linkG
     {
         var dto = Mapper.Map<PlayerDto>(player);
         dto.Url = GetUrl(nameof(GetPlayer), new { player.Id });
+        dto.ActiveTeamUrl = GetUrl(nameof(TeamController.GetTeam),
+            new { Id = player.Members.SingleOrDefault(x => x.ToDate == null)?.TeamId });
+        dto.ActiveTeam = player.Members.SingleOrDefault(x => x.ToDate == null)?.Team.Name;
         return dto;
     }
 }

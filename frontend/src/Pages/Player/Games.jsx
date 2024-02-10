@@ -10,6 +10,7 @@ import usePlayerGames from "../../BusinessLogic/usePlayerGames";
 import Loading from "../../Components/Loading";
 import {CircularProgress, Skeleton} from "@mui/material";
 import {useNavigate} from "react-router-dom";
+import Utils from "../../Utils";
 
 export default function Games({playerId}) {
     const games = usePlayerGames(playerId)
@@ -36,7 +37,7 @@ export default function Games({playerId}) {
                                       backgroundColor: item.won ? "#90ee90" : "#FFC0CB"
                                   }}>
                             <TableCell>{item.date}</TableCell>
-                            <TableCell>{item.role}</TableCell>
+                            <TableCell>{Utils.capitalize(item.role)}</TableCell>
                             <TableCell>{item.team}</TableCell>
                             <TableCell>{item.versus}</TableCell>
                             <TableCell>{item.winner}</TableCell>
