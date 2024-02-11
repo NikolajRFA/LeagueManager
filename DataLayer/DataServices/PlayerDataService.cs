@@ -9,6 +9,8 @@ public class PlayerDataService
     {
         var db = new Database();
         return (db.Players
+                .Include(x => x.Members)
+                .ThenInclude(x => x.Team)
                 .Skip(page * pageSize)
                 .Take(pageSize)
                 .ToList(),
@@ -23,7 +25,7 @@ public class PlayerDataService
             .ThenInclude(x => x.Team)
             .FirstOrDefault(x => x.Id == id);
     }
-    
+
     public (List<Participation>, int) GetGamesFromPlayer(int playerId, int page = 0, int pageSize = 10)
     {
         var db = new Database();
@@ -35,8 +37,7 @@ public class PlayerDataService
             .ThenInclude(x => x.RedSide)
             .Include(x => x.Game)
             .ThenInclude(x => x.Winner);
-        //if (participations == null) participations = new List<Participation>();
-        
+
         return (participations.Skip(page * pageSize).Take(pageSize).ToList(), participations.Count());
     }
 }
