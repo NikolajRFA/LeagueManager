@@ -5,7 +5,7 @@ import {usePlayer} from "../BusinessLogic/usePlayer";
 import {useNavigate} from "react-router-dom";
 
 export default function Home() {
-    const playerData = usePlayer(1);
+    const playerData = usePlayer(7);
     const navigate = useNavigate();
 
     return (
@@ -18,7 +18,9 @@ export default function Home() {
                 <Button variant="contained" onClick={() => alert('Button was clicked!')}>Contained</Button>
                 <Loading isLoading={!playerData.url}>
                     <Button variant="contained"
-                            onClick={() => navigate("/players/1")}>{playerData.firstName} '{playerData.alias}' {playerData.lastName}: {playerData.age}</Button>
+                            onClick={() => navigate("/players/7")}>
+                        {playerData.firstName} '{playerData.alias}' {playerData.lastName}: {playerData.age}
+                    </Button>
                 </Loading>
                 <a
                     className="App-link"
