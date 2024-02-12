@@ -25,7 +25,7 @@ public class TeamDataService
             .Include(x => x.League)
             .FirstOrDefault(x => x.Id == id);
     }
-    
+
     public (List<Game>, int) GetGames(int teamId, int page, int pageSize)
     {
         var db = new Database();
@@ -40,5 +40,15 @@ public class TeamDataService
                 .Take(pageSize)
                 .ToList(),
             games.Count());
+    }
+
+    public (List<Member>, int) GetMembersFromTeam(int teamId, int page = 0, int pageSize = 10)
+    {
+        var db = new Database();
+        var members = db.Members
+            .Include(x => x.Player)
+            .Where(x => x.TeamId == teamId);
+
+        return (members.Skip(page * pageSize).Take(pageSize).ToList(), members.Count());
     }
 }

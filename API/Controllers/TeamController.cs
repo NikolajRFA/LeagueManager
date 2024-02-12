@@ -48,6 +48,24 @@ public class TeamController(TeamDataService dataService, LinkGenerator linkGener
             nameof(GetGamesFromTeam)));
     }
 
+    [HttpGet("{id}/members", Name = nameof(GetMembersFromTeam))]
+    public IActionResult GetMembersFromTeam(int id, int page = 0, int pageSize = 10)
+    {
+        var (members, total) = dataService.GetMembersFromTeam(id, page, pageSize);
+
+        var dtos = new List<TeamPlayerDto>();
+        foreach (var member in members)
+        {
+            var teamPlayerDto = Mapper.Map<TeamPlayerDto>(member.Player);
+            teamPlayerDto.Url = GetUrl(nameof(PlayerController.GetPlayer), new { Id = member.PlayerId });
+            teamPlayerDto.Role = member.Role;
+            dtos.Add(teamPlayerDto);
+        }
+
+        return Ok(Paging(dtos, total, new IdPagingValues { Id = id, PageSize = pageSize, Page = page },
+            nameof(GetMembersFromTeam)));
+    }
+
     private TeamDto MapTeam(Team team)
     {
         var teamPlayerDtos = new List<TeamPlayerDto>();
