@@ -10,7 +10,8 @@ namespace API.Controllers;
 // TODO: Add /players endpoint and add url to MapTeam
 [Route("teams")]
 [ApiController]
-public class TeamController(TeamDataService dataService, LinkGenerator linkGenerator, IMapper mapper) : GenericControllerBase(linkGenerator, mapper)
+public class TeamController(TeamDataService dataService, LinkGenerator linkGenerator, IMapper mapper)
+    : GenericControllerBase(linkGenerator, mapper)
 {
     [HttpGet(Name = nameof(GetTeams))]
     public IActionResult GetTeams(int page = 0, int pageSize = 10)
@@ -21,6 +22,7 @@ public class TeamController(TeamDataService dataService, LinkGenerator linkGener
         {
             dtos.Add(MapTeam(team));
         }
+
         return Ok(Paging(dtos, total, new PagingValues { Page = page, PageSize = pageSize }, nameof(GetTeams)));
     }
 
@@ -53,13 +55,15 @@ public class TeamController(TeamDataService dataService, LinkGenerator linkGener
     {
         var (members, total) = dataService.GetMembersFromTeam(id, page, pageSize);
 
-        var dtos = new List<TeamPlayerDto>();
+        var dtos = new List<TeamMemberDto>();
         foreach (var member in members)
         {
-            var teamPlayerDto = Mapper.Map<TeamPlayerDto>(member.Player);
-            teamPlayerDto.Url = GetUrl(nameof(PlayerController.GetPlayer), new { Id = member.PlayerId });
-            teamPlayerDto.Role = member.Role;
-            dtos.Add(teamPlayerDto);
+            var teamMemberDto = Mapper.Map<TeamMemberDto>(member.Player);
+            teamMemberDto.Url = GetUrl(nameof(PlayerController.GetPlayer), new { Id = member.PlayerId });
+            teamMemberDto.Role = member.Role;
+            teamMemberDto.FromDate = member.FromDate;
+            teamMemberDto.ToDate = member.ToDate;
+            dtos.Add(teamMemberDto);
         }
 
         return Ok(Paging(dtos, total, new IdPagingValues { Id = id, PageSize = pageSize, Page = page },
@@ -68,20 +72,12 @@ public class TeamController(TeamDataService dataService, LinkGenerator linkGener
 
     private TeamDto MapTeam(Team team)
     {
-        var teamPlayerDtos = new List<TeamPlayerDto>();
-        foreach (var player in team.Players)
-        {
-            var teamPlayerDto = Mapper.Map<TeamPlayerDto>(player);
-            teamPlayerDto.Url = GetUrl(nameof(PlayerController.GetPlayer), new { player.Id });
-            teamPlayerDto.Role = team.Members.First(x => x.PlayerId == player.Id).Role;
-            teamPlayerDtos.Add(teamPlayerDto);
-        }
         return new TeamDto
         {
             Name = team.Name,
             League = team.League.Name,
-            GamesUrl = GetUrl(nameof(GetGamesFromTeam), new {team.Id}),
-            Players = teamPlayerDtos
+            GamesUrl = GetUrl(nameof(GetGamesFromTeam), new { team.Id }),
+            Players = GetUrl(nameof(GetMembersFromTeam), new { team.Id })
         };
     }
 }
