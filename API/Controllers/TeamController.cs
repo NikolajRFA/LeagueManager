@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers;
 
-// TODO: Add /players endpoint and add url to MapTeam
+// TODO: Add endpoint for getting active members
 [Route("teams")]
 [ApiController]
 public class TeamController(TeamDataService dataService, LinkGenerator linkGenerator, IMapper mapper)
