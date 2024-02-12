@@ -9,7 +9,10 @@ export function useTeam(id) {
         // Get player data from API
         axios.get(`${API.url}teams/${id}`)
             .then(res => setTeamData({
-                
+                name: res.data.name,
+                league: res.data.league,
+                gamesUrl: res.data.gamesUrl,
+                players: res.data.players
             }))
             .catch(err => console.error(err));
     }, []);
