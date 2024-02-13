@@ -70,6 +70,26 @@ public class TeamController(TeamDataService dataService, LinkGenerator linkGener
             nameof(GetMembersFromTeam)));
     }
 
+    [HttpGet("{id}/members/current", Name = nameof(GetCurrentMembersFromTeam))]
+    public IActionResult GetCurrentMembersFromTeam(int id, int page = 0, int pageSize = 10)
+    {
+        var (members, total) = dataService.GetCurrentMembersFromTeam(id, page, pageSize);
+
+        var dtos = new List<TeamMemberDto>();
+        foreach (var member in members)
+        {
+            var teamMemberDto = Mapper.Map<TeamMemberDto>(member.Player);
+            teamMemberDto.Url = GetUrl(nameof(PlayerController.GetPlayer), new { Id = member.PlayerId });
+            teamMemberDto.Role = member.Role;
+            teamMemberDto.FromDate = member.FromDate;
+            teamMemberDto.ToDate = member.ToDate;
+            dtos.Add(teamMemberDto);
+        }
+
+        return Ok(Paging(dtos, total, new IdPagingValues { Id = id, PageSize = pageSize, Page = page },
+            nameof(GetMembersFromTeam)));
+    }
+
     private TeamDto MapTeam(Team team)
     {
         return new TeamDto

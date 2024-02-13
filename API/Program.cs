@@ -58,4 +58,4 @@ if (app.Environment.IsDevelopment())
 
 app.MapControllers();
 
-app.Run();
+app.Run("http://*:5000");

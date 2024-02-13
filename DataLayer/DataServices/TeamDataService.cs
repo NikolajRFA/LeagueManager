@@ -51,4 +51,14 @@ public class TeamDataService
 
         return (members.Skip(page * pageSize).Take(pageSize).ToList(), members.Count());
     }
+
+    public (List<Member>, int) GetCurrentMembersFromTeam(int teamId, int page = 0, int pageSize = 10)
+    {
+        var db = new Database();
+        var currentMembers = db.Members
+            .Include(x => x.Player)
+            .Where(x => x.TeamId == teamId && x.ToDate == null);
+
+        return (currentMembers.Skip(page * pageSize).Take(pageSize).ToList(), currentMembers.Count());
+    }
 }
