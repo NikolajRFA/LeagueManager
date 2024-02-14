@@ -15,6 +15,6 @@ public class PlayerDto
     public int JglPathing { get; set; }
     public int WaveMgmt { get; set; }
     public int Farming { get; set; }
-    public string ActiveTeamUrl { get; set; }
-    public string? ActiveTeam { get; set; }
+    public string CurrentTeamUrl { get; set; }
+    public string? CurrentTeam { get; set; }
 }

@@ -148,7 +148,8 @@ VALUES (1, 1, 'top', CURRENT_DATE, null),
        (7, 2, 'jungle', CURRENT_DATE, null),
        (8, 2, 'mid', CURRENT_DATE, null),
        (9, 2, 'bottom', CURRENT_DATE, null),
-       (10, 2, 'support', CURRENT_DATE, null);
+       (10, 2, 'support', CURRENT_DATE, null),
+       (11, 2, 'support', CURRENT_DATE - 10, CURRENT_DATE - 2);
 
 INSERT INTO game (blue_side_id, red_side_id, winner_id, date)
 VALUES (1, 2, 1, now());
