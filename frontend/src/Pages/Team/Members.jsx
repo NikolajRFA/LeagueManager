@@ -14,12 +14,12 @@ import Utils from "../../Utils";
 import {useTeamMembers} from "../../BusinessLogic/useTeamMembers";
 
 export default function Members({teamId}) {
-    const members = useTeamMembers(teamId);
+    const members = useTeamMembers(teamId, true);
     const navigate = useNavigate();
 
     return (
         <>
-            <Title>Members</Title>
+            <Title>Current Members</Title>
             <Table size="small">
                 <TableHead>
                     <TableRow>

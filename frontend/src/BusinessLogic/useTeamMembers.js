@@ -2,12 +2,12 @@ import {useState, useEffect} from "react";
 import axios from "axios";
 import API from "./API";
 
-export function useTeamMembers(id) {
+export function useTeamMembers(id, current = false) {
     const [members, setMembers] = useState({});
 
     useEffect(() => {
         // Get player data from API
-        axios.get(`${API.url}teams/${id}/members`)
+        axios.get(`${API.url}teams/${id}/members${current ? "/current" : ""}`)
             .then(res => setMembers({
                 total: res.data.total,
                 numberOfPages: res.data.numberOfPages,
@@ -31,8 +31,8 @@ export function useTeamMembers(id) {
                     jglPathing: item.jglPathing,
                     waveMgmt: item.waveMgmt,
                     farming: item.farming,
-                    activeTeamUrl: item.activeTeamUrl,
-                    activeTeam: item.activeTeam
+                    currentTeamUrl: item.currentTeamUrl,
+                    currentTeam: item.currentTeam
                 }))
             }))
             .catch(err => console.error(err));
