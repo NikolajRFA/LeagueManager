@@ -1,4 +1,4 @@
-﻿namespace API.DataTransferObjects;
+﻿namespace API.DataTransferObjects.Player;
 
 public class PlayerDto
 {
