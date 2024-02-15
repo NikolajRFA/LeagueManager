@@ -5,8 +5,14 @@ import Player from "./Pages/Player";
 import Dashboard from "./Pages/Dashboard/Dashboard";
 import Game from "./Pages/Game";
 import Team from "./Pages/Team";
+import {useEffect} from "react";
 
 function App() {
+
+    useEffect(() => {
+        document.title = 'LOLEngine';
+    }, []);
+
     return (
         <BrowserRouter>
             <Routes>
