@@ -5,15 +5,12 @@ import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-import Title from '../Dashboard/Title';
-import usePlayerGames from "../../BusinessLogic/usePlayerGames";
-import Loading from "../../Components/Loading";
+import Title from '../Pages/Dashboard/Title';
 import {CircularProgress, Skeleton} from "@mui/material";
 import {useNavigate} from "react-router-dom";
-import Utils from "../../Utils";
+import Utils from "../Utils";
 
-export default function Games({playerId}) {
-    const games = usePlayerGames(playerId)
+export default function Games({games, isPlayer = false}) {
     const navigate = useNavigate();
 
     return (
@@ -23,7 +20,7 @@ export default function Games({playerId}) {
                 <TableHead>
                     <TableRow>
                         <TableCell>Date</TableCell>
-                        <TableCell>Role</TableCell>
+                        {isPlayer && <TableCell>Role</TableCell>}
                         <TableCell>Team</TableCell>
                         <TableCell>Versus</TableCell>
                         <TableCell>Winner</TableCell>
@@ -37,7 +34,7 @@ export default function Games({playerId}) {
                                       backgroundColor: item.won ? "#90ee90" : "#FFC0CB"
                                   }}>
                             <TableCell>{item.date}</TableCell>
-                            <TableCell>{Utils.capitalize(item.role)}</TableCell>
+                            {isPlayer &&<TableCell>{Utils.capitalize(item.role)}</TableCell>}
                             <TableCell>{item.team}</TableCell>
                             <TableCell>{item.versus}</TableCell>
                             <TableCell>{item.winner}</TableCell>

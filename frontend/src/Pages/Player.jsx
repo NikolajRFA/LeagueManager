@@ -1,23 +1,19 @@
 import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
 import Template from "../Template/Template";
-import Chart from "./Dashboard/Chart";
-import Deposits from "./Dashboard/Deposits";
-import Games from "./Player/Games";
-import {Avatar, Box, Button, Chip, LinearProgress, linearProgressClasses, Stack, Typography} from "@mui/material";
+import Games from "../Components/Games";
 import {useState} from "react";
 import {usePlayer} from "../BusinessLogic/usePlayer";
-import {styled} from "@mui/material/styles";
-import Loading from "../Components/Loading";
-import PersonIcon from '@mui/icons-material/Person';
 import {useParams} from "react-router-dom";
 import PlayerStats from "./Player/PlayerStats";
 import PlayerInfo from "./Player/PlayerInfo";
+import usePlayerGames from "../BusinessLogic/usePlayerGames";
 
 // TODO: Add some way to see the players current team.
 export default function Player() {
     const {id} = useParams();
     const playerData = usePlayer(id);
+    const playerGames = usePlayerGames(id);
     const [chipState, setChipState] = useState('outlined')
 
     return (
@@ -56,7 +52,7 @@ export default function Player() {
 
                 <Grid item xs={12}>
                     <Paper sx={{p: 2, display: 'flex', flexDirection: 'column'}}>
-                        <Games playerId={id}/>
+                        <Games games={playerGames} isPlayer={true}/>
                     </Paper>
                 </Grid>
             </Grid>

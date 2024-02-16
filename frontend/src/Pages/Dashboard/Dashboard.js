@@ -20,7 +20,7 @@ import NotificationsIcon from '@mui/icons-material/Notifications';
 import { mainListItems, secondaryListItems } from '../../Template/listItems';
 import Chart from './Chart';
 import Deposits from './Deposits';
-import Games from '../Player/Games';
+import Games from '../../Components/Games';
 
 function Copyright(props) {
   return (
