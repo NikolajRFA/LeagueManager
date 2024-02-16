@@ -1,5 +1,6 @@
 ﻿using API.DataTransferObjects;
 using API.DataTransferObjects.Player;
+using API.DataTransferObjects.Team;
 using AutoMapper;
 using DataLayer.DataServices;
 using DataLayer.Entities;
@@ -40,10 +41,27 @@ public class TeamController(TeamDataService dataService, LinkGenerator linkGener
     {
         var (games, total) = dataService.GetGames(id, page, pageSize);
 
-        var dtos = new List<GameDto>();
+        var dtos = new List<TeamGameDto>();
         foreach (var game in games)
         {
-            dtos.Add(MapGame(game));
+            var isBlueSide = game.BlueSideId == id;
+            dtos.Add(new TeamGameDto
+            {
+                GameUrl = GetUrl(nameof(GameController.GetGame), new { game.Id }),
+                TeamUrl =
+                    GetUrl(nameof(GetTeam), new { Id = isBlueSide ? game.BlueSideId : game.RedSideId }),
+                Team = isBlueSide ? game.BlueSide.Name : game.RedSide.Name,
+                VersusUrl = GetUrl(nameof(GetTeam),
+                    new
+                    {
+                        Id = isBlueSide ? game.RedSideId : game.BlueSideId
+                    }),
+                Versus = isBlueSide ? game.RedSide.Name : game.BlueSide.Name,
+                WinnerUrl = GetUrl(nameof(GetTeam), new { Id = game.WinnerId }),
+                Winner = game.Winner?.Name,
+                Won = id == game.WinnerId,
+                Date = game.Date,
+            });
         }
 
         return Ok(Paging(dtos, total, new IdPagingValues { Id = id, PageSize = pageSize, Page = page },

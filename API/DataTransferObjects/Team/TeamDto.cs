@@ -1,6 +1,4 @@
-﻿using API.DataTransferObjects.Player;
-
-namespace API.DataTransferObjects;
+﻿namespace API.DataTransferObjects.Team;
 
 public class TeamDto
 {

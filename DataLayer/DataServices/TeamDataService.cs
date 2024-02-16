@@ -26,14 +26,14 @@ public class TeamDataService
             .FirstOrDefault(x => x.Id == id);
     }
 
-    public (List<Game>, int) GetGames(int teamId, int page, int pageSize)
+    public (List<Game>, int) GetGames(int teamId, int page = 0, int pageSize = 10)
     {
         var db = new Database();
         var games = db.Games
             .Include(x => x.BlueSide)
             .Include(x => x.RedSide)
             .Include(x => x.Winner)
-            .Where(x => x.Id == teamId);
+            .Where(x => x.BlueSideId == teamId || x.RedSideId == teamId);
 
         return (games
                 .Skip(page * pageSize)
