@@ -139,17 +139,17 @@ $$;
 
 -- TODO: Add non-active players
 INSERT INTO member (player_id, team_id, role, from_date, to_date)
-VALUES (1, 1, 'top', CURRENT_DATE, null),
-       (2, 1, 'jungle', CURRENT_DATE, null),
-       (3, 1, 'mid', CURRENT_DATE, null),
-       (4, 1, 'bottom', CURRENT_DATE, null),
-       (5, 1, 'support', CURRENT_DATE, null),
-       (6, 2, 'top', CURRENT_DATE, null),
-       (7, 2, 'jungle', CURRENT_DATE, null),
-       (8, 2, 'mid', CURRENT_DATE, null),
-       (9, 2, 'bottom', CURRENT_DATE, null),
-       (10, 2, 'support', CURRENT_DATE, null),
-       (11, 2, 'support', CURRENT_DATE - 10, CURRENT_DATE - 2);
+VALUES (1, 1, 'top', CURRENT_DATE - 14, null),
+       (2, 1, 'jungle', CURRENT_DATE - 14, null),
+       (3, 1, 'mid', CURRENT_DATE - 14, null),
+       (4, 1, 'bottom', CURRENT_DATE - 14, null),
+       (5, 1, 'support', CURRENT_DATE - 14, null),
+       (6, 2, 'top', CURRENT_DATE - 14, null),
+       (7, 2, 'jungle', CURRENT_DATE - 14, null),
+       (8, 2, 'mid', CURRENT_DATE - 14, null),
+       (9, 2, 'bottom', CURRENT_DATE - 14, null),
+       (10, 2, 'support', CURRENT_DATE - 14, null),
+       (11, 2, 'support', CURRENT_DATE - 30, CURRENT_DATE - 22);
 
 INSERT INTO game (blue_side_id, red_side_id, winner_id, date)
 VALUES (1, 2, 1, now());
@@ -258,3 +258,9 @@ BEGIN
     WHERE id = new_game_id;
 end;
 $$;
+
+-- Create some more games
+CALL play_game(1, 2, CURRENT_DATE - 12);
+CALL play_game(2, 1, CURRENT_DATE - 10);
+CALL play_game(2, 1, CURRENT_DATE - 8);
+CALL play_game(1, 2, CURRENT_DATE - 5);
