@@ -23,9 +23,9 @@ export default function PlayerInfo({player}) {
                     {player.age}
                 </Typography>
                 <Typography variant="subtitle2"
-                            onClick={() => navigate(`/teams/${player.activeTeamUrl.split('/').pop()}`)}
+                            onClick={() => navigate(`/teams/${player.currentTeamUrl.split('/').pop()}`)}
                             style={{cursor: 'pointer'}}>
-                    {player.activeTeam}
+                    {player.currentTeam}
                 </Typography>
                 <Loading isLoading={!player.nationality}>
                     <Box

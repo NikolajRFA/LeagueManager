@@ -22,11 +22,12 @@ export function usePlayer(id) {
                 jglPathing: res.data.jglPathing,
                 waveMgmt: res.data.waveMgmt,
                 farming: res.data.farming,
-                activeTeamUrl: res.data.activeTeamUrl,
-                activeTeam: res.data.activeTeam
+                currentTeamUrl: res.data.currentTeamUrl,
+                currentTeam: res.data.currentTeam
             }))
             .catch(err => console.error(err));
     }, []);
 
+    console.log(playerData);
     return playerData;
 }
