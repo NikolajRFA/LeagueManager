@@ -7,6 +7,7 @@ import Paper from "@mui/material/Paper";
 import {Stack} from "@mui/material";
 import Typography from "@mui/material/Typography";
 import {useTeam} from "../BusinessLogic/useTeam";
+import Players from "./Game/Players";
 
 export default function Game() {
     const {id} = useParams();
@@ -33,12 +34,30 @@ export default function Game() {
                         }}
                     >
                         <Stack spacing={3}>
-                            <Typography variant="subtitle1">
+                            <Typography variant="h4">
                                 {gameData.blueSide}
                             </Typography>
-                            {/*<Typography variant="subtitle2">
-                                {blueSideData.league}
-                            </Typography>*/}
+                        </Stack>
+                    </Paper>
+                </Grid>
+                <Grid item xs={12} md={4} lg={4}>
+                    <Paper>
+                        <Stack spacing={3}
+                               sx={{
+                                   p: 2,
+                                   display: 'flex',
+                                   flexDirection: 'column',
+                                   height: 240,
+                                   alignItems: 'center',
+                                   justifyContent: 'center'
+                               }}
+                        >
+                            <Typography variant="subtitle1">
+                                {gameData.event}
+                            </Typography>
+                            <Typography variant="h6">
+                                Winner: {gameData.winner}
+                            </Typography>
                         </Stack>
                     </Paper>
                 </Grid>
@@ -53,10 +72,12 @@ export default function Game() {
                             justifyContent: 'center'
                         }}
                     >
-                        <p>GameId: {id}</p>
+                        <Typography variant="h4">
+                            {gameData.redSide}
+                        </Typography>
                     </Paper>
                 </Grid>
-                <Grid item xs={12} md={4} lg={4}>
+                <Grid item xs={12} md={4} lg={6}>
                     <Paper
                         sx={{
                             p: 2,
@@ -67,9 +88,21 @@ export default function Game() {
                             justifyContent: 'center'
                         }}
                     >
-                        <Typography variant="subtitle1">
-                            {gameData.redSide}
-                        </Typography>
+                        <Players/>
+                    </Paper>
+                </Grid>
+                <Grid item xs={12} md={4} lg={6}>
+                    <Paper
+                        sx={{
+                            p: 2,
+                            display: 'flex',
+                            flexDirection: 'column',
+                            height: 240,
+                            alignItems: 'center',
+                            justifyContent: 'center'
+                        }}
+                    >
+                        <Players/>
                     </Paper>
                 </Grid>
             </Grid>
