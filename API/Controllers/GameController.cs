@@ -29,6 +29,30 @@ public class GameController(GameDataService dataService, LinkGenerator linkGener
         return Ok(MapGame(game));
     }
 
+    [HttpGet("{id}/players", Name = nameof(GetPlayersFromGame))]
+    public IActionResult GetPlayersFromGame(int id, int page = 0, int pageSize = 10)
+    {
+        var (participations, total) = dataService.GetPlayersFromGame(id, page, pageSize);
+
+        var dtos = new List<GamePlayerDto>();
+        foreach (var participation in participations)
+        {
+            dtos.Add(new GamePlayerDto
+            {
+                PlayerUrl = GetUrl(nameof(PlayerController.GetPlayer), new {Id = participation.PlayerId}),
+                Team = participation.Team.Name,
+                TeamUrl = GetUrl(nameof(TeamController.GetTeam), new {Id = participation.TeamId}),
+                Side = participation.Game.BlueSideId == participation.TeamId ? "Blue" : "Red",
+                FirstName = participation.Player.FirstName,
+                LastName = participation.Player.LastName,
+                Alias = participation.Player.Alias,
+                Role = participation.Role
+            });
+        }
+        
+        return Ok(Paging(dtos, total, new IdPagingValues{Id = id, Page = page, PageSize = pageSize}, nameof(GetPlayersFromGame)));
+    }
+
     [HttpPost("play", Name = nameof(PlayGame))]
     public IActionResult PlayGame(GameModel gameModel)
     {

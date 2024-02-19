@@ -30,12 +30,16 @@ public class GameDataService
             .FirstOrDefault(x => x.Id == id);
     }
 
-    public List<Player>? GetPlayersFromGame(int gameId)
+    public (List<Participation>?, int) GetPlayersFromGame(int gameId, int page = 0, int pageSize = 10)
     {
         var db = new Database();
-        return db.Games
-            .Include(x => x.Players)
-            .FirstOrDefault(x => x.Id == gameId)?.Players;
+        var participations = db.Participations
+            .Include(x => x.Player)
+            .Include(x => x.Team)
+            .Include(x => x.Game)
+            .Where(x => x.GameId == gameId);
+
+        return (participations.Skip(page * pageSize).Take(pageSize).ToList(), participations.Count());
     }
 
     public void PlayGame(int blueSideTeamId, int redSideTeamId, DateOnly gameDate)
