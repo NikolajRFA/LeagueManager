@@ -60,6 +60,8 @@ public class TeamController(TeamDataService dataService, LinkGenerator linkGener
                 WinnerUrl = GetUrl(nameof(GetTeam), new { Id = game.WinnerId }),
                 Winner = game.Winner?.Name,
                 Won = id == game.WinnerId,
+                Event = game.Event?.Name,
+                EventUrl = null, // TODO: Create EventController.
                 Date = game.Date,
             });
         }
@@ -113,7 +115,7 @@ public class TeamController(TeamDataService dataService, LinkGenerator linkGener
         return new TeamDto
         {
             Name = team.Name,
-            League = team.League.Name,
+            //League = team.League.Name,
             GamesUrl = GetUrl(nameof(GetGamesFromTeam), new { team.Id }),
             Players = GetUrl(nameof(GetMembersFromTeam), new { team.Id })
         };

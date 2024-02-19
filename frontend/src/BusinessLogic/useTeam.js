@@ -10,7 +10,7 @@ export function useTeam(id) {
         axios.get(`${API.url}teams/${id}`)
             .then(res => setTeamData({
                 name: res.data.name,
-                league: res.data.league,
+                //league: res.data.league,
                 gamesUrl: res.data.gamesUrl,
                 players: res.data.players
             }))

@@ -32,11 +32,11 @@ public class DatabaseTests
             .FirstOrDefault();
         var team = db.Teams
             .Include(x => x.Players)
-            .Include(x => x.League)
+            //.Include(x => x.League)
             .FirstOrDefault();
-        var league = db.Leagues
+        /*var league = db.Leagues
             .Include(x => x.Teams)
-            .FirstOrDefault();
+            .FirstOrDefault();*/
         var member = db.Members
             .Include(x => x.Player)
             .Include(x => x.Team)

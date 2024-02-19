@@ -10,7 +10,7 @@ public class TeamDataService
         var db = new Database();
         return (db.Teams
                 .Include(x => x.Players)
-                .Include(x => x.League)
+                //.Include(x => x.League)
                 .Skip(page * pageSize)
                 .Take(pageSize)
                 .ToList(),
@@ -22,7 +22,7 @@ public class TeamDataService
         var db = new Database();
         return db.Teams
             .Include(x => x.Players)
-            .Include(x => x.League)
+            //.Include(x => x.League)
             .FirstOrDefault(x => x.Id == id);
     }
 
@@ -33,6 +33,7 @@ public class TeamDataService
             .Include(x => x.BlueSide)
             .Include(x => x.RedSide)
             .Include(x => x.Winner)
+            .Include(x => x.Event)
             .Where(x => x.BlueSideId == teamId || x.RedSideId == teamId);
 
         return (games

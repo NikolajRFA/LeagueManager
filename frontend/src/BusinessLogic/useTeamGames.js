@@ -23,6 +23,8 @@ export default function useTeamGames(id) {
                     winnerUrl: item.winnerUrl,
                     winner: item.winner,
                     won: item.won,
+                    event: item.event,
+                    eventUrl: item.eventUrl,
                     date: item.date
                 }))
             }))

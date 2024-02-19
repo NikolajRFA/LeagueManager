@@ -60,6 +60,8 @@ public class PlayerController(PlayerDataService dataService, LinkGenerator linkG
                 WinnerUrl = GetUrl(nameof(TeamController.GetTeam), new { Id = participation.Game.WinnerId }),
                 Winner = participation.Game.Winner?.Name,
                 Won = participation.TeamId == participation.Game.WinnerId,
+                Event = participation.Game.Event?.Name,
+                EventUrl = null, // TODO: Create EventController.
                 Date = participation.Game.Date,
             })
             .ToList();

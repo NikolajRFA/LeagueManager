@@ -73,6 +73,8 @@ public abstract class GenericControllerBase : ControllerBase
         dto.BlueSide = game.BlueSide.Name;
         dto.RedSide = game.RedSide.Name;
         dto.Winner = game.Winner?.Name;
+        dto.Event = game.Event?.Name;
+        dto.EventUrl = null; // TODO: Create event controller.
         return dto;
     }
 }

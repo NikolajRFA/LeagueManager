@@ -13,6 +13,7 @@ public class GameDataService
             .Include(x => x.BlueSide)
             .Include(x => x.RedSide)
             .Include(x => x.Winner)
+            .Include(x => x.Event)
             .Skip(page * pageSize)
             .Take(pageSize)
             .ToList(), db.Games.Count());
@@ -25,6 +26,7 @@ public class GameDataService
             .Include(x => x.BlueSide)
             .Include(x => x.RedSide)
             .Include(x => x.Winner)
+            .Include(x => x.Event)
             .FirstOrDefault(x => x.Id == id);
     }
 

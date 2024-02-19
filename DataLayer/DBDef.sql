@@ -7,7 +7,8 @@ DROP TABLE IF EXISTS member;
 DROP TABLE IF EXISTS team;
 DROP TABLE IF EXISTS player_name_wi;
 DROP TABLE IF EXISTS player;
-DROP TABLE IF EXISTS league;
+--DROP TABLE IF EXISTS league;
+DROP TABLE IF EXISTS event;
 
 DROP TYPE IF EXISTS role;
 --CREATE TYPE role as ENUM ('top', 'jungle', 'mid', 'bottom', 'support');
@@ -40,19 +41,19 @@ CREATE TABLE player_name_wi
 CREATE INDEX lower_case_word ON player_name_wi (lower(word));
 CREATE INDEX players_on_word_gin_trgm_idx ON player_name_wi USING GIN (word gin_trgm_ops);
 
-CREATE TABLE league
+/*CREATE TABLE league
 (
     id        SERIAL PRIMARY KEY,
     name      varchar(100),
     region    VARCHAR(50),
     num_teams INTEGER
-);
+);*/
 
 CREATE TABLE team
 (
     id        SERIAL PRIMARY KEY,
-    name      VARCHAR(100),
-    league_id INTEGER REFERENCES league (id)
+    name      VARCHAR(100)
+    --league_id INTEGER REFERENCES league (id)
 );
 
 CREATE TABLE member
@@ -64,12 +65,19 @@ CREATE TABLE member
     to_date   DATE
 );
 
+CREATE TABLE event
+(
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(150) NOT NULL
+);
+
 CREATE TABLE game
 (
     id           SERIAL PRIMARY KEY,
     blue_side_id INT REFERENCES team (id) NOT NULL,
     red_side_id  INT REFERENCES team (id) NOT NULL,
     winner_id    INT REFERENCES team (id),
+    event_id     INT REFERENCES event (id),
     date         DATE                     NOT NULL
 );
 
@@ -86,13 +94,13 @@ CREATE UNIQUE INDEX player_team_overlap
     ON member (player_id)
     WHERE to_date >= from_date;
 
-INSERT INTO league (name, region, num_teams)
-VALUES ('League 1', 'EU', 20);
+--INSERT INTO league (name, region, num_teams)
+--VALUES ('League 1', 'EU', 20);
 
-INSERT INTO team (name, league_id)
-VALUES ('Blue Team', 1);
-INSERT INTO team (name, league_id)
-VALUES ('Team Magic Rabbits', 1);
+INSERT INTO team (name/*, league_id*/)
+VALUES ('Blue Team'/*, 1*/);
+INSERT INTO team (name/*, league_id*/)
+VALUES ('Team Magic Rabbits'/*, 1*/);
 
 -- TODO: Add non-active players
 INSERT INTO player (id, first_name, last_name, alias, age, gender, nationality, game_sense, team_fighting, dueling,
@@ -151,8 +159,10 @@ VALUES (1, 1, 'top', CURRENT_DATE - 14, null),
        (10, 2, 'support', CURRENT_DATE - 14, null),
        (11, 2, 'support', CURRENT_DATE - 30, CURRENT_DATE - 22);
 
-INSERT INTO game (blue_side_id, red_side_id, winner_id, date)
-VALUES (1, 2, 1, now());
+INSERT INTO event (name) VALUES ('League 1');
+
+INSERT INTO game (blue_side_id, red_side_id, winner_id, event_id, date)
+VALUES (1, 2, 1, 1, now());
 
 INSERT INTO participation (game_id, player_id, role, team_id)
 VALUES (1, 1, 'top', 1),
@@ -186,7 +196,7 @@ end;
 $$;
 
 -- TODO: Transactionalize procedure, and add control of if players are added to the participation table.
-CREATE OR REPLACE PROCEDURE play_game(blue_side_team_id INT, red_side_team_id INT, game_date DATE)
+CREATE OR REPLACE PROCEDURE play_game(blue_side_team_id INT, red_side_team_id INT, event_id INT, game_date DATE)
     LANGUAGE plpgsql
 AS
 $$
@@ -202,8 +212,8 @@ DECLARE
     red_side_performance      INT;
 BEGIN
     -- Create new game with the teams
-    INSERT INTO game (id, blue_side_id, red_side_id, date)
-    VALUES (new_game_id, blue_side_team_id, red_side_team_id, game_date);
+    INSERT INTO game (id, blue_side_id, red_side_id, event_id, date)
+    VALUES (new_game_id, blue_side_team_id, red_side_team_id, event_id, game_date);
 
     -- Add members to participation table
     INSERT INTO participation (game_id, player_id, role, team_id)
@@ -260,7 +270,7 @@ end;
 $$;
 
 -- Create some more games
-CALL play_game(1, 2, CURRENT_DATE - 12);
-CALL play_game(2, 1, CURRENT_DATE - 10);
-CALL play_game(2, 1, CURRENT_DATE - 8);
-CALL play_game(1, 2, CURRENT_DATE - 5);
+CALL play_game(1, 2, 1, CURRENT_DATE - 12);
+CALL play_game(2, 1, 1, CURRENT_DATE - 10);
+CALL play_game(2, 1, 1, CURRENT_DATE - 8);
+CALL play_game(1, 2, 1, CURRENT_DATE - 5);

@@ -9,6 +9,8 @@ public class GameDto
     public string RedSideUrl { get; set; }
     public string? Winner { get; set; }
     public string? WinnerUrl { get; set; }
+    public string? Event { get; set; }
+    public string? EventUrl { get; set; }
     
     public DateOnly Date { get; set; }
 }

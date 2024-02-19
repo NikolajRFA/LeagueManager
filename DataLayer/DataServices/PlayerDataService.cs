@@ -36,7 +36,9 @@ public class PlayerDataService
             .Include(x => x.Game)
             .ThenInclude(x => x.RedSide)
             .Include(x => x.Game)
-            .ThenInclude(x => x.Winner);
+            .ThenInclude(x => x.Winner)
+            .Include(x => x.Game)
+            .ThenInclude(x => x.Event);
 
         return (participations.Skip(page * pageSize).Take(pageSize).ToList(), participations.Count());
     }

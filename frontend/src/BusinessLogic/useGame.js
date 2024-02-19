@@ -16,6 +16,8 @@ export function useGame(id) {
                 redSideUrl: res.data.redSideUrl,
                 winner: res.data.winner,
                 winnerUrl: res.data.winnerUrl,
+                event: res.data.event,
+                eventUrl: res.data.eventUrl,
                 date: res.data.date
             }))
             .catch(err => console.error(err));

@@ -10,5 +10,7 @@ public class TeamGameDto
     public string? WinnerUrl { get; set; }
     public string? Winner { get; set; }
     public bool? Won { get; set; }
+    public string? Event { get; set; }
+    public string? EventUrl { get; set; }
     public DateOnly Date { get; set; }
 }
