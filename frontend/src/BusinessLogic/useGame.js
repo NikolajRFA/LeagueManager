@@ -23,6 +23,5 @@ export function useGame(id) {
             .catch(err => console.error(err));
     }, []);
 
-    console.log(playerData);
     return playerData;
 }

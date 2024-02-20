@@ -28,7 +28,7 @@ export default function Games({games, isPlayer = false}) {
                 </TableHead>
                 <TableBody>
                     {games.items ? games.items.map((item) => (
-                        <TableRow key={item.url} onClick={() => navigate(`/games/${item.gameUrl.split("/").pop()}`)}
+                        <TableRow key={item.gameUrl} onClick={() => navigate(`/games/${item.gameUrl.split("/").pop()}`)}
                                   style={{
                                       cursor: "pointer",
                                       backgroundColor: item.won ? "#90ee90" : "#FFC0CB"

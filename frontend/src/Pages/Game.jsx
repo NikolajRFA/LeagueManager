@@ -4,19 +4,19 @@ import Grid from "@mui/material/Grid";
 import {useGame} from "../BusinessLogic/useGame";
 import {useEffect} from "react";
 import Paper from "@mui/material/Paper";
-import {Stack} from "@mui/material";
+import {CircularProgress, Stack} from "@mui/material";
 import Typography from "@mui/material/Typography";
 import {useTeam} from "../BusinessLogic/useTeam";
 import Players from "./Game/Players";
+import useGamePlayers from "../BusinessLogic/useGamePlayers";
 
 export default function Game() {
     const {id} = useParams();
     const gameData = useGame(id);
-    //let blueSideData = null;
+    const gamePlayers = useGamePlayers(id);
 
     useEffect(() => {
         document.title = `${gameData.blueSide} vs. ${gameData.redSide}`;
-        //if (gameData.blueSideUrl) blueSideData = useTeam(gameData.blueSideUrl.split("/").pop());
     }, [gameData]);
 
     return (
@@ -83,12 +83,23 @@ export default function Game() {
                             p: 2,
                             display: 'flex',
                             flexDirection: 'column',
-                            height: 240,
-                            alignItems: 'center',
+                            //height: 240,
+                            alignItems: 'left',
                             justifyContent: 'center'
                         }}
                     >
-                        <Players/>
+                        {gamePlayers.items ?
+                            <Players players={gamePlayers.items.filter(item => item.side === "Blue").sort((a, b) => {
+                                const roleOrder = {
+                                    "top": 1,
+                                    "jungle": 2,
+                                    "mid": 3,
+                                    "support": 4,
+                                    "bottom": 5
+                                };
+                                return roleOrder[a.role] - roleOrder[b.role];
+                            })}
+                                     isBlueSide={true}/> : <CircularProgress/>}
                     </Paper>
                 </Grid>
                 <Grid item xs={12} md={4} lg={6}>
@@ -97,12 +108,23 @@ export default function Game() {
                             p: 2,
                             display: 'flex',
                             flexDirection: 'column',
-                            height: 240,
-                            alignItems: 'center',
+                            //height: 240,
+                            alignItems: 'left',
                             justifyContent: 'center'
                         }}
                     >
-                        <Players/>
+                        {gamePlayers.items ?
+                            <Players players={gamePlayers.items.filter(item => item.side === "Red").sort((a, b) => {
+                                const roleOrder = {
+                                    "top": 1,
+                                    "jungle": 2,
+                                    "mid": 3,
+                                    "support": 4,
+                                    "bottom": 5
+                                };
+                                return roleOrder[a.role] - roleOrder[b.role];
+                            })}
+                                     isBlueSide={false}/> : <CircularProgress/>}
                     </Paper>
                 </Grid>
             </Grid>
