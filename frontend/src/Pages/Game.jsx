@@ -10,6 +10,7 @@ import {useTeam} from "../BusinessLogic/useTeam";
 import Players from "./Game/Players";
 import useGamePlayers from "../BusinessLogic/useGamePlayers";
 
+// TODO: Add color to the background of winning team
 export default function Game() {
     const {id} = useParams();
     const gameData = useGame(id);
