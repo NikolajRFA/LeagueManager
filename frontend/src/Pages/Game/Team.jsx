@@ -9,7 +9,7 @@ export default function Team({gameData, isBlueSide}) {
     return (
         <NavLink to={`/teams/${teamUrl.split('/').pop()}`}
                  style={{textDecoration: "none"}}>
-            <Paper
+            <Paper className={"boxed-text"}
                 sx={{
                     p: 2,
                     display: 'flex',
@@ -22,7 +22,7 @@ export default function Team({gameData, isBlueSide}) {
                 }}
             >
                 <Stack spacing={3}>
-                    <Typography variant="h4">
+                    <Typography variant="h4" className={"text"}>
                         {isBlueSide ? gameData.blueSide : gameData.redSide}
                     </Typography>
                 </Stack>

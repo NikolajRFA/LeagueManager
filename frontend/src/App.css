@@ -36,3 +36,11 @@
     transform: rotate(360deg);
   }
 }
+
+.boxed-text .text {
+  color: black;
+}
+
+.boxed-text:hover .text {
+  text-decoration: underline;
+}

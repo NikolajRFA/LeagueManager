@@ -23,7 +23,7 @@ export default function Game() {
         <Template title={`${gameData.blueSide} vs. ${gameData.redSide}`}>
             <Grid container spacing={3}>
                 <Grid item xs={12} md={4} lg={4}>
-                    <Team gameData={gameData} isBlueSide={true}/>
+                    {gameData.blueSideUrl ? <Team gameData={gameData} isBlueSide={true}/> : <CircularProgress/> }
                 </Grid>
                 <Grid item xs={12} md={4} lg={4}>
                     <Paper>
@@ -47,7 +47,7 @@ export default function Game() {
                     </Paper>
                 </Grid>
                 <Grid item xs={12} md={4} lg={4}>
-                    <Team gameData={gameData} isBlueSide={false}/>
+                    {gameData.redSideUrl ? <Team gameData={gameData} isBlueSide={false}/> : <CircularProgress/>}
                 </Grid>
                 <Grid item xs={12} md={4} lg={6}>
                     <Paper
