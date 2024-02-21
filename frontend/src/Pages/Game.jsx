@@ -1,4 +1,4 @@
-import {useParams} from "react-router-dom";
+import {NavLink, useParams} from "react-router-dom";
 import Template from "../Template/Template";
 import Grid from "@mui/material/Grid";
 import {useGame} from "../BusinessLogic/useGame";
@@ -6,11 +6,10 @@ import {useEffect} from "react";
 import Paper from "@mui/material/Paper";
 import {CircularProgress, Stack} from "@mui/material";
 import Typography from "@mui/material/Typography";
-import {useTeam} from "../BusinessLogic/useTeam";
 import Players from "./Game/Players";
 import useGamePlayers from "../BusinessLogic/useGamePlayers";
+import Team from "./Game/Team";
 
-// TODO: Add color to the background of winning team
 export default function Game() {
     const {id} = useParams();
     const gameData = useGame(id);
@@ -24,22 +23,7 @@ export default function Game() {
         <Template title={`${gameData.blueSide} vs. ${gameData.redSide}`}>
             <Grid container spacing={3}>
                 <Grid item xs={12} md={4} lg={4}>
-                    <Paper
-                        sx={{
-                            p: 2,
-                            display: 'flex',
-                            flexDirection: 'column',
-                            height: 240,
-                            alignItems: 'center',
-                            justifyContent: 'center'
-                        }}
-                    >
-                        <Stack spacing={3}>
-                            <Typography variant="h4">
-                                {gameData.blueSide}
-                            </Typography>
-                        </Stack>
-                    </Paper>
+                    <Team gameData={gameData} isBlueSide={true}/>
                 </Grid>
                 <Grid item xs={12} md={4} lg={4}>
                     <Paper>
@@ -53,7 +37,7 @@ export default function Game() {
                                    justifyContent: 'center'
                                }}
                         >
-                            <Typography variant="subtitle1">
+                            <Typography variant="h4">
                                 {gameData.event}
                             </Typography>
                             <Typography variant="h6">
@@ -63,20 +47,7 @@ export default function Game() {
                     </Paper>
                 </Grid>
                 <Grid item xs={12} md={4} lg={4}>
-                    <Paper
-                        sx={{
-                            p: 2,
-                            display: 'flex',
-                            flexDirection: 'column',
-                            height: 240,
-                            alignItems: 'center',
-                            justifyContent: 'center'
-                        }}
-                    >
-                        <Typography variant="h4">
-                            {gameData.redSide}
-                        </Typography>
-                    </Paper>
+                    <Team gameData={gameData} isBlueSide={false}/>
                 </Grid>
                 <Grid item xs={12} md={4} lg={6}>
                     <Paper
