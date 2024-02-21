@@ -17,6 +17,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import {mainListItems, secondaryListItems} from './listItems';
+import SearchField from "./SearchField";
 
 function Copyright(props) {
     return (
@@ -118,6 +119,7 @@ export default function Template({title, children}) {
                         >
                             {title}
                         </Typography>
+                        <SearchField/>
                         <IconButton color="inherit">
                             <Badge badgeContent={4} color="secondary">
                                 <NotificationsIcon/>
