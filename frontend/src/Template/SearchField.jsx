@@ -3,6 +3,7 @@ import {styled} from "@mui/material/styles";
 import {alpha, InputBase} from "@mui/material";
 import {useRef, useState} from "react";
 
+// TODO: Make Paper dropdown with search results
 export default function SearchField() {
     const searchPhrase = useRef(null);
 
