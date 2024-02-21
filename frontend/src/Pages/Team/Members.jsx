@@ -1,5 +1,4 @@
 import * as React from 'react';
-import Link from '@mui/material/Link';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -7,7 +6,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Title from '../Dashboard/Title';
 import {CircularProgress} from "@mui/material";
-import {useNavigate} from "react-router-dom";
+import {NavLink, useNavigate} from "react-router-dom";
 import Utils from "../../Utils";
 import {useTeamMembers} from "../../BusinessLogic/useTeamMembers";
 
@@ -32,16 +31,16 @@ export default function Members({teamId}) {
                                   style={{
                                       cursor: "pointer",
                                   }}>
-                            <TableCell><Link href={`/players/${item.url.split("/").pop()}`}>{item.firstName} {item.lastName}</Link></TableCell>
+                            <TableCell><NavLink to={`/players/${item.url.split("/").pop()}`}>{item.firstName} {item.lastName}</NavLink></TableCell>
                             <TableCell>{item.alias}</TableCell>
                             <TableCell>{Utils.capitalize(item.role)}</TableCell>
                         </TableRow>
                     )) : <CircularProgress/>}
                 </TableBody>
             </Table>
-            <Link color="primary" href="http://localhost:5000/games" sx={{mt: 3}}>
+            <NavLink color="primary" to="http://localhost:5000/games" sx={{mt: 3}}>
                 See more members
-            </Link>
+            </NavLink>
         </>
     );
 }
