@@ -9,12 +9,10 @@ import PlayerStats from "./Player/PlayerStats";
 import PlayerInfo from "./Player/PlayerInfo";
 import usePlayerGames from "../BusinessLogic/usePlayerGames";
 
-// TODO: Add some way to see the players current team.
 export default function Player() {
     const {id} = useParams();
     const playerData = usePlayer(id);
     const playerGames = usePlayerGames(id);
-    const [chipState, setChipState] = useState('outlined')
 
     return (
         <Template title={`${playerData.firstName} '${playerData.alias}' ${playerData.lastName}`}>
