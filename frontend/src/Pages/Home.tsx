@@ -3,15 +3,17 @@ import {Button} from "@mui/material";
 import Loading from "../Components/Loading";
 import {usePlayer} from "../BusinessLogic/usePlayer";
 import {useNavigate} from "react-router-dom";
+import React = require("react");
+import {FC} from "react";
 
-export default function Home() {
+const Home: FC = () => {
     const playerData = usePlayer(7);
     const navigate = useNavigate();
 
     return (
         <div className="App">
             <header className="App-header">
-                <img src={logo} className="App-logo" alt="logo"/>
+                <img src={logo.toString()} className="App-logo" alt="logo"/>
                 <p>
                     Edit <code>src/App.js</code> and save to reload.
                 </p>
@@ -34,3 +36,5 @@ export default function Home() {
         </div>
     )
 }
+
+export default Home;
