@@ -3,7 +3,7 @@ import {Button} from "@mui/material";
 import Loading from "../Components/Loading";
 import {usePlayer} from "../BusinessLogic/usePlayer";
 import {useNavigate} from "react-router-dom";
-import React = require("react");
+import React from "react";
 import {FC} from "react";
 
 const Home: FC = () => {

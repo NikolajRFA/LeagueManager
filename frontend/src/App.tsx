@@ -6,7 +6,7 @@ import Dashboard from "./Pages/Dashboard/Dashboard";
 import Game from "./Pages/Game";
 import Team from "./Pages/Team";
 import {useEffect} from "react";
-import React = require("react");
+import React from "react";
 
 function App() {
 
