@@ -1,6 +1,7 @@
 import {Avatar, Box, Stack, Typography} from "@mui/material";
 import GroupsIcon from '@mui/icons-material/Groups';
 import {useNavigate} from "react-router-dom";
+import React from "react";
 
 export default function TeamInfo({team}) {
     const navigate = useNavigate();

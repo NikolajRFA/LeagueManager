@@ -7,6 +7,7 @@ import Paper from "@mui/material/Paper";
 import Games from "../Components/Games";
 import TeamInfo from "./Team/TeamInfo";
 import useTeamGames from "../BusinessLogic/useTeamGames";
+import React from "react";
 
 export default function Team() {
     const {id} = useParams();

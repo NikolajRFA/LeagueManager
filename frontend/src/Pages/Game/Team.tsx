@@ -2,6 +2,7 @@ import Paper from "@mui/material/Paper";
 import {Stack} from "@mui/material";
 import Typography from "@mui/material/Typography";
 import {NavLink} from "react-router-dom";
+import React from "react";
 
 export default function Team({gameData, isBlueSide}) {
     const teamUrl = isBlueSide ? gameData.blueSideUrl : gameData.redSideUrl;

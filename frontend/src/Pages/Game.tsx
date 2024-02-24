@@ -9,6 +9,7 @@ import Typography from "@mui/material/Typography";
 import Players from "./Game/Players";
 import useGamePlayers from "../BusinessLogic/useGamePlayers";
 import Team from "./Game/Team";
+import React from "react";
 
 export default function Game() {
     const {id} = useParams();

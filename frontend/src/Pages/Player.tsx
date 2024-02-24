@@ -8,6 +8,7 @@ import {useParams} from "react-router-dom";
 import PlayerStats from "./Player/PlayerStats";
 import PlayerInfo from "./Player/PlayerInfo";
 import usePlayerGames from "../BusinessLogic/usePlayerGames";
+import React from "react";
 
 export default function Player() {
     const {id} = useParams();

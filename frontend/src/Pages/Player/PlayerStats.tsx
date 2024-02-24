@@ -1,6 +1,7 @@
 import Grid from "@mui/material/Grid";
 import Loading from "../../Components/Loading";
 import {Box, LinearProgress, Typography} from "@mui/material";
+import React from "react";
 
 export default function PlayerStats({player}) {
 

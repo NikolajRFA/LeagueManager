@@ -2,6 +2,7 @@ import {Avatar, Box, Stack, Typography} from "@mui/material";
 import PersonIcon from "@mui/icons-material/Person";
 import Loading from "../../Components/Loading";
 import {useNavigate} from "react-router-dom";
+import React from "react";
 
 export default function PlayerInfo({player}) {
     const navigate = useNavigate();
