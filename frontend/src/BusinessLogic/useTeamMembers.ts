@@ -4,14 +4,13 @@ import API from "./API";
 import TeamMember from "./Models/TeamMember";
 import List from "./Models/List";
 
-export function useTeamMembers(id, current = false) {
-    const [members, setMembers] = useState({});
+export function useTeamMembers(id: string, current: boolean = false) {
+    const [members, setMembers] = useState(new List(null, TeamMember));
 
     useEffect(() => {
         // Get player data from API
         axios.get(`${API.url}teams/${id}/members${current ? "/current" : ""}`)
-            .then(res => setMembers(new List<TeamMember>())
-            }))
+            .then(res => setMembers(new List<TeamMember>(res.data, TeamMember)))
             .catch(err => console.error(err));
     }, []);
 
