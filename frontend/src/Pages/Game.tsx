@@ -21,6 +21,7 @@ export default function Game() {
     }, [gameData]);
 
     return (
+        gameData.loading ? <CircularProgress/> :
         <Template title={`${gameData.blueSide} vs. ${gameData.redSide}`}>
             <Grid container spacing={3}>
                 <Grid item xs={12} md={4} lg={4}>
@@ -61,7 +62,7 @@ export default function Game() {
                             justifyContent: 'center'
                         }}
                     >
-                        {gamePlayers.items ?
+                        {!gamePlayers ?
                             <Players players={gamePlayers.items.filter(item => item.side === "Blue").sort((a, b) => {
                                 const roleOrder = {
                                     "top": 1,
@@ -86,7 +87,7 @@ export default function Game() {
                             justifyContent: 'center'
                         }}
                     >
-                        {gamePlayers.items ?
+                        {!gamePlayers ?
                             <Players players={gamePlayers.items.filter(item => item.side === "Red").sort((a, b) => {
                                 const roleOrder = {
                                     "top": 1,

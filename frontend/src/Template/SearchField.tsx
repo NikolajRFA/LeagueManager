@@ -2,6 +2,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import {styled} from "@mui/material/styles";
 import {alpha, InputBase} from "@mui/material";
 import {useRef, useState} from "react";
+import React from "react";
 
 // TODO: Make Paper dropdown with search results
 export default function SearchField() {

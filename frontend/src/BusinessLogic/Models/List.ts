@@ -8,8 +8,9 @@ export default class List<T> extends ApiReturn {
     current: string;
     items: T[];
 
-    constructor(data = null, classConstructor: new (data: any) => T) {
+    constructor(classConstructor: new (data: any) => T, data = null) {
         super();
+        if (data === null) return;
         this.total = data.total;
         this.numberOfPages = data.numberOfPages;
         this.next = data.next;

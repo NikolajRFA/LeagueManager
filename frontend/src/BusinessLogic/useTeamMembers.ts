@@ -5,7 +5,7 @@ import TeamMember from "./Models/TeamMember";
 import List from "./Models/List";
 
 export function useTeamMembers(id: string, current: boolean = false) {
-    const [members, setMembers] = useState(new List(null, TeamMember));
+    const [members, setMembers] = useState(new List(TeamMember));
 
     useEffect(() => {
         // Get player data from API
