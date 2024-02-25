@@ -1,6 +1,8 @@
 import {useState, useEffect} from "react";
 import axios from "axios";
 import API from "./API";
+import TeamMember from "./Models/TeamMember";
+import List from "./Models/List";
 
 export function useTeamMembers(id, current = false) {
     const [members, setMembers] = useState({});
@@ -8,32 +10,7 @@ export function useTeamMembers(id, current = false) {
     useEffect(() => {
         // Get player data from API
         axios.get(`${API.url}teams/${id}/members${current ? "/current" : ""}`)
-            .then(res => setMembers({
-                total: res.data.total,
-                numberOfPages: res.data.numberOfPages,
-                next: res.data.next,
-                prev: res.data.prev,
-                current: res.data.current,
-                items: res.data.items.map(item => ({
-                    role: item.role,
-                    fromDate: item.fromDate,
-                    toDate: item.toDate,
-                    url: item.url,
-                    firstName: item.firstName,
-                    lastName: item.lastName,
-                    alias: item.alias,
-                    age: item.age,
-                    gender: item.gender,
-                    nationality: item.nationality,
-                    gameSense: item.gameSense,
-                    teamFighting: item.teamFighting,
-                    dueling: item.dueling,
-                    jglPathing: item.jglPathing,
-                    waveMgmt: item.waveMgmt,
-                    farming: item.farming,
-                    currentTeamUrl: item.currentTeamUrl,
-                    currentTeam: item.currentTeam
-                }))
+            .then(res => setMembers(new List<TeamMember>())
             }))
             .catch(err => console.error(err));
     }, []);

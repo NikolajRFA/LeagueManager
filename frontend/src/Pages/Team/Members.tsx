@@ -38,7 +38,7 @@ export default function Members({teamId}) {
                     )) : <CircularProgress/>}
                 </TableBody>
             </Table>
-            <NavLink color="primary" to="http://localhost:5000/games" sx={{mt: 3}}>
+            <NavLink color="primary" to="http://localhost:5000/games">
                 See more members
             </NavLink>
         </>
