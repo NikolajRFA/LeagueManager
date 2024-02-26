@@ -6,8 +6,10 @@ export default class Team extends ApiReturn {
     players: string;
     constructor(data = null) {
         super();
+        if (data === null) return;
         this.name = data.name;
         this.gamesUrl = data.gamesUrl;
         this.players = data.players;
+        this.loading = false;
     }
 }
