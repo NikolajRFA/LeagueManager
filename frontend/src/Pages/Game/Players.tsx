@@ -1,4 +1,4 @@
-import Title from "../Dashboard/Title";
+import Title from "../../Components/Title";
 import Table from "@mui/material/Table";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";

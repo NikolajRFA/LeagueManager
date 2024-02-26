@@ -5,7 +5,7 @@ import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-import Title from '../Pages/Dashboard/Title';
+import Title from './Title';
 import {CircularProgress, Skeleton} from "@mui/material";
 import {useNavigate} from "react-router-dom";
 import Utils from "../Utils";
