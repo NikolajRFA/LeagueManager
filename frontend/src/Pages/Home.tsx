@@ -18,7 +18,7 @@ const Home: FC = () => {
                     Edit <code>src/App.js</code> and save to reload.
                 </p>
                 <Button variant="contained" onClick={() => alert('Button was clicked!')}>Contained</Button>
-                <Loading isLoading={!playerData.url}>
+                <Loading isLoading={playerData.loading}>
                     <Button variant="contained"
                             onClick={() => navigate("/players/7")}>
                         {playerData.firstName} '{playerData.alias}' {playerData.lastName}: {playerData.age}

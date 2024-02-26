@@ -9,6 +9,7 @@ import PlayerStats from "./Player/PlayerStats";
 import PlayerInfo from "./Player/PlayerInfo";
 import usePlayerGames from "../BusinessLogic/usePlayerGames";
 import React from "react";
+import {CircularProgress} from "@mui/material";
 
 export default function Player() {
     const {id} = useParams();
@@ -16,6 +17,7 @@ export default function Player() {
     const playerGames = usePlayerGames(id);
 
     return (
+        playerData.loading ? <CircularProgress/> :
         <Template title={`${playerData.firstName} '${playerData.alias}' ${playerData.lastName}`}>
             <Grid container spacing={3}>
 

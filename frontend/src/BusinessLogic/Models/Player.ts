@@ -1,6 +1,22 @@
 import ApiReturn from "./ApiReturn";
 
-export default class Player extends ApiReturn{
+export default class Player extends ApiReturn {
+    url: string;
+    firstName: string;
+    lastName: string;
+    alias: string;
+    age: number;
+    gender: string;
+    nationality: string;
+    gameSense: number;
+    teamFighting: number;
+    dueling: number;
+    jglPathing: number;
+    waveMgmt: number;
+    farming: number;
+    currentTeamUrl: string;
+    currentTeam: string;
+
     constructor(data = null) {
         super();
         if (data == null) return;
@@ -17,9 +33,9 @@ export default class Player extends ApiReturn{
         this.jglPathing = data.jglPathing;
         this.waveMgmt = data.waveMgmt;
         this.farming = data.farming;
-        this.activeTeamUrl = data.activeTeamUrl;
-        this.activeTeam = data.activeTeam;
+        this.currentTeamUrl = data.currentTeamUrl;
+        this.currentTeam = data.currentTeam;
 
-        this.loading = true;
+        this.loading = false;
     }
 }
