@@ -40,5 +40,6 @@ export default class TeamMember extends ApiReturn {
         this.farming = data.farming;
         this.currentTeamUrl = data.currentTeamUrl;
         this.currentTeam = data.currentTeam;
+        this.loading = false;
     }
 }

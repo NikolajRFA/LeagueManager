@@ -10,7 +10,7 @@ export function useTeamMembers(id: string, current: boolean = false) {
     useEffect(() => {
         // Get player data from API
         axios.get(`${API.url}teams/${id}/members${current ? "/current" : ""}`)
-            .then(res => setMembers(new List<TeamMember>(res.data, TeamMember)))
+            .then(res => setMembers(new List<TeamMember>(TeamMember, res.data)))
             .catch(err => console.error(err));
     }, []);
 

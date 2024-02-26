@@ -17,5 +17,6 @@ export default class List<T> extends ApiReturn {
         this.prev = data.prev;
         this.current = data.current;
         this.items = data.items.map((item: any) => new classConstructor(item));
+        this.loading = false;
     }
 }

@@ -12,6 +12,7 @@ export default class GamePlayer extends ApiReturn {
 
     constructor(data = null) {
         super();
+        if (data === null) return;
         this.playerUrl = data.playerUrl;
         this.team = data.team;
         this.teamUrl = data.teamUrl;
@@ -20,5 +21,6 @@ export default class GamePlayer extends ApiReturn {
         this.lastName = data.lastName;
         this.alias = data.alias;
         this.role = data.role;
+        this.loading = false;
     }
 }

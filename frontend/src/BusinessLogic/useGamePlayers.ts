@@ -10,9 +10,10 @@ export default function useGamePlayers(id: string) {
     useEffect(() => {
         // Get player game data from API
         axios.get(`${API.url}games/${id}/players`)
-            .then(res => setGamePlayers(new List(res.data, GamePlayer)))
+            .then(res => setGamePlayers(new List(GamePlayer, res.data)))
             .catch(err => console.error(err));
     }, []);
 
+    console.log(gamePlayers);
     return gamePlayers;
 }

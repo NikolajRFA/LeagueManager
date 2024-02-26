@@ -62,7 +62,7 @@ export default function Game() {
                             justifyContent: 'center'
                         }}
                     >
-                        {!gamePlayers ?
+                        {!gamePlayers.loading ?
                             <Players players={gamePlayers.items.filter(item => item.side === "Blue").sort((a, b) => {
                                 const roleOrder = {
                                     "top": 1,
@@ -87,7 +87,7 @@ export default function Game() {
                             justifyContent: 'center'
                         }}
                     >
-                        {!gamePlayers ?
+                        {!gamePlayers.loading ?
                             <Players players={gamePlayers.items.filter(item => item.side === "Red").sort((a, b) => {
                                 const roleOrder = {
                                     "top": 1,
