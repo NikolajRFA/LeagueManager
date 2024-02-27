@@ -1,12 +1,14 @@
 import SearchIcon from '@mui/icons-material/Search';
 import {styled} from "@mui/material/styles";
 import {alpha, InputBase} from "@mui/material";
-import {useRef, useState} from "react";
+import {useEffect, useRef, useState} from "react";
 import React from "react";
+import SearchResults from "./SearchResults";
 
 // TODO: Make Paper dropdown with search results
 export default function SearchField() {
-    const searchPhrase = useRef(null);
+    const searchPhrase = useRef("");
+    const showSearchResults = useRef(false);
 
 
     const Search = styled('div')(({theme}) => ({
@@ -51,22 +53,32 @@ export default function SearchField() {
         },
     }));
 
-    const handleChange = (e) => searchPhrase.current = e.target.value;
+    const handleChange = (e) => {
+        searchPhrase.current = e.target.value;
+    }
     const handleSubmit = () => alert(searchPhrase + '!');
     const handleKeyDown = (e) => {
         if (e.key === 'Enter' && searchPhrase.current) alert(searchPhrase.current + '!');
     };
 
+    useEffect(() => {
+        showSearchResults.current = searchPhrase.current !== "";
+        //console.log(showSearchResults.current);
+    }, []);
+
     return (
-        <Search onChange={handleChange}
-                onKeyDown={handleKeyDown}>
-            <SearchIconWrapper>
-                <SearchIcon/>
-            </SearchIconWrapper>
-            <StyledInputBase
-                placeholder="Search…"
-                inputProps={{'aria-label': 'search'}}
-            />
-        </Search>
+        <>
+            <Search onChange={handleChange}
+                    onKeyDown={handleKeyDown}>
+                <SearchIconWrapper>
+                    <SearchIcon/>
+                </SearchIconWrapper>
+                <StyledInputBase
+                    placeholder="Search…"
+                    inputProps={{'aria-label': 'search'}}
+                />
+            </Search>
+            <SearchResults searchPhrase={searchPhrase.current}/>
+        </>
     )
 }
