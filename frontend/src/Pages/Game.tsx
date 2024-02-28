@@ -22,10 +22,9 @@ export default function Game() {
 
     return (
         gameData.loading ? <CircularProgress/> :
-        <Template title={`${gameData.blueSide} vs. ${gameData.redSide}`}>
             <Grid container spacing={3}>
                 <Grid item xs={12} md={4} lg={4}>
-                    {gameData.blueSideUrl ? <Team gameData={gameData} isBlueSide={true}/> : <CircularProgress/> }
+                    {gameData.blueSideUrl ? <Team gameData={gameData} isBlueSide={true}/> : <CircularProgress/>}
                 </Grid>
                 <Grid item xs={12} md={4} lg={4}>
                     <Paper>
@@ -102,6 +101,5 @@ export default function Game() {
                     </Paper>
                 </Grid>
             </Grid>
-        </Template>
     )
 }

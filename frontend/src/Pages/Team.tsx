@@ -17,24 +17,22 @@ export default function Team() {
 
     return (
         teamData.loading ? <CircularProgress/> :
-            <Template title={teamData.name}>
-                <Grid container spacing={3}>
-                    <Grid item xs={12} md={4} lg={3}>
-                        <Paper sx={{p: 2, display: 'flex', flexDirection: 'column'}}>
-                            <TeamInfo team={teamData}/>
-                        </Paper>
-                    </Grid>
-                    <Grid item xs={12} md={8} lg={9}>
-                        <Paper sx={{p: 2, display: 'flex', flexDirection: 'column'}}>
-                            <Members teamId={id}/>
-                        </Paper>
-                    </Grid>
-                    <Grid item xs={12}>
-                        <Paper sx={{p: 2, display: 'flex', flexDirection: 'column'}}>
-                            <Games games={teamGames} isPlayer={false}/>
-                        </Paper>
-                    </Grid>
+            <Grid container spacing={3}>
+                <Grid item xs={12} md={4} lg={3}>
+                    <Paper sx={{p: 2, display: 'flex', flexDirection: 'column'}}>
+                        <TeamInfo team={teamData}/>
+                    </Paper>
                 </Grid>
-            </Template>
+                <Grid item xs={12} md={8} lg={9}>
+                    <Paper sx={{p: 2, display: 'flex', flexDirection: 'column'}}>
+                        <Members teamId={id}/>
+                    </Paper>
+                </Grid>
+                <Grid item xs={12}>
+                    <Paper sx={{p: 2, display: 'flex', flexDirection: 'column'}}>
+                        <Games games={teamGames} isPlayer={false}/>
+                    </Paper>
+                </Grid>
+            </Grid>
     )
 }

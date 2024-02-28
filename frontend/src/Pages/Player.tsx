@@ -18,7 +18,6 @@ export default function Player() {
 
     return (
         playerData.loading ? <CircularProgress/> :
-        <Template title={`${playerData.firstName} '${playerData.alias}' ${playerData.lastName}`}>
             <Grid container spacing={3}>
 
                 <Grid item xs={12} md={4} lg={3}>
@@ -57,6 +56,5 @@ export default function Player() {
                     </Paper>
                 </Grid>
             </Grid>
-        </Template>
     )
 }

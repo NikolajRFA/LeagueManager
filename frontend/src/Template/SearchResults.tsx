@@ -1,4 +1,5 @@
 import React, {useEffect, useState} from "react";
+import Paper from "@mui/material/Paper";
 
 export default function SearchResults({onMount}) {
     const [searchPhrase, setSearchPhrase] = useState("");
@@ -8,6 +9,8 @@ export default function SearchResults({onMount}) {
     }, [onMount, searchPhrase]);
 
     return (
-        searchPhrase !== "" && <p>Test</p>
+        searchPhrase !== "" && <Paper>
+            {searchPhrase}
+        </Paper>
     )
 }

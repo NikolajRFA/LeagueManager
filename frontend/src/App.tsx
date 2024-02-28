@@ -6,6 +6,7 @@ import Game from "./Pages/Game";
 import Team from "./Pages/Team";
 import {useEffect} from "react";
 import React from "react";
+import Template from "./Template/Template";
 
 function App() {
 
@@ -17,9 +18,13 @@ function App() {
         <BrowserRouter>
             <Routes>
                 <Route path="/" element={<Home/>}/>
-                <Route path="/players/:id" element={<Player/>}/>
-                <Route path="/teams/:id" element={<Team/>}/>
-                <Route path="/games/:id" element={<Game/>}/>
+                <Route path="*" element={<Template title="Test Title">
+                    <Routes>
+                        <Route path="/players/:id" element={<Player/>}/>
+                        <Route path="/teams/:id" element={<Team/>}/>
+                        <Route path="/games/:id" element={<Game/>}/>
+                    </Routes>
+                </Template>} />
             </Routes>
         </BrowserRouter>
     );
