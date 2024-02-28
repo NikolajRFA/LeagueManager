@@ -100,6 +100,7 @@ export default function Template({title, children}) {
                     <Toolbar
                         sx={{
                             pr: '24px', // keep right padding when drawer closed
+                            height: '64px',
                         }}
                     >
                         <IconButton

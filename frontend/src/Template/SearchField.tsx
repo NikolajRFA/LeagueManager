@@ -1,6 +1,6 @@
 import SearchIcon from '@mui/icons-material/Search';
 import {styled} from "@mui/material/styles";
-import {alpha, InputBase} from "@mui/material";
+import {alpha, InputBase, Stack} from "@mui/material";
 import {useEffect, useRef, useState} from "react";
 import React from "react";
 import SearchResults from "./SearchResults";
@@ -71,7 +71,7 @@ export default function SearchField() {
     };
 
     return (
-        <>
+        <Stack spacing={1} style={{display: 'flex-start'}}>
             <Search>
                 <SearchIconWrapper>
                     <SearchIcon/>
@@ -84,6 +84,6 @@ export default function SearchField() {
                 />
             </Search>
             <SearchResults onMount={onSearchResultMount}/>
-        </>
+        </Stack>
     )
 }
