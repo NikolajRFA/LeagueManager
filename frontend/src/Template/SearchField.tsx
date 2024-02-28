@@ -7,8 +7,9 @@ import SearchResults from "./SearchResults";
 
 // TODO: Make Paper dropdown with search results
 export default function SearchField() {
-    const searchPhrase = useRef("");
-    const showSearchResults = useRef(false);
+    //const searchPhrase = useRef("");
+    //const showSearchResults = useRef(false);
+    const [showSearchResults, setShowSearchResults] = useState(false);
 
 
     const Search = styled('div')(({theme}) => ({
@@ -53,32 +54,36 @@ export default function SearchField() {
         },
     }));
 
-    const handleChange = (e) => {
-        searchPhrase.current = e.target.value;
+    let searchPhrase: string = null;
+    let setSearchPhrase: React.Dispatch<React.SetStateAction<string>> = null;
+
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setSearchPhrase(e.currentTarget.value);
     }
-    const handleSubmit = () => alert(searchPhrase + '!');
+
     const handleKeyDown = (e) => {
-        if (e.key === 'Enter' && searchPhrase.current) alert(searchPhrase.current + '!');
+        if (e.key === 'Enter' && searchPhrase) alert(searchPhrase + '!');
     };
 
-    useEffect(() => {
-        showSearchResults.current = searchPhrase.current !== "";
-        //console.log(showSearchResults.current);
-    }, []);
+    const onSearchResultMount = (dataFromSearchResult: [string, React.Dispatch<React.SetStateAction<string>>]) => {
+        searchPhrase = dataFromSearchResult[0];
+        setSearchPhrase = dataFromSearchResult[1];
+    };
 
     return (
         <>
-            <Search onChange={handleChange}
-                    onKeyDown={handleKeyDown}>
+            <Search>
                 <SearchIconWrapper>
                     <SearchIcon/>
                 </SearchIconWrapper>
                 <StyledInputBase
                     placeholder="Search…"
                     inputProps={{'aria-label': 'search'}}
+                    onChange={handleChange}
+                    onKeyDown={handleKeyDown}
                 />
             </Search>
-            <SearchResults searchPhrase={searchPhrase.current}/>
+            <SearchResults onMount={onSearchResultMount}/>
         </>
     )
 }

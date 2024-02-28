@@ -1,14 +1,13 @@
 import React, {useEffect, useState} from "react";
 
-export default function SearchResults({searchPhrase}) {
-    const [showSearchResults, setShowSearchResults] = useState(searchPhrase !== "");
-    console.log(showSearchResults)
+export default function SearchResults({onMount}) {
+    const [searchPhrase, setSearchPhrase] = useState("");
 
     useEffect(() => {
-
-    }, [searchPhrase]);
+        onMount([searchPhrase, setSearchPhrase]);
+    }, [onMount, searchPhrase]);
 
     return (
-        showSearchResults && <p>Test</p>
+        searchPhrase !== "" && <p>Test</p>
     )
 }
