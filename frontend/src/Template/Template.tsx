@@ -38,7 +38,7 @@ interface AppBarProps extends MuiAppBarProps {
     open?: boolean;
 }
 
-// TODO: Add search field
+// TODO: Add useContext to set the title in the app bar
 const AppBar = styled(MuiAppBar, {
     shouldForwardProp: (prop) => prop !== 'open',
 })<AppBarProps>(({ theme, open }) => ({
