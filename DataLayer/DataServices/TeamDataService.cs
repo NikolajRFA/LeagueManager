@@ -34,7 +34,8 @@ public class TeamDataService
             .Include(x => x.RedSide)
             .Include(x => x.Winner)
             .Include(x => x.Event)
-            .Where(x => x.BlueSideId == teamId || x.RedSideId == teamId);
+            .Where(x => x.BlueSideId == teamId || x.RedSideId == teamId)
+            .OrderByDescending(x => x.Date);
 
         return (games
                 .Skip(page * pageSize)

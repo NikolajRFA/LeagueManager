@@ -38,7 +38,8 @@ public class PlayerDataService
             .Include(x => x.Game)
             .ThenInclude(x => x.Winner)
             .Include(x => x.Game)
-            .ThenInclude(x => x.Event);
+            .ThenInclude(x => x.Event)
+            .OrderByDescending(x => x.Game.Date);
 
         return (participations.Skip(page * pageSize).Take(pageSize).ToList(), participations.Count());
     }
