@@ -195,6 +195,36 @@ BEGIN
 end;
 $$;
 
+CREATE OR REPLACE FUNCTION player_search(phrase TEXT)
+    RETURNS table
+            (
+                id            INT,
+                first_name    VARCHAR(50),
+                last_name     VARCHAR(50),
+                alias         VARCHAR(50),
+                age           INTEGER,
+                gender        varchar(6),
+                nationality   VARCHAR(5),
+                game_sense    INTEGER,
+                team_fighting INTEGER,
+                dueling       INTEGER,
+                jgl_pathing   INTEGER,
+                wave_mgmt     INTEGER,
+                farming       INTEGER
+            )
+    LANGUAGE plpgsql
+AS
+$$
+BEGIN
+    RETURN QUERY
+        WITH cte AS (SELECT player_id, similarity(word, phrase) sim
+                     FROM player_name_wi pwi)
+        SELECT p.* FROM cte
+                            LEFT JOIN player p ON cte.player_id = p.id
+        ORDER BY sim DESC;
+end
+$$;
+
 -- TODO: Transactionalize procedure, and add control of if players are added to the participation table.
 CREATE OR REPLACE PROCEDURE play_game(blue_side_team_id INT, red_side_team_id INT, event_id INT, game_date DATE)
     LANGUAGE plpgsql
@@ -268,6 +298,8 @@ BEGIN
     WHERE id = new_game_id;
 end;
 $$;
+
+CALL update_player_name_wi();
 
 -- Create some more games
 CALL play_game(1, 2, 1, CURRENT_DATE - 12);
