@@ -14,6 +14,5 @@ export default function useGamePlayers(id: string) {
             .catch(err => console.error(err));
     }, []);
 
-    console.log(gamePlayers);
     return gamePlayers;
 }

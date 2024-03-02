@@ -124,7 +124,7 @@ export default function Template({title, children}) {
                         >
                             {title}
                         </Typography>
-                        <SearchField/>
+                        <SearchField drawerWidth={drawerWidth} drawerIsOpen={open}/>
                         <IconButton color="inherit">
                             <Badge badgeContent={4} color="secondary">
                                 <NotificationsIcon/>

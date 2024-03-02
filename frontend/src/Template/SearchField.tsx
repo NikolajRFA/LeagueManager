@@ -6,11 +6,10 @@ import React from "react";
 import SearchResults from "./SearchResults";
 
 // TODO: Make Paper dropdown with search results
-export default function SearchField() {
+export default function SearchField({drawerWidth, drawerIsOpen}) {
     //const searchPhrase = useRef("");
     //const showSearchResults = useRef(false);
-    const [showSearchResults, setShowSearchResults] = useState(false);
-
+    const searchRef = useRef(null);
 
     const Search = styled('div')(({theme}) => ({
         position: 'relative',
@@ -71,8 +70,8 @@ export default function SearchField() {
     };
 
     return (
-        <Stack spacing={1} style={{display: 'flex-start'}}>
-            <Search>
+        <>
+            <Search ref={searchRef}>
                 <SearchIconWrapper>
                     <SearchIcon/>
                 </SearchIconWrapper>
@@ -83,7 +82,11 @@ export default function SearchField() {
                     onKeyDown={handleKeyDown}
                 />
             </Search>
-            <SearchResults onMount={onSearchResultMount}/>
-        </Stack>
+            <SearchResults onMount={onSearchResultMount}
+                           searchRef={searchRef}
+                           drawerWidth={drawerWidth}
+                           drawerIsOpen={drawerIsOpen}
+            />
+        </>
     )
 }
