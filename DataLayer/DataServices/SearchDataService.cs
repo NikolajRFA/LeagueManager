@@ -11,7 +11,6 @@ public class SearchDataService
         var result =
             db.PlayerSearches.FromSqlInterpolated($"SELECT * FROM player_search({searchPhrase}, {page}, {pageSize})");
         var resultIds = result.Select(x => x.Id).ToList();
-        // TODO: Fix order
         var players = db.Players.Where(x => resultIds.Contains(x.Id))
             // ReSharper disable once EntityFramework.UnsupportedServerSideFunctionCall
             .OrderBy(x => resultIds.IndexOf(x.Id));
