@@ -16,6 +16,7 @@ public class Database : DbContext
     public DbSet<Game> Games { get; set; }
     public DbSet<Participation> Participations { get; set; }
     public DbSet<TotalSkillResult> TotalSkillResults { get; set; }
+    public DbSet<PlayerSearch> PlayerSearches { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
@@ -95,5 +96,7 @@ public class Database : DbContext
         });
         
         modelBuilder.Entity<TotalSkillResult>().HasNoKey().ToView(null);
+
+        modelBuilder.Entity<PlayerSearch>().HasNoKey();
     }
 }

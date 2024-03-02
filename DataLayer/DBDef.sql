@@ -195,22 +195,11 @@ BEGIN
 end;
 $$;
 
-CREATE OR REPLACE FUNCTION player_search(phrase TEXT)
+CREATE OR REPLACE FUNCTION player_search(phrase TEXT, page INT, page_size INT)
     RETURNS table
             (
-                id            INT,
-                first_name    VARCHAR(50),
-                last_name     VARCHAR(50),
-                alias         VARCHAR(50),
-                age           INTEGER,
-                gender        varchar(6),
-                nationality   VARCHAR(5),
-                game_sense    INTEGER,
-                team_fighting INTEGER,
-                dueling       INTEGER,
-                jgl_pathing   INTEGER,
-                wave_mgmt     INTEGER,
-                farming       INTEGER
+                id            INTEGER,
+                total         INTEGER
             )
     LANGUAGE plpgsql
 AS
@@ -219,9 +208,11 @@ BEGIN
     RETURN QUERY
         WITH cte AS (SELECT player_id, similarity(word, phrase) sim
                      FROM player_name_wi pwi)
-        SELECT p.* FROM cte
+        SELECT p.id, (SELECT count(*)::INT FROM cte) total FROM cte
                             LEFT JOIN player p ON cte.player_id = p.id
-        ORDER BY sim DESC;
+                ORDER BY sim DESC
+        OFFSET page * page_size
+        LIMIT page_size;
 end
 $$;
 
