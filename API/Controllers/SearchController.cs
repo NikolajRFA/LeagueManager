@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using API.DataTransferObjects.Search;
+using AutoMapper;
 using DataLayer.DataServices;
 using Microsoft.AspNetCore.Mvc;
 
@@ -12,9 +13,25 @@ public class SearchController(SearchDataService dataService, LinkGenerator linkG
     [HttpGet("players", Name = nameof(GetPlayerSearch))]
     public IActionResult GetPlayerSearch(string search, int page = 0, int pageSize = 10)
     {
-        var (results, total) = dataService.GetPlayerSearch(search, page, pageSize);
+        var (players, total) = dataService.GetPlayerSearch(search, page, pageSize);
 
-        return Ok(Paging(results, total, new SearchPagingValues { Search = search, Page = page, PageSize = pageSize },
+        var dtos = new List<PlayerSearchResultDto>();
+        foreach (var player in players)
+        {
+            dtos.Add(new PlayerSearchResultDto
+            {
+                Url = GetUrl(nameof(PlayerController.GetPlayer), new { player.Id }),
+                FirstName = player.FirstName,
+                LastName = player.LastName,
+                Alias = player.Alias,
+                Age = player.Age,
+                Gender = player.Gender,
+                Nationality = player.Nationality,
+                CurrentTeam = player.Members.SingleOrDefault(x => x.ToDate == null)?.Team.Name
+            });
+        }
+
+        return Ok(Paging(dtos, total, new SearchPagingValues { Search = search, Page = page, PageSize = pageSize },
             nameof(GetPlayerSearch)));
     }
 

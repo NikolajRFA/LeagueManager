@@ -206,13 +206,12 @@ AS
 $$
 BEGIN
     RETURN QUERY
-        WITH cte AS (SELECT player_id, similarity(word, phrase) sim
+        WITH cte AS (SELECT DISTINCT ON (player_id) player_id, similarity(word, 'Milton') sim
                      FROM player_name_wi pwi)
-        SELECT p.id, (SELECT count(*)::INT FROM cte) total FROM cte
-                            LEFT JOIN player p ON cte.player_id = p.id
-                ORDER BY sim DESC
-        OFFSET page * page_size
-        LIMIT page_size;
+        SELECT cte.player_id, (SELECT count(*)::INT FROM cte) total
+        FROM cte
+        ORDER BY sim DESC
+        OFFSET page * page_size LIMIT page_size;
 end
 $$;
 

@@ -13,7 +13,9 @@ public class SearchDataService
         var resultIds = result.Select(x => x.Id).ToList();
         var players = db.Players.Where(x => resultIds.Contains(x.Id))
             // ReSharper disable once EntityFramework.UnsupportedServerSideFunctionCall
-            .OrderBy(x => resultIds.IndexOf(x.Id));
+            .OrderBy(x => resultIds.IndexOf(x.Id))
+            .Include(x => x.Members)
+            .ThenInclude(x => x.Team);
 
         return (players.ToList(), result.FirstOrDefault() != null ? result.FirstOrDefault()!.Total : 0);
     }
