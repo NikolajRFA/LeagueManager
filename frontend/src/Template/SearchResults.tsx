@@ -3,12 +3,13 @@ import Paper from "@mui/material/Paper";
 
 export default function SearchResults({onMount, searchRef, drawerWidth, drawerIsOpen}) {
     const [searchPhrase, setSearchPhrase] = useState("");
+    const [show, setShow] = useState(false);
     const [posX, setPosX] = useState(0);
     const [posY, setPosY] = useState(0);
     const [width, setWidth] = useState(10);
 
     useEffect(() => {
-        onMount([searchPhrase, setSearchPhrase]);
+        onMount([searchPhrase, setSearchPhrase, handleFocus, handleBlur]);
     }, [onMount, searchPhrase]);
 
     useEffect(() => {
@@ -23,10 +24,23 @@ export default function SearchResults({onMount, searchRef, drawerWidth, drawerIs
             setPosY(rect.bottom + 12);
             setWidth(rect.width);
         }
-    }, [searchPhrase]);
+    }, [searchPhrase, drawerIsOpen]);
+
+    const handleFocus = (e) => {
+        setTimeout(function() {
+            console.log('handleFocus')
+            setShow(true);
+        }, 300);
+
+    };
+
+    const handleBlur = (e) => {
+        console.log('handleBlur');
+        setShow(false);
+    }
 
     return (
-        searchPhrase !== "" && <Paper
+        searchPhrase !== "" && show && <Paper
             style={{
                 position: "absolute",
                 top: `${posY}px`,

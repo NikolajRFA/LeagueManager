@@ -7,8 +7,6 @@ import SearchResults from "./SearchResults";
 
 // TODO: Make Paper dropdown with search results
 export default function SearchField({drawerWidth, drawerIsOpen}) {
-    //const searchPhrase = useRef("");
-    //const showSearchResults = useRef(false);
     const searchRef = useRef(null);
 
     const Search = styled('div')(({theme}) => ({
@@ -55,6 +53,8 @@ export default function SearchField({drawerWidth, drawerIsOpen}) {
 
     let searchPhrase: string = null;
     let setSearchPhrase: React.Dispatch<React.SetStateAction<string>> = null;
+    let resultHandleFocus: React.FocusEventHandler<HTMLInputElement> = null;
+    let resultHandleBlur: React.FocusEventHandler<HTMLInputElement> = null;
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setSearchPhrase(e.currentTarget.value);
@@ -64,9 +64,20 @@ export default function SearchField({drawerWidth, drawerIsOpen}) {
         if (e.key === 'Enter' && searchPhrase) alert(searchPhrase + '!');
     };
 
-    const onSearchResultMount = (dataFromSearchResult: [string, React.Dispatch<React.SetStateAction<string>>]) => {
+    const handleFocus = (e) => resultHandleFocus(e);
+
+    const handleBlur = (e) => resultHandleBlur(e);
+
+    const onSearchResultMount = (dataFromSearchResult: [
+        string,
+        React.Dispatch<React.SetStateAction<string>>,
+        React.FocusEventHandler<HTMLInputElement>,
+        React.FocusEventHandler<HTMLInputElement>
+    ]) => {
         searchPhrase = dataFromSearchResult[0];
         setSearchPhrase = dataFromSearchResult[1];
+        resultHandleFocus = dataFromSearchResult[2];
+        resultHandleBlur = dataFromSearchResult[3];
     };
 
     return (
@@ -80,6 +91,8 @@ export default function SearchField({drawerWidth, drawerIsOpen}) {
                     inputProps={{'aria-label': 'search'}}
                     onChange={handleChange}
                     onKeyDown={handleKeyDown}
+                    onFocus={handleFocus}
+                    onBlur={handleBlur}
                 />
             </Search>
             <SearchResults onMount={onSearchResultMount}
