@@ -18,6 +18,7 @@ import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import {mainListItems, secondaryListItems} from './listItems';
 import SearchField from "./SearchField";
+import {useTitleContext} from "../Contexts/TitleContext";
 
 function Copyright(props) {
     return (
@@ -86,7 +87,8 @@ const Drawer = styled(MuiDrawer, {shouldForwardProp: (prop) => prop !== 'open'})
 // TODO: remove, this demo shouldn't need to reset the theme.
 const defaultTheme = createTheme();
 
-export default function Template({title, children}) {
+export default function Template({children}) {
+    const { title, setTitle } = useTitleContext();
     const [open, setOpen] = React.useState(true);
     const toggleDrawer = () => {
         setOpen(!open);

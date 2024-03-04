@@ -7,13 +7,19 @@ import Paper from "@mui/material/Paper";
 import Games from "../Components/Games";
 import TeamInfo from "./Team/TeamInfo";
 import useTeamGames from "../BusinessLogic/useTeamGames";
-import React from "react";
+import React, {useEffect} from "react";
 import {CircularProgress} from "@mui/material";
+import {useTitleContext} from "../Contexts/TitleContext";
 
 export default function Team() {
     const {id} = useParams();
     const teamData = useTeam(id);
     const teamGames = useTeamGames(id);
+    const { title, setTitle } = useTitleContext();
+
+    useEffect(() => {
+        setTitle(teamData.name)
+    }, [teamData]);
 
     return (
         teamData.loading ? <CircularProgress/> :

@@ -10,14 +10,17 @@ import Players from "./Game/Players";
 import useGamePlayers from "../BusinessLogic/useGamePlayers";
 import Team from "./Game/Team";
 import React from "react";
+import {useTitleContext} from "../Contexts/TitleContext";
 
 export default function Game() {
     const {id} = useParams();
     const gameData = useGame(id);
     const gamePlayers = useGamePlayers(id);
+    const { title, setTitle } = useTitleContext();
 
     useEffect(() => {
         document.title = `${gameData.blueSide} vs. ${gameData.redSide}`;
+        setTitle(`${gameData.blueSide} vs. ${gameData.redSide}`);
     }, [gameData]);
 
     return (

@@ -2,7 +2,7 @@ import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
 import Template from "../Template/Template";
 import Games from "../Components/Games";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {usePlayer} from "../BusinessLogic/usePlayer";
 import {useParams} from "react-router-dom";
 import PlayerStats from "./Player/PlayerStats";
@@ -10,11 +10,17 @@ import PlayerInfo from "./Player/PlayerInfo";
 import usePlayerGames from "../BusinessLogic/usePlayerGames";
 import React from "react";
 import {CircularProgress} from "@mui/material";
+import {useTitleContext} from "../Contexts/TitleContext";
 
 export default function Player() {
     const {id} = useParams();
     const playerData = usePlayer(id);
     const playerGames = usePlayerGames(id);
+    const { title, setTitle } = useTitleContext();
+
+    useEffect(() => {
+        setTitle(`${playerData.firstName} '${playerData.alias}' ${playerData.lastName}`)
+    }, [playerData]);
 
     return (
         playerData.loading ? <CircularProgress/> :
