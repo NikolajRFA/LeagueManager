@@ -10,6 +10,7 @@ namespace API.Controllers;
 public class SearchController(SearchDataService dataService, LinkGenerator linkGenerator, IMapper mapper)
     : GenericControllerBase(linkGenerator, mapper)
 {
+    // TODO: what happens if multiple words of the same player match?
     [HttpGet("players", Name = nameof(GetPlayerSearch))]
     public IActionResult GetPlayerSearch(string search, int page = 0, int pageSize = 10)
     {
