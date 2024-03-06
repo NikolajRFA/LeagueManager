@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import Paper from "@mui/material/Paper";
-import {Stack} from "@mui/material";
+import {CircularProgress, Stack} from "@mui/material";
 import Divider from "@mui/material/Divider";
 import PlayerSearchResult from "../Components/PlayerSearchResult";
 import {usePlayerSearch} from "../BusinessLogic/usePlayerSearch";
@@ -54,6 +54,8 @@ export default function SearchResults({onMount, searchRef, drawerWidth, drawerIs
         }}>
             <Stack spacing={1}
                    divider={<Divider />}>
+                {playerSearchData.loading ? <CircularProgress/> :
+                    playerSearchData.items.map(item => (<PlayerSearchResult player={item}/>))}
                 <PlayerSearchResult player={{}}/>
                 <PlayerSearchResult player={{}}/>
             </Stack>
