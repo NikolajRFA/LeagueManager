@@ -206,11 +206,14 @@ AS
 $$
 BEGIN
     RETURN QUERY
-        WITH cte AS (SELECT DISTINCT ON (player_id) player_id, similarity(word, phrase) sim
-                     FROM player_name_wi pwi)
+        WITH cte AS (
+            SELECT player_id, SUM(similarity(word, phrase)) as sim_sum
+            FROM player_name_wi pwi
+            GROUP BY player_id
+        )
         SELECT cte.player_id, (SELECT count(*)::INT FROM cte) total
         FROM cte
-        ORDER BY sim DESC
+        ORDER BY cte.sim_sum DESC
         OFFSET page * page_size LIMIT page_size;
 end
 $$;
