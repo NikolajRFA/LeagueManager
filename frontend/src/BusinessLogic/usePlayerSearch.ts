@@ -10,10 +10,10 @@ export function usePlayerSearch(searchPhrase: string) {
 
     useEffect(() => {
         // Get player data from API
-        axios.get(`${API.url}search/players?search=${searchPhrase}`)
+        axios.get(`${API.url}search/players?search=${searchPhrase}&page=0&pageSize=3`)
             .then(res => setSearchData(new List<PlayerSearchResult>(PlayerSearchResult, res.data)))
             .catch(err => console.error(err));
-    }, []);
+    }, [searchPhrase]);
 
     return searchData;
 }
