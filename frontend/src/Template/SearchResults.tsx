@@ -33,14 +33,12 @@ export default function SearchResults({onMount, searchRef, drawerWidth, drawerIs
 
     const handleFocus = (e) => {
         setTimeout(function () {
-            console.log('handleFocus')
             setShow(true);
         }, 300);
 
     };
 
     const handleBlur = (e) => {
-        console.log('handleBlur');
         setShow(false);
     }
 
