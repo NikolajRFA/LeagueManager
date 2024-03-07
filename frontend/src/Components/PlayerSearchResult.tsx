@@ -1,7 +1,7 @@
 import React from "react";
 import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
-import {Avatar, Stack} from "@mui/material";
+import {Avatar, Box, Stack} from "@mui/material";
 import PersonIcon from "@mui/icons-material/Person";
 import Typography from "@mui/material/Typography";
 
@@ -15,9 +15,12 @@ export default function PlayerSearchResult({player}) {
                         <Avatar variant='rounded' sx={{width: avatarSize, height: avatarSize, marginRight: '10px'}}>
                             <PersonIcon/>
                         </Avatar>
-                        <p>
-                            Flag
-                        </p>
+                        <Box
+                            style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}
+                            component="img"
+                            alt={player.nationality}
+                            src={`https://flagsapi.com/${player.nationality}/flat/32.png`}
+                        />
                     </Stack>
                 </Grid>
                 <Grid item lg={8}>
