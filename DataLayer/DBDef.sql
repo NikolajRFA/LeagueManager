@@ -206,7 +206,7 @@ AS
 $$
 BEGIN
     RETURN QUERY
-        WITH cte AS (SELECT DISTINCT ON (player_id) player_id, similarity(word, 'Milton') sim
+        WITH cte AS (SELECT DISTINCT ON (player_id) player_id, similarity(word, phrase) sim
                      FROM player_name_wi pwi)
         SELECT cte.player_id, (SELECT count(*)::INT FROM cte) total
         FROM cte
@@ -216,7 +216,7 @@ end
 $$;
 
 -- TODO: Transactionalize procedure, and add control of if players are added to the participation table.
-CREATE OR REPLACE PROCEDURE play_game(blue_side_team_id INT, red_side_team_id INT, event_id INT, game_date DATE)
+CREATE OR REPLACE PROCEDURE play_game(blue_side_team_id INT, red_side_team_id INT, event_id_in INT, game_date DATE)
     LANGUAGE plpgsql
 AS
 $$
@@ -233,7 +233,7 @@ DECLARE
 BEGIN
     -- Create new game with the teams
     INSERT INTO game (id, blue_side_id, red_side_id, event_id, date)
-    VALUES (new_game_id, blue_side_team_id, red_side_team_id, event_id, game_date);
+    VALUES (new_game_id, blue_side_team_id, red_side_team_id, event_id_in, game_date);
 
     -- Add members to participation table
     INSERT INTO participation (game_id, player_id, role, team_id)
