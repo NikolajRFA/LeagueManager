@@ -53,7 +53,7 @@ export default function SearchResults({onMount, searchRef, drawerWidth, drawerIs
             <Stack spacing={1}
                    divider={<Divider />}>
                 {playerSearchData.loading ? <CircularProgress/> :
-                    playerSearchData.items.map(item => (<PlayerSearchResult player={item}/>))}
+                    playerSearchData.items.map((item, index) => (<PlayerSearchResult isFirst={index === 0} player={item}/>))}
             </Stack>
         </Paper>
     )
