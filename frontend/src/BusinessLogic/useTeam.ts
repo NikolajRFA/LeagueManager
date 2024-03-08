@@ -3,7 +3,7 @@ import axios from "axios";
 import API from "./API";
 import Team from "./Models/Team";
 
-export function useTeam(id: string) {
+export function useTeam(id: number) {
     const [teamData, setTeamData] = useState(new Team());
 
     useEffect(() => {

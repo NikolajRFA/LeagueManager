@@ -3,7 +3,7 @@ import axios from "axios";
 import API from "./API";
 import Player from "./Models/Player";
 
-export function usePlayer(id) {
+export function usePlayer(id: number) {
     const [playerData, setPlayerData] = useState(new Player());
 
     useEffect(() => {

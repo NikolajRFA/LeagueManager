@@ -4,7 +4,7 @@ import API from "./API";
 import TeamMember from "./Models/TeamMember";
 import List from "./Models/List";
 
-export function useTeamMembers(id: string, current: boolean = false) {
+export function useTeamMembers(id: number, current: boolean = false) {
     const [members, setMembers] = useState(new List(TeamMember));
 
     useEffect(() => {

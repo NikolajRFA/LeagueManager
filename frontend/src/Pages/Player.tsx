@@ -14,8 +14,8 @@ import {useTitleContext} from "../Contexts/TitleContext";
 
 export default function Player() {
     const {id} = useParams();
-    const playerData = usePlayer(id);
-    const playerGames = usePlayerGames(id);
+    const playerData = usePlayer(Number(id));
+    const playerGames = usePlayerGames(Number(id));
     const { title, setTitle } = useTitleContext();
 
     useEffect(() => {

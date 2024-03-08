@@ -4,7 +4,7 @@ import API from "./API";
 import PlayerGame from "./Models/PlayerGame";
 import List from "./Models/List";
 
-export default function usePlayerGames(id: string) {
+export default function usePlayerGames(id: number) {
     const [playerGamesData, setPlayerGamesData] = useState(new List<PlayerGame>(PlayerGame));
 
     useEffect(() => {

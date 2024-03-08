@@ -4,7 +4,7 @@ import API from "./API";
 import TeamGames from "./Models/TeamGames";
 import List from "./Models/List";
 
-export default function useTeamGames(id: string) {
+export default function useTeamGames(id: number) {
     const [teamGamesData, setTeamGamesData] = useState(new List<TeamGames>(TeamGames));
 
     useEffect(() => {

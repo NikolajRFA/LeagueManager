@@ -3,7 +3,7 @@ import axios from "axios";
 import API from "./API";
 import Game from "./Models/Game";
 
-export function useGame(id: string) {
+export function useGame(id: number) {
     const [game, setGame] = useState(new Game());
 
     useEffect(() => {

@@ -13,8 +13,8 @@ import {useTitleContext} from "../Contexts/TitleContext";
 
 export default function Team() {
     const {id} = useParams();
-    const teamData = useTeam(id);
-    const teamGames = useTeamGames(id);
+    const teamData = useTeam(Number(id));
+    const teamGames = useTeamGames(Number(id));
     const { title, setTitle } = useTitleContext();
 
     useEffect(() => {
