@@ -24,7 +24,7 @@ export default function Players({players, isBlueSide}) {
                 </TableHead>
                 <TableBody>
                     {players.map((player) => (
-                        <TableRow key={player.playerUrl} onClick={() => navigate(`/players/${player.playerUrl.split("/").pop()}`)}
+                        <TableRow key={player.playerUrl} onClick={() => navigate(`/players/${Utils.getLastIdFromUrl(player.playerUrl)}`)}
                                   style={{
                                       cursor: "pointer",
                                   }}>

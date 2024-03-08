@@ -31,7 +31,7 @@ export default function Members({teamId}) {
                                   style={{
                                       cursor: "pointer",
                                   }}>
-                            <TableCell><NavLink to={`/players/${item.url.split("/").pop()}`}>{item.firstName} {item.lastName}</NavLink></TableCell>
+                            <TableCell><NavLink to={`/players/${Utils.getLastIdFromUrl(item.url)}`}>{item.firstName} {item.lastName}</NavLink></TableCell>
                             <TableCell>{item.alias}</TableCell>
                             <TableCell>{Utils.capitalize(item.role)}</TableCell>
                         </TableRow>

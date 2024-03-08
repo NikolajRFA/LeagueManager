@@ -3,6 +3,7 @@ import PersonIcon from "@mui/icons-material/Person";
 import Loading from "../../Components/Loading";
 import {useNavigate} from "react-router-dom";
 import React from "react";
+import Utils from "../../Utils";
 
 export default function PlayerInfo({player}) {
     const navigate = useNavigate();
@@ -24,7 +25,7 @@ export default function PlayerInfo({player}) {
                     {player.age}
                 </Typography>
                 <Typography variant="subtitle2"
-                            onClick={() => navigate(`/teams/${player.currentTeamUrl.split('/').pop()}`)}
+                            onClick={() => navigate(`/teams/${Utils.getLastIdFromUrl(player.currentTeamUrl)}`)}
                             style={{cursor: 'pointer'}}>
                     {player.currentTeam}
                 </Typography>

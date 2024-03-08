@@ -3,12 +3,13 @@ import {Stack} from "@mui/material";
 import Typography from "@mui/material/Typography";
 import {NavLink} from "react-router-dom";
 import React from "react";
+import Utils from "../../Utils";
 
 export default function Team({gameData, isBlueSide}) {
-    const teamUrl = isBlueSide ? gameData.blueSideUrl : gameData.redSideUrl;
+    const teamUrl: string = isBlueSide ? gameData.blueSideUrl : gameData.redSideUrl;
 
     return (
-        <NavLink to={`/teams/${teamUrl.split('/').pop()}`}
+        <NavLink to={`/teams/${Utils.getLastIdFromUrl(teamUrl)}`}
                  style={{textDecoration: "none"}}>
             <Paper className={"boxed-text"}
                 sx={{
