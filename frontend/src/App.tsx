@@ -8,6 +8,7 @@ import {useEffect, useState} from "react";
 import React from "react";
 import Template from "./Template/Template";
 import {TitleProvider} from "./Contexts/TitleContext";
+import Players from "./Pages/Players";
 
 function App() {
 
@@ -22,7 +23,10 @@ function App() {
                     <Route path="/" element={<Home/>}/>
                     <Route path="*" element={<Template>
                         <Routes>
-                            <Route path="/players/:id" element={<Player/>}/>
+                            <Route path={"/players"}>
+                                <Route path="" element={<Players/>}/>
+                                <Route path=":id" element={<Player/>}/>
+                            </Route>
                             <Route path="/teams/:id" element={<Team/>}/>
                             <Route path="/games/:id" element={<Game/>}/>
                         </Routes>
