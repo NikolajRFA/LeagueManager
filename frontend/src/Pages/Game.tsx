@@ -19,7 +19,6 @@ export default function Game() {
     const { title, setTitle } = useTitleContext();
 
     useEffect(() => {
-        document.title = `${gameData.blueSide} vs. ${gameData.redSide}`;
         setTitle(`${gameData.blueSide} vs. ${gameData.redSide}`);
     }, [gameData]);
 

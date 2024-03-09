@@ -19,6 +19,7 @@ import NotificationsIcon from '@mui/icons-material/Notifications';
 import {mainListItems, secondaryListItems} from './listItems';
 import SearchField from "./SearchField";
 import {useTitleContext} from "../Contexts/TitleContext";
+import {useEffect} from "react";
 
 function Copyright(props) {
     return (
@@ -93,6 +94,10 @@ export default function Template({children}) {
     const toggleDrawer = () => {
         setOpen(!open);
     };
+
+    useEffect(() => {
+        document.title = title;
+    }, [title]);
 
     return (
         <ThemeProvider theme={defaultTheme}>
