@@ -4,6 +4,7 @@ import {usePlayers} from "../BusinessLogic/usePlayers";
 import {useTitleContext} from "../Contexts/TitleContext";
 import {Button, CircularProgress, MenuItem, Select, SelectChangeEvent} from "@mui/material";
 import Typography from "@mui/material/Typography";
+import Paging from "../Components/Paging";
 
 const Players: FC = () => {
     const [page, setPage] = useState(1);
@@ -34,24 +35,13 @@ const Players: FC = () => {
             <>
                 {players.items.map(item =>
                     <p>{item.firstName} '{item.alias}' {item.lastName}</p>)}
-                <Button variant='contained' style={{marginRight: '10px'}}
-                        onClick={handleNextClick}>
-                    Next
-                </Button>
-                <Button variant='contained' style={{marginRight: '10px'}}
-                        onClick={handlePrevClick}>
-                    Prev
-                </Button>
-                <Select value={pageSize.toString()}
-                        onChange={handleSelectChange}
-                >
-                    <MenuItem value={5}>5</MenuItem>
-                    <MenuItem value={10}>10</MenuItem>
-                    <MenuItem value={25}>25</MenuItem>
-                </Select>
-                <Typography variant='subtitle1'>
-                    Page {page} of {players.loading ? 1 : players.numberOfPages}
-                </Typography>
+                <Paging onNextClick={handleNextClick}
+                        onPrevClick={handlePrevClick}
+                        onSelectChange={handleSelectChange}
+                        selectDefaultValue={pageSize}
+                        page={page}
+                        numberOfPages={players.loading ? null : players.numberOfPages}
+                />
             </>
     )
 }
