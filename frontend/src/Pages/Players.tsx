@@ -2,9 +2,13 @@ import React, {useEffect, useState} from "react";
 import {FC} from "react";
 import {usePlayers} from "../BusinessLogic/usePlayers";
 import {useTitleContext} from "../Contexts/TitleContext";
-import {Button, CircularProgress, MenuItem, Select, SelectChangeEvent} from "@mui/material";
+import {Button, CircularProgress, MenuItem, Select, SelectChangeEvent, Stack} from "@mui/material";
 import Typography from "@mui/material/Typography";
 import Paging from "../Components/Paging";
+import PlayersPlayer from "./Players/PlayersPlayer";
+import Container from "@mui/material/Container";
+import {NavLink} from "react-router-dom";
+import Utils from "../Utils";
 
 const Players: FC = () => {
     const [page, setPage] = useState(1);
@@ -32,9 +36,16 @@ const Players: FC = () => {
 
     return (
         players.loading ? <CircularProgress/> :
-            <>
-                {players.items.map(item =>
-                    <p>{item.firstName} '{item.alias}' {item.lastName}</p>)}
+            <Container sx={{width: {xs: '100%', sm: '100%', md: '100%', lg: '75%', xl: '75%'}}}>
+                <Stack spacing={2}
+                       style={{marginBottom: '10px'}}
+                >
+                    {players.items.map(player =>
+                        <NavLink to={`/players/${Utils.getLastIdFromUrl(player.url)}`}
+                                 style={{textDecoration: 'none'}}>
+                            <PlayersPlayer player={player}/>
+                        </NavLink>)}
+                </Stack>
                 <Paging onNextClick={handleNextClick}
                         onPrevClick={handlePrevClick}
                         onSelectChange={handleSelectChange}
@@ -42,7 +53,7 @@ const Players: FC = () => {
                         page={page}
                         numberOfPages={players.loading ? null : players.numberOfPages}
                 />
-            </>
+            </Container>
     )
 }
 

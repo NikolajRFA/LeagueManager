@@ -38,4 +38,10 @@ export default class Player extends ApiReturn {
 
         this.loading = false;
     }
+
+    static overall = (player: Player): number => {
+        const stats: number[] = [player.gameSense, player.teamFighting, player.dueling, player.jglPathing, player.waveMgmt, player.farming];
+
+        return Math.floor(stats.reduce((accumulator: number, currentValue: number) => accumulator + currentValue, 0) / 6);
+    }
 }
