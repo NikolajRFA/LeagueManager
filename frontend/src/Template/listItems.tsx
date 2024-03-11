@@ -12,43 +12,46 @@ import PersonIcon from "@mui/icons-material/Person";
 import {ListItem} from "@mui/material";
 import {useNavigate} from "react-router-dom";
 
-// TODO: find a way to use the navigation hook here
-export const mainListItems = (
-    <React.Fragment>
-        <ListItemButton onClick={() => alert('Dashboard clicked!')}>
-            <ListItemIcon>
-                <DashboardIcon/>
-            </ListItemIcon>
-            <ListItemText primary="Dashboard"/>
-        </ListItemButton>
-        <ListItemButton onClick={() => alert('This should have navigated to the Players page')}>
-            <ListItemIcon>
-                <PersonIcon/>
-            </ListItemIcon>
-            <ListItemText primary="Players"/>
-        </ListItemButton>
-        <ListItemButton>
-            <ListItemIcon>
-                <ShoppingCartIcon/>
-            </ListItemIcon>
-            <ListItemText primary="Games"/>
-        </ListItemButton>
-        <ListItemButton>
-            <ListItemIcon>
-                <BarChartIcon/>
-            </ListItemIcon>
-            <ListItemText primary="Reports"/>
-        </ListItemButton>
-        <ListItemButton>
-            <ListItemIcon>
-                <LayersIcon/>
-            </ListItemIcon>
-            <ListItemText primary="Integrations"/>
-        </ListItemButton>
-    </React.Fragment>
-);
+export const MainListItems = () => {
+    const navigate = useNavigate();
 
-export const secondaryListItems = (
+    return (
+        <React.Fragment>
+            <ListItemButton onClick={() => alert('Dashboard clicked!')}>
+                <ListItemIcon>
+                    <DashboardIcon/>
+                </ListItemIcon>
+                <ListItemText primary="Dashboard"/>
+            </ListItemButton>
+            <ListItemButton onClick={() => navigate('/players')}>
+                <ListItemIcon>
+                    <PersonIcon/>
+                </ListItemIcon>
+                <ListItemText primary="Players"/>
+            </ListItemButton>
+            <ListItemButton>
+                <ListItemIcon>
+                    <ShoppingCartIcon/>
+                </ListItemIcon>
+                <ListItemText primary="Games"/>
+            </ListItemButton>
+            <ListItemButton>
+                <ListItemIcon>
+                    <BarChartIcon/>
+                </ListItemIcon>
+                <ListItemText primary="Reports"/>
+            </ListItemButton>
+            <ListItemButton>
+                <ListItemIcon>
+                    <LayersIcon/>
+                </ListItemIcon>
+                <ListItemText primary="Integrations"/>
+            </ListItemButton>
+        </React.Fragment>
+    )
+};
+
+export const SecondaryListItems = () => (
     <React.Fragment>
         <ListSubheader component="div" inset>
             Saved reports
