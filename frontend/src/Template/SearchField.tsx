@@ -5,7 +5,6 @@ import {useEffect, useRef, useState} from "react";
 import React from "react";
 import SearchResults from "./SearchResults";
 
-// TODO: Make Paper dropdown with search results
 export default function SearchField({drawerWidth, drawerIsOpen}) {
     const searchRef = useRef(null);
 
