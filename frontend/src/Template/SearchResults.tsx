@@ -39,7 +39,9 @@ export default function SearchResults({onMount, searchRef, drawerWidth, drawerIs
     };
 
     const handleBlur = (e) => {
-        setShow(false);
+        setTimeout(function () {
+            setShow(false);
+        }, 100);
     }
 
     return (
