@@ -6,6 +6,7 @@ import PersonIcon from "@mui/icons-material/Person";
 import Typography from "@mui/material/Typography";
 import {NavLink} from "react-router-dom";
 import Utils from "../Utils";
+import API from "../BusinessLogic/API";
 
 export default function PlayerSearchResult({player, isFirst = false, isLast = false}) {
     const avatarSize: number = 30;
@@ -27,8 +28,9 @@ export default function PlayerSearchResult({player, isFirst = false, isLast = fa
                         <Box
                             style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}
                             component="img"
+                            width={32}
                             alt={player.nationality}
-                            src={`https://flagsapi.com/${player.nationality}/flat/32.png`}
+                            src={API.flag(player.nationality)}
                         />
                     </Grid>
                     <Grid item lg={8} style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>

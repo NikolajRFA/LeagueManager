@@ -4,6 +4,7 @@ import Loading from "../../Components/Loading";
 import {useNavigate} from "react-router-dom";
 import React from "react";
 import Utils from "../../Utils";
+import API from "../../BusinessLogic/API";
 
 export default function PlayerInfo({player}) {
     const navigate = useNavigate();
@@ -32,8 +33,9 @@ export default function PlayerInfo({player}) {
                 <Loading isLoading={!player.nationality}>
                     <Box
                         component="img"
+                        width={48}
                         alt={player.nationality}
-                        src={`https://flagsapi.com/${player.nationality}/flat/48.png`}
+                        src={API.flag(player.nationality)}
                     />
                 </Loading>
             </Stack>

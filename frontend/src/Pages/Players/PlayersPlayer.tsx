@@ -4,6 +4,7 @@ import {Avatar, Box, Card, Stack} from "@mui/material";
 import Grid from "@mui/material/Grid";
 import PersonIcon from "@mui/icons-material/Person";
 import Typography from "@mui/material/Typography";
+import API from "../../BusinessLogic/API";
 
 interface PlayerProps {
     player: Player
@@ -13,10 +14,10 @@ const PlayersPlayer: FC<PlayerProps> = ({player}) => {
     const avatarSize: number = 40;
 
     return (
-        <Card style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+        <Card style={{display: 'flex', alignItems: 'center', justifyContent: 'center', height: '90px'}}>
             <Grid container>
                 <Grid item lg={2}>
-                    <Stack spacing={0} style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+                    <Stack spacing={0.5} style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
                         <Avatar variant='rounded' sx={{width: avatarSize, height: avatarSize}}
                                 style={{marginTop: '8px'}}>
                             <PersonIcon/>
@@ -24,8 +25,9 @@ const PlayersPlayer: FC<PlayerProps> = ({player}) => {
                         <Box
                             style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}
                             component="img"
+                            width={48}
                             alt={player.nationality}
-                            src={`https://flagsapi.com/${player.nationality}/flat/48.png`}
+                            src={API.flag(player.nationality)}
                         />
                     </Stack>
 
