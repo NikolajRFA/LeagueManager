@@ -5,6 +5,7 @@ import {useNavigate} from "react-router-dom";
 import React from "react";
 import Utils from "../../Utils";
 import API from "../../BusinessLogic/API";
+import {Flag} from "../../Components/Flag";
 
 export default function PlayerInfo({player}) {
     const navigate = useNavigate();
@@ -31,12 +32,7 @@ export default function PlayerInfo({player}) {
                     {player.currentTeam}
                 </Typography>
                 <Loading isLoading={!player.nationality}>
-                    <Box
-                        component="img"
-                        width={48}
-                        alt={player.nationality}
-                        src={API.flag(player.nationality)}
-                    />
+                    <Flag country={player.nationality} width={48}/>
                 </Loading>
             </Stack>
         </Stack>

@@ -7,6 +7,7 @@ import Typography from "@mui/material/Typography";
 import {NavLink} from "react-router-dom";
 import Utils from "../Utils";
 import API from "../BusinessLogic/API";
+import {Flag} from "./Flag";
 
 export default function PlayerSearchResult({player, isFirst = false, isLast = false}) {
     const avatarSize: number = 30;
@@ -25,13 +26,7 @@ export default function PlayerSearchResult({player, isFirst = false, isLast = fa
                         </Typography>
                     </Grid>
                     <Grid item lg={4} style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
-                        <Box
-                            style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}
-                            component="img"
-                            width={32}
-                            alt={player.nationality}
-                            src={API.flag(player.nationality)}
-                        />
+                        <Flag country={player.nationality} width={32}/>
                     </Grid>
                     <Grid item lg={8} style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
                         <Typography variant='subtitle2'>

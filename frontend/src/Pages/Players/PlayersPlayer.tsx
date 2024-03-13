@@ -5,6 +5,7 @@ import Grid from "@mui/material/Grid";
 import PersonIcon from "@mui/icons-material/Person";
 import Typography from "@mui/material/Typography";
 import API from "../../BusinessLogic/API";
+import {Flag} from "../../Components/Flag";
 
 interface PlayerProps {
     player: Player
@@ -22,13 +23,7 @@ const PlayersPlayer: FC<PlayerProps> = ({player}) => {
                                 style={{marginTop: '8px'}}>
                             <PersonIcon/>
                         </Avatar>
-                        <Box
-                            style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}
-                            component="img"
-                            width={48}
-                            alt={player.nationality}
-                            src={API.flag(player.nationality)}
-                        />
+                        <Flag country={player.nationality} width={48}/>
                     </Stack>
 
                 </Grid>
