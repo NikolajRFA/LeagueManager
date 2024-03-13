@@ -1,5 +1,4 @@
 import React, {FC} from "react";
-import API from "../BusinessLogic/API";
 import {Box} from "@mui/material";
 
 interface FlagProps {
