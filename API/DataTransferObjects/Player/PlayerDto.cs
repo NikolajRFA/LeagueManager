@@ -9,6 +9,7 @@ public class PlayerDto
     public int Age { get; set; }
     public string Gender { get; set; }
     public string Nationality { get; set; }
+    public int Overall { get; set; }
     public int GameSense { get; set; }
     public int TeamFighting { get; set; }
     public int Dueling { get; set; }

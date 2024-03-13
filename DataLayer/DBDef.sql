@@ -22,12 +22,13 @@ CREATE TABLE player
     age           INTEGER,
     gender        varchar(6),
     nationality   VARCHAR(5),
-    game_sense    INTEGER,
-    team_fighting INTEGER,
-    dueling       INTEGER,
-    jgl_pathing   INTEGER,
-    wave_mgmt     INTEGER,
-    farming       INTEGER
+    overall       INTEGER NOT NULL,
+    game_sense    INTEGER NOT NULL,
+    team_fighting INTEGER NOT NULL,
+    dueling       INTEGER NOT NULL,
+    jgl_pathing   INTEGER NOT NULL,
+    wave_mgmt     INTEGER NOT NULL,
+    farming       INTEGER NOT NULL
 );
 
 CREATE TABLE player_name_wi
@@ -103,19 +104,19 @@ INSERT INTO team (name/*, league_id*/)
 VALUES ('Team Magic Rabbits'/*, 1*/);
 
 -- TODO: Add non-active players
-INSERT INTO player (id, first_name, last_name, alias, age, gender, nationality, game_sense, team_fighting, dueling,
+INSERT INTO player (id, first_name, last_name, alias, age, gender, nationality, overall, game_sense, team_fighting, dueling,
                     jgl_pathing, wave_mgmt, farming)
-VALUES (1, 'Alex', 'Brown', 'crazycat109', 22, 'Male', 'NZ', 66, 64, 95, 73, 72, 69),
-       (2, 'Virginia', 'Téllez', 'angrytiger613', 20, 'Female', 'MX', 75, 92, 88, 99, 95, 73),
-       (3, 'Zeilane', 'da Cruz', 'bluecat471', 24, 'Female', 'BR', 57, 85, 70, 90, 69, 73),
-       (4, 'Eckehard', 'Wolf', 'angryladybug611', 15, 'Male', 'DE', 67, 73, 76, 51, 81, 73),
-       (5, 'Selin', 'Kirli', 'Blankety', 24, 'Female', 'TR', 85, 92, 83, 60, 82, 90),
-       (6, 'Runa', 'Salvesen', 'bigmeercat861', 31, 'Female', 'NO', 69, 66, 84, 75, 72, 73),
-       (7, 'Alex', 'Milton', 'TMR_Milton', 23, 'Male', 'DK', 74, 58, 61, 81, 62, 98),
-       (8, 'Marcus', 'Rasmussen', 'tinypeacock861', 21, 'Male', 'DK', 70, 66, 71, 83, 51, 92),
-       (9, 'Tony', 'Rey', 'purplerabbit174', 30, 'Male', 'FR', 97, 66, 50, 70, 92, 80),
-       (10, 'Dobrivoje', 'Mišković', 'organiclion133', 25, 'Male', 'RS', 78, 91, 97, 60, 99, 94),
-       (11, 'Adam', 'Larsson', 'organiclion133', 25, 'Male', 'SE', 78, 91, 97, 60, 99, 94);
+VALUES (1, 'Alex', 'Brown', 'crazycat109', 22, 'Male', 'NZ', 73, 66, 64, 95, 73, 72, 69),
+       (2, 'Virginia', 'Téllez', 'angrytiger613', 20, 'Female', 'MX', 87, 75, 92, 88, 99, 95, 73),
+       (3, 'Zeilane', 'da Cruz', 'bluecat471', 24, 'Female', 'BR', 74, 57, 85, 70, 90, 69, 73),
+       (4, 'Eckehard', 'Wolf', 'angryladybug611', 15, 'Male', 'DE', 70, 67, 73, 76, 51, 81, 73),
+       (5, 'Selin', 'Kirli', 'Blankety', 24, 'Female', 'TR', 82, 85, 92, 83, 60, 82, 90),
+       (6, 'Runa', 'Salvesen', 'bigmeercat861', 31, 'Female', 'NO', 73, 69, 66, 84, 75, 72, 73),
+       (7, 'Alex', 'Milton', 'TMR_Milton', 23, 'Male', 'DK', 72, 74, 58, 61, 81, 62, 98),
+       (8, 'Marcus', 'Rasmussen', 'tinypeacock861', 21, 'Male', 'DK', 72, 70, 66, 71, 83, 51, 92),
+       (9, 'Tony', 'Rey', 'purplerabbit174', 30, 'Male', 'FR', 76, 97, 66, 50, 70, 92, 80),
+       (10, 'Dobrivoje', 'Mišković', 'organiclion133', 25, 'Male', 'RS', 86, 78, 91, 97, 60, 99, 94),
+       (11, 'Adam', 'Larsson', 'organiclion133', 25, 'Male', 'SE', 86, 78, 91, 97, 60, 99, 94);
 
 CREATE OR REPLACE PROCEDURE update_player_name_wi()
     LANGUAGE plpgsql

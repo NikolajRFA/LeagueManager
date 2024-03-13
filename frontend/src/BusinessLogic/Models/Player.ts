@@ -8,6 +8,7 @@ export default class Player extends ApiReturn {
     age: number;
     gender: string;
     nationality: string;
+    overall: number;
     gameSense: number;
     teamFighting: number;
     dueling: number;
@@ -27,6 +28,7 @@ export default class Player extends ApiReturn {
         this.age = data.age;
         this.gender = data.gender;
         this.nationality = data.nationality;
+        this.overall = data.overall;
         this.gameSense = data.gameSense;
         this.teamFighting = data.teamFighting;
         this.dueling = data.dueling;
@@ -37,11 +39,5 @@ export default class Player extends ApiReturn {
         this.currentTeam = data.currentTeam;
 
         this.loading = false;
-    }
-
-    static overall = (player: Player): number => {
-        const stats: number[] = [player.gameSense, player.teamFighting, player.dueling, player.jglPathing, player.waveMgmt, player.farming];
-
-        return Math.floor(stats.reduce((accumulator: number, currentValue: number) => accumulator + currentValue, 0) / 6);
     }
 }

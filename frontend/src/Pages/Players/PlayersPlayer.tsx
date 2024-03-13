@@ -48,7 +48,7 @@ const PlayersPlayer: FC<PlayerProps> = ({player}) => {
                             Overall
                         </Typography>
                         <Typography variant='h5'>
-                            {Player.overall(player)}
+                            {player.overall}
                         </Typography>
                     </Stack>
                 </Grid>
