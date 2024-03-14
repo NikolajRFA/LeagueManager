@@ -7,12 +7,12 @@ export default function PlayerStats({player}) {
 
     function LinearProgressWithLabel(props) {
         return (
-            <Box sx={{display: 'flex', alignItems: 'center'}}>
+            <Box sx={{display: 'flex', alignItems: 'center', height: '20px'}}>
                 <Box sx={{width: '100%', mr: 1}}>
-                    <LinearProgress variant="determinate" {...props} />
+                    <LinearProgress variant="determinate" {...props}/>
                 </Box>
                 <Box sx={{minWidth: 35}}>
-                    <Typography variant="body2" color="text.secondary">{`${Math.round(
+                    <Typography variant={props.overall ? "h6" : "body2"} color="text.secondary">{`${Math.round(
                         props.value,
                     )}`}</Typography>
                 </Box>
@@ -22,6 +22,12 @@ export default function PlayerStats({player}) {
 
     return (
         <Grid container>
+            <Grid item lg={12}>
+                <Loading isLoading={!player.overall}>
+                    <Typography variant="h6" color="text.secondary">Overall</Typography>
+                    <LinearProgressWithLabel value={player.overall} style={{height: '8px'}} overall={true}/>
+                </Loading>
+            </Grid>
             <Grid item xs={6} md={6} lg={6}>
                 <Loading isLoading={!player.gameSense}>
                     <Typography variant="body2" color="text.secondary">Game Sense</Typography>
