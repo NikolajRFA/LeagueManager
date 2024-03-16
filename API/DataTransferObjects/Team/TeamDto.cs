@@ -6,4 +6,5 @@ public class TeamDto
     //public string League { get; set; }
     public string GamesUrl { get; set; }
     public string Players { get; set; }
+    public string Flag { get; set; }
 }

@@ -116,7 +116,63 @@ public class TeamController(TeamDataService dataService, LinkGenerator linkGener
             Name = team.Name,
             //League = team.League.Name,
             GamesUrl = GetUrl(nameof(GetGamesFromTeam), new { team.Id }),
-            Players = GetUrl(nameof(GetMembersFromTeam), new { team.Id })
+            Players = GetUrl(nameof(GetMembersFromTeam), new { team.Id }),
+            Flag = GetTeamFlag(team.Players)
         };
+    }
+
+    private static string GetTeamFlag(List<Player> players)
+    {
+        var euFlags = new List<String>
+        {
+            "AT",
+            "BE",
+            "BG",
+            "HR",
+            "CY",
+            "CZ",
+            "DK",
+            "EE",
+            "FI",
+            "FR",
+            "DE",
+            "GR",
+            "HU",
+            "IE",
+            "IT",
+            "LV",
+            "LT",
+            "LU",
+            "MT",
+            "NL",
+            "PL",
+            "PT",
+            "RO",
+            "SK",
+            "SI",
+            "ES",
+            "SE"
+        };
+        var euFlagCount = 0;
+        var flagCounts = new Dictionary<string, int>();
+        foreach (var player in players)
+        {
+            if (euFlags.Contains(player.Nationality)) euFlagCount++;
+            if (flagCounts.TryAdd(player.Nationality, 1)) continue;
+            // Increment number of flags.
+            int flagCount = flagCounts[player.Nationality];
+            flagCounts.Remove(player.Nationality);
+            flagCounts.Add(player.Nationality, flagCount + 1);
+        }
+
+        // Check if there are multiple occurrences of any of the flags.
+        foreach (var pair in flagCounts)
+        {
+            if (pair.Value >= 3) return pair.Key;
+        }
+
+        if (euFlagCount >= 3) return "EU";
+
+        return "UN";
     }
 }
