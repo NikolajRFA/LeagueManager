@@ -106,9 +106,9 @@ VALUES ('Team Magic Rabbits'/*, 1*/);
 -- TODO: Add non-active players
 INSERT INTO player (id, first_name, last_name, alias, age, gender, nationality, overall, game_sense, team_fighting, dueling,
                     jgl_pathing, wave_mgmt, farming)
-VALUES (1, 'Alex', 'Brown', 'crazycat109', 22, 'Male', 'NZ', 73, 66, 64, 95, 73, 72, 69),
+VALUES (1, 'Alex', 'Brown', 'crazycat109', 22, 'Male', 'NL', 73, 66, 64, 95, 73, 72, 69),
        (2, 'Virginia', 'Téllez', 'angrytiger613', 20, 'Female', 'MX', 87, 75, 92, 88, 99, 95, 73),
-       (3, 'Zeilane', 'da Cruz', 'bluecat471', 24, 'Female', 'BR', 74, 57, 85, 70, 90, 69, 73),
+       (3, 'Zeilane', 'da Cruz', 'bluecat471', 24, 'Female', 'PT', 74, 57, 85, 70, 90, 69, 73),
        (4, 'Eckehard', 'Wolf', 'angryladybug611', 15, 'Male', 'DE', 70, 67, 73, 76, 51, 81, 73),
        (5, 'Selin', 'Kirli', 'Blankety', 24, 'Female', 'TR', 82, 85, 92, 83, 60, 82, 90),
        (6, 'Runa', 'Salvesen', 'bigmeercat861', 31, 'Female', 'NO', 73, 69, 66, 84, 75, 72, 73),
