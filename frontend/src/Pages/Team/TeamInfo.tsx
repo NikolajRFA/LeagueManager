@@ -2,6 +2,7 @@ import {Avatar, Box, Stack, Typography} from "@mui/material";
 import GroupsIcon from '@mui/icons-material/Groups';
 import {useNavigate} from "react-router-dom";
 import React from "react";
+import {Flag} from "../../Components/Flag";
 
 export default function TeamInfo({team}) {
     const navigate = useNavigate();
@@ -20,14 +21,7 @@ export default function TeamInfo({team}) {
                 <Typography variant="subtitle2">
                     {team.league}
                 </Typography>
-                {/*
-                <Loading isLoading={!player.nationality}>
-                    <Box
-                        component="img"
-                        alt={player.nationality}
-                        src={`https://flagsapi.com/${player.nationality}/flat/48.png`}
-                    />
-                </Loading>*/}
+                <Flag country={team.flag} width={72}/>
             </Stack>
         </Stack>
     )

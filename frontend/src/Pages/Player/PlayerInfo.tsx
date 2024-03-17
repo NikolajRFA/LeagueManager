@@ -32,7 +32,7 @@ export default function PlayerInfo({player}) {
                     {player.currentTeam}
                 </Typography>
                 <Loading isLoading={!player.nationality}>
-                    <Flag country={player.nationality} width={48}/>
+                    <Flag country={player.nationality} width={72}/>
                 </Loading>
             </Stack>
         </Stack>
