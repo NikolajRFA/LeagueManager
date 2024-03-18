@@ -2,7 +2,16 @@ import React, {useEffect, useState} from "react";
 import {FC} from "react";
 import {usePlayers} from "../BusinessLogic/usePlayers";
 import {useTitleContext} from "../Contexts/TitleContext";
-import {Button, CircularProgress, MenuItem, Select, SelectChangeEvent, Stack} from "@mui/material";
+import {
+    Button,
+    CircularProgress,
+    FormControl,
+    InputLabel,
+    MenuItem,
+    Select,
+    SelectChangeEvent,
+    Stack
+} from "@mui/material";
 import Typography from "@mui/material/Typography";
 import Paging from "../Components/Paging";
 import PlayersPlayer from "./Players/PlayersPlayer";
@@ -13,7 +22,9 @@ import Utils from "../Utils";
 const Players: FC = () => {
     const [page, setPage] = useState(1);
     const [pageSize, setPageSize] = useState(5);
-    const players = usePlayers(page - 1, pageSize);
+    const [orderBy, setOrderBy] = useState('none');
+    const [isAsc, setIsAsc] = useState(true);
+    const players = usePlayers(orderBy, isAsc, page - 1, pageSize);
     const {title, setTitle} = useTitleContext();
 
     useEffect(() => {
@@ -34,9 +45,36 @@ const Players: FC = () => {
         setPageSize(Number(e.target.value));
     }
 
+    const handleAscButtonClick = () => {
+        setIsAsc(!isAsc);
+    }
+
+    const handleOrderSelectChange = (e: SelectChangeEvent) => {
+        setOrderBy(e.target.value);
+    }
+
     return (
         players.loading ? <CircularProgress/> :
             <Container sx={{width: {xs: '100%', sm: '100%', md: '100%', lg: '75%', xl: '75%'}}}>
+
+                <FormControl>
+                    <InputLabel id="demo-simple-select-helper-label">Order By</InputLabel>
+                    <Select labelId="demo-simple-select-helper-label"
+                            value={orderBy}
+                            onChange={handleOrderSelectChange}
+                            label={'Order By'}
+
+                            style={{marginBottom: '10px', marginRight: '10px', width: '100px'}}>
+                        <MenuItem value='none'><em>None</em></MenuItem>
+                        <MenuItem value='overall'>Overall</MenuItem>
+                        <MenuItem value='age'>Age</MenuItem>
+                    </Select>
+                </FormControl>
+                <Button variant='contained'
+                        style={{marginBottom: '10px'}}
+                        onClick={handleAscButtonClick}>
+                    {isAsc ? "Ascending" : "Descending"}
+                </Button>
                 <Stack spacing={2}
                        style={{marginBottom: '10px'}}
                 >
