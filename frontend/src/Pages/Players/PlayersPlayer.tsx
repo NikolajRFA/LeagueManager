@@ -23,16 +23,18 @@ const PlayersPlayer: FC<PlayerProps> = ({player}) => {
                                 style={{marginTop: '8px'}}>
                             <PersonIcon/>
                         </Avatar>
+
                         <Flag country={player.nationality} width={48}/>
                     </Stack>
 
                 </Grid>
                 <Grid item lg={8} style={{display: 'flex', alignItems: 'center', justifyContent: 'left'}}>
                     <Stack spacing={0}>
-                        <Typography variant='h6'>
+                        <Typography variant='subtitle1'>
                             {player.firstName} '{player.alias}' {player.lastName}
                         </Typography>
-                        <Typography variant='h6'>
+                        <Typography variant='body2'>{player.age}</Typography>
+                        <Typography variant='subtitle1'>
                             {player.currentTeam}
                         </Typography>
                     </Stack>

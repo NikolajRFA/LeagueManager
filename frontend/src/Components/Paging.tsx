@@ -1,11 +1,12 @@
 import React, {FC} from "react";
-import {Button, MenuItem, Select} from "@mui/material";
+import {Button, FormControl, MenuItem, Select} from "@mui/material";
 import Typography from "@mui/material/Typography";
 
 interface PagingProps {
     onNextClick: React.MouseEventHandler<HTMLButtonElement>,
     onPrevClick: React.MouseEventHandler<HTMLButtonElement>,
     onSelectChange,
+    selectValues: number[],
     selectDefaultValue: number,
     page: number,
     numberOfPages?: number
@@ -15,27 +16,28 @@ const Paging: FC<PagingProps> = ({
                                      onNextClick,
                                      onPrevClick,
                                      onSelectChange,
+                                     selectValues,
                                      selectDefaultValue,
                                      page,
                                      numberOfPages = null
                                  }) => {
     return (
         <>
-            <Button variant='contained' style={{marginRight: '10px'}}
+            <Button variant='contained' style={{marginRight: '10px', height: '40px'}}
                     onClick={onPrevClick}>
                 Prev
             </Button>
-            <Button variant='contained' style={{marginRight: '10px'}}
+            <Button variant='contained' style={{marginRight: '10px', height: '40px'}}
                     onClick={onNextClick}>
                 Next
             </Button>
-            <Select value={selectDefaultValue.toString()}
-                    onChange={onSelectChange}
-            >
-                <MenuItem value={5}>5</MenuItem>
-                <MenuItem value={10}>10</MenuItem>
-                <MenuItem value={25}>25</MenuItem>
-            </Select>
+            <FormControl size='small'>
+                <Select value={selectDefaultValue.toString()}
+                        onChange={onSelectChange}
+                >
+                    {selectValues.map(value => <MenuItem value={value}>{value}</MenuItem>)}
+                </Select>
+            </FormControl>
             <Typography variant='subtitle1'>
                 Page {page} of {numberOfPages}
             </Typography>

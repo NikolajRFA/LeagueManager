@@ -20,8 +20,9 @@ import {NavLink} from "react-router-dom";
 import Utils from "../Utils";
 
 const Players: FC = () => {
+    const pageValues: number[] = [5, 10, 15]
     const [page, setPage] = useState(1);
-    const [pageSize, setPageSize] = useState(5);
+    const [pageSize, setPageSize] = useState(pageValues[0]);
     const [orderBy, setOrderBy] = useState('none');
     const [isAsc, setIsAsc] = useState(true);
     const players = usePlayers(orderBy, isAsc, page - 1, pageSize);
@@ -57,13 +58,12 @@ const Players: FC = () => {
         players.loading ? <CircularProgress/> :
             <Container sx={{width: {xs: '100%', sm: '100%', md: '100%', lg: '75%', xl: '75%'}}}>
 
-                <FormControl>
+                <FormControl size='small'>
                     <InputLabel id="demo-simple-select-helper-label">Order By</InputLabel>
                     <Select labelId="demo-simple-select-helper-label"
                             value={orderBy}
                             onChange={handleOrderSelectChange}
                             label={'Order By'}
-
                             style={{marginBottom: '10px', marginRight: '10px', width: '100px'}}>
                         <MenuItem value='none'><em>None</em></MenuItem>
                         <MenuItem value='overall'>Overall</MenuItem>
@@ -71,7 +71,7 @@ const Players: FC = () => {
                     </Select>
                 </FormControl>
                 <Button variant='contained'
-                        style={{marginBottom: '10px'}}
+                        style={{marginBottom: '10px', height: '40px'}}
                         onClick={handleAscButtonClick}>
                     {isAsc ? "Ascending" : "Descending"}
                 </Button>
@@ -87,6 +87,7 @@ const Players: FC = () => {
                 <Paging onNextClick={handleNextClick}
                         onPrevClick={handlePrevClick}
                         onSelectChange={handleSelectChange}
+                        selectValues={pageValues}
                         selectDefaultValue={pageSize}
                         page={page}
                         numberOfPages={players.loading ? null : players.numberOfPages}
