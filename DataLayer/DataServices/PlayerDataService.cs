@@ -13,7 +13,7 @@ public class PlayerDataService
             .Include(x => x.Members)
             .ThenInclude(x => x.Team);
 
-        var playerReturn = players.Take(0);
+        var playerReturn = players.Where(x => true);
 
         // Default to no ordering if 'order' is null or whitespace
         if (!string.IsNullOrWhiteSpace(order))
