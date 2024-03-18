@@ -1,4 +1,5 @@
-﻿using API.DataTransferObjects;
+﻿using System.Text.RegularExpressions;
+using API.DataTransferObjects;
 using API.DataTransferObjects.Player;
 using AutoMapper;
 using DataLayer.DataServices;
@@ -14,16 +15,21 @@ public class PlayerController(PlayerDataService dataService, LinkGenerator linkG
     : GenericControllerBase(linkGenerator, mapper)
 {
     [HttpGet(Name = nameof(GetPlayers))]
-    public IActionResult GetPlayers(int page = 0, int pageSize = 10)
+    public IActionResult GetPlayers(string order = "", string dir = "asc", int page = 0, int pageSize = 10)
     {
-        var (players, total) = dataService.GetPlayers(page, pageSize);
+        if (!Regex.IsMatch(order, "^$|^(overall|age)$") ||
+            !Regex.IsMatch(dir, "asc|desc"))
+            return BadRequest();
+        
+        var (players, total) = dataService.GetPlayers(order, dir, page, pageSize);
         var dtos = new List<PlayerDto>();
         foreach (var player in players)
         {
             dtos.Add(MapPlayer(player));
         }
 
-        return Ok(Paging(dtos, total, new PagingValues { Page = page, PageSize = pageSize }, nameof(GetPlayers)));
+        return Ok(Paging(dtos, total,
+            new OrderPagingValues { Order = order, Dir = dir, Page = page, PageSize = pageSize }, nameof(GetPlayers)));
     }
 
     [HttpGet("{id}", Name = nameof(GetPlayer))]

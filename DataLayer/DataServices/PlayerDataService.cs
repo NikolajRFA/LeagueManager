@@ -1,20 +1,31 @@
 ﻿using DataLayer.Entities;
 using Microsoft.EntityFrameworkCore;
+using System.Linq.Dynamic.Core;
 
 namespace DataLayer.DataServices;
 
 public class PlayerDataService
 {
-    public (List<Player>, int) GetPlayers(int page = 0, int pageSize = 10)
+    public (List<Player>, int) GetPlayers(string? order, string? dir, int page = 0, int pageSize = 10)
     {
         var db = new Database();
-        return (db.Players
-                .Include(x => x.Members)
-                .ThenInclude(x => x.Team)
-                .Skip(page * pageSize)
-                .Take(pageSize)
-                .ToList(),
-            db.Players.Count());
+        var players = db.Players
+            .Include(x => x.Members)
+            .ThenInclude(x => x.Team);
+
+        var playerReturn = players.Take(0);
+
+        // Default to no ordering if 'order' is null or whitespace
+        if (!string.IsNullOrWhiteSpace(order))
+        {
+            // Construct the order by string dynamically
+            var orderByString = $"{order} {dir}";
+            playerReturn = players.OrderBy(orderByString);
+        }
+
+        return (playerReturn.Skip(page * pageSize)
+            .Take(pageSize)
+            .ToList(), db.Players.Count());
     }
 
     public Player? GetPlayer(int id)

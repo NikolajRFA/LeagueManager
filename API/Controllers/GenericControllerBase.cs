@@ -94,3 +94,9 @@ public class IdPagingValues : PagingValues
 {
     public int Id { get; set; }
 }
+
+public class OrderPagingValues : PagingValues
+{
+    public string Order { get; set; }
+    public string Dir { get; set; }
+}
