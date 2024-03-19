@@ -1,33 +1,38 @@
 ﻿using DataLayer.Entities;
 using RandomUserSharp;
+using RandomUserSharp.Models;
 
 namespace DataLayer.Utils;
 
 public class PlayerBuilder
 {
-    public static Player RandomPlayer()
+    public static Player RandomPlayer(Gender gender = Gender.Both, List<Nationality> nationalities = null)
     {
-        var rand = new Random();
         var ruc = new RandomUserClient();
-        var user = ruc.GetRandomUsersAsync().GetAwaiter().GetResult().FirstOrDefault()!;
+        var user = ruc.GetRandomUsersAsync(gender: gender, nationalities: nationalities).GetAwaiter().GetResult().FirstOrDefault()!;
+
+        var skillStdDev = 8;
+        var overall = RandomGaussian(50, 99, skillStdDev, 78);
+        
         return new Player
         {
             FirstName = user.Name.First,
             LastName = user.Name.Last,
             Alias = user.Login.Username,
-            Age = WeightedAge(14, 45, 5.0, 22.0),
+            Age = RandomGaussian(14, 45, 5.0, 22.0),
             Gender = user.Gender.ToString(),
             Nationality = user.Nationality.ToString(),
-            GameSense = rand.Next(Settings.MinSkillLvl, Settings.MaxSkillLvl + 1),
-            TeamFighting = rand.Next(Settings.MinSkillLvl, Settings.MaxSkillLvl + 1),
-            Dueling = rand.Next(Settings.MinSkillLvl, Settings.MaxSkillLvl + 1),
-            JglPathing = rand.Next(Settings.MinSkillLvl, Settings.MaxSkillLvl + 1),
-            WaveMgmt = rand.Next(Settings.MinSkillLvl, Settings.MaxSkillLvl + 1),
-            Farming = rand.Next(Settings.MinSkillLvl, Settings.MaxSkillLvl + 1)
+            Overall = overall,
+            GameSense = RandomGaussian(50, 99, skillStdDev, overall),
+            TeamFighting = RandomGaussian(50, 99, skillStdDev, overall),
+            Dueling = RandomGaussian(50, 99, skillStdDev, overall),
+            JglPathing = RandomGaussian(50, 99, skillStdDev, overall),
+            WaveMgmt = RandomGaussian(50, 99, skillStdDev, overall),
+            Farming = RandomGaussian(50, 99, skillStdDev, overall)
         };
     }
     
-    private static int WeightedAge(int min, int max, double distributionStdDev, double distributionMean)
+    private static int RandomGaussian(int min, int max, double distributionStdDev, double distributionMean)
     {
         double value;
         do
@@ -36,7 +41,7 @@ public class PlayerBuilder
         } while (value < min || value >= max);
 
         return (int)Math.Round(value);
-        
+            
         double NextGaussian(double mean, double stdDev)
         {
             Random rand = new Random();
