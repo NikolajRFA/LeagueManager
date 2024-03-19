@@ -12,7 +12,6 @@ import {
     SelectChangeEvent,
     Stack
 } from "@mui/material";
-import Typography from "@mui/material/Typography";
 import Paging from "../Components/Paging";
 import PlayersPlayer from "./Players/PlayersPlayer";
 import Container from "@mui/material/Container";
@@ -23,8 +22,8 @@ const Players: FC = () => {
     const pageValues: number[] = [5, 10, 15]
     const [page, setPage] = useState(1);
     const [pageSize, setPageSize] = useState(pageValues[0]);
-    const [orderBy, setOrderBy] = useState('none');
-    const [isAsc, setIsAsc] = useState(true);
+    const [orderBy, setOrderBy] = useState('overall');
+    const [isAsc, setIsAsc] = useState(false);
     const players = usePlayers(orderBy, isAsc, page - 1, pageSize);
     const {title, setTitle} = useTitleContext();
 
