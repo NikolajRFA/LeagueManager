@@ -11,9 +11,9 @@ public class SearchDataService
         var result =
             db.PlayerSearches.FromSqlInterpolated($"SELECT * FROM player_search({searchPhrase}, {page}, {pageSize})");
         var resultIds = result.Select(x => x.Id).ToList();
-        var players = db.Players.Where(x => resultIds.Contains(x.Id))
+        var players = db.Players.Where(x => resultIds.Contains(x.Id!.Value))
             // ReSharper disable once EntityFramework.UnsupportedServerSideFunctionCall
-            .OrderBy(x => resultIds.IndexOf(x.Id))
+            .OrderBy(x => resultIds.IndexOf(x.Id!.Value))
             .Include(x => x.Members)
             .ThenInclude(x => x.Team);
 

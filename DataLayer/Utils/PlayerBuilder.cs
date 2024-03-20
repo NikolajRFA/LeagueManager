@@ -6,7 +6,11 @@ namespace DataLayer.Utils;
 
 public class PlayerBuilder
 {
-    public static Player RandomPlayer(Gender gender = Gender.Both, List<Nationality> nationalities = null)
+    public static Player RandomPlayer(
+        int overall = 0,
+        Gender gender = Gender.Both,
+        List<Nationality>? nationalities = null
+    )
     {
         var ruc = new RandomUserClient();
         var user = ruc.GetRandomUsersAsync(gender: gender, nationalities: nationalities)
@@ -14,8 +18,8 @@ public class PlayerBuilder
             .GetResult()
             .FirstOrDefault()!;
 
-        var skillStdDev = 8;
-        var overall = RandomGaussian(50, 99, skillStdDev, 78);
+        const int skillStdDev = 8;
+        if (overall is < 50 or > 99) overall = RandomGaussian(50, 99, skillStdDev, 78);
 
         return new Player
         {

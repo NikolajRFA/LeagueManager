@@ -15,7 +15,7 @@ DROP TYPE IF EXISTS role;
 
 CREATE TABLE player
 (
-    id            SERIAL PRIMARY KEY,
+    id            INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     first_name    VARCHAR(50),
     last_name     VARCHAR(50),
     alias         VARCHAR(50),
@@ -52,7 +52,7 @@ CREATE INDEX players_on_word_gin_trgm_idx ON player_name_wi USING GIN (word gin_
 
 CREATE TABLE team
 (
-    id        SERIAL PRIMARY KEY,
+    id        INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     name      VARCHAR(100)
     --league_id INTEGER REFERENCES league (id)
 );
@@ -68,13 +68,13 @@ CREATE TABLE member
 
 CREATE TABLE event
 (
-    id SERIAL PRIMARY KEY,
+    id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     name VARCHAR(150) NOT NULL
 );
 
 CREATE TABLE game
 (
-    id           SERIAL PRIMARY KEY,
+    id           INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     blue_side_id INT REFERENCES team (id) NOT NULL,
     red_side_id  INT REFERENCES team (id) NOT NULL,
     winner_id    INT REFERENCES team (id),
@@ -104,19 +104,19 @@ INSERT INTO team (name/*, league_id*/)
 VALUES ('Team Magic Rabbits'/*, 1*/);
 
 -- TODO: Add non-active players
-INSERT INTO player (id, first_name, last_name, alias, age, gender, nationality, overall, game_sense, team_fighting, dueling,
+INSERT INTO player (first_name, last_name, alias, age, gender, nationality, overall, game_sense, team_fighting, dueling,
                     jgl_pathing, wave_mgmt, farming)
-VALUES (1, 'Alex', 'Brown', 'crazycat109', 22, 'Male', 'NL', 73, 66, 64, 95, 73, 72, 69),
-       (2, 'Virginia', 'Téllez', 'angrytiger613', 20, 'Female', 'MX', 87, 75, 92, 88, 99, 95, 73),
-       (3, 'Zeilane', 'da Cruz', 'bluecat471', 24, 'Female', 'PT', 74, 57, 85, 70, 90, 69, 73),
-       (4, 'Eckehard', 'Wolf', 'angryladybug611', 15, 'Male', 'DE', 70, 67, 73, 76, 51, 81, 73),
-       (5, 'Selin', 'Kirli', 'Blankety', 24, 'Female', 'TR', 82, 85, 92, 83, 60, 82, 90),
-       (6, 'Runa', 'Salvesen', 'bigmeercat861', 31, 'Female', 'NO', 73, 69, 66, 84, 75, 72, 73),
-       (7, 'Alex', 'Milton', 'TMR_Milton', 23, 'Male', 'DK', 72, 74, 58, 61, 81, 62, 98),
-       (8, 'Marcus', 'Rasmussen', 'tinypeacock861', 21, 'Male', 'DK', 72, 70, 66, 71, 83, 51, 92),
-       (9, 'Tony', 'Rey', 'purplerabbit174', 30, 'Male', 'FR', 76, 97, 66, 50, 70, 92, 80),
-       (10, 'Dobrivoje', 'Mišković', 'organiclion133', 25, 'Male', 'RS', 86, 78, 91, 97, 60, 99, 94),
-       (11, 'Adam', 'Larsson', 'organiclion133', 25, 'Male', 'SE', 86, 78, 91, 97, 60, 99, 94);
+VALUES ('Alex', 'Brown', 'crazycat109', 22, 'Male', 'NL', 73, 66, 64, 95, 73, 72, 69),
+       ('Virginia', 'Téllez', 'angrytiger613', 20, 'Female', 'MX', 87, 75, 92, 88, 99, 95, 73),
+       ('Zeilane', 'da Cruz', 'bluecat471', 24, 'Female', 'PT', 74, 57, 85, 70, 90, 69, 73),
+       ('Eckehard', 'Wolf', 'angryladybug611', 15, 'Male', 'DE', 70, 67, 73, 76, 51, 81, 73),
+       ('Selin', 'Kirli', 'Blankety', 24, 'Female', 'TR', 82, 85, 92, 83, 60, 82, 90),
+       ('Runa', 'Salvesen', 'bigmeercat861', 31, 'Female', 'NO', 73, 69, 66, 84, 75, 72, 73),
+       ('Alex', 'Milton', 'TMR_Milton', 23, 'Male', 'DK', 72, 74, 58, 61, 81, 62, 98),
+       ('Marcus', 'Rasmussen', 'tinypeacock861', 21, 'Male', 'DK', 72, 70, 66, 71, 83, 51, 92),
+       ('Tony', 'Rey', 'purplerabbit174', 30, 'Male', 'FR', 76, 97, 66, 50, 70, 92, 80),
+       ('Dobrivoje', 'Mišković', 'organiclion133', 25, 'Male', 'RS', 86, 78, 91, 97, 60, 99, 94),
+       ('Adam', 'Larsson', 'organiclion133', 25, 'Male', 'SE', 86, 78, 91, 97, 60, 99, 94);
 
 CREATE OR REPLACE PROCEDURE update_player_name_wi()
     LANGUAGE plpgsql
@@ -225,7 +225,7 @@ CREATE OR REPLACE PROCEDURE play_game(blue_side_team_id INT, red_side_team_id IN
 AS
 $$
 DECLARE
-    new_game_id               INT := nextval('game_id_seq');
+    new_game_id               INT;
     min_skill_lvl             INT := 50;
     player_amount_of_skills   INT := 6;
     min_total_skill_blue_side INT;
@@ -236,8 +236,9 @@ DECLARE
     red_side_performance      INT;
 BEGIN
     -- Create new game with the teams
-    INSERT INTO game (id, blue_side_id, red_side_id, event_id, date)
-    VALUES (new_game_id, blue_side_team_id, red_side_team_id, event_id_in, game_date);
+    INSERT INTO game (blue_side_id, red_side_id, event_id, date)
+    VALUES (blue_side_team_id, red_side_team_id, event_id_in, game_date)
+    RETURNING id INTO new_game_id;
 
     -- Add members to participation table
     INSERT INTO participation (game_id, player_id, role, team_id)

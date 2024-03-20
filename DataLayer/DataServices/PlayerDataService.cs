@@ -54,4 +54,11 @@ public class PlayerDataService
 
         return (participations.Skip(page * pageSize).Take(pageSize).ToList(), participations.Count());
     }
+
+    public bool AddPlayer(Player player)
+    {
+        var db = new Database();
+        db.Players.Add(player);
+        return db.SaveChanges() > 0;
+    }
 }

@@ -1,4 +1,5 @@
-﻿using DataLayer.Entities;
+﻿using DataLayer.DataServices;
+using DataLayer.Entities;
 using DataLayer.Utils;
 using RandomUserSharp.Models;
 using Xunit.Abstractions;
@@ -17,7 +18,7 @@ public class PlayerTests
     [Fact]
     public void RandomPlayer_Single_NewPlayer()
     {
-        var player = PlayerBuilder.RandomPlayer(Gender.Male,  new List<Nationality> { Nationality.DK });
+        var player = PlayerBuilder.RandomPlayer(gender: Gender.Male,  nationalities: new List<Nationality> { Nationality.DK });
         Assert.NotNull(player);
         _testOutputHelper.WriteLine($"{player.FirstName} '{player.Alias}' {player.LastName}: {player.Age}{player.Gender.First()}, {player.Nationality}. Overall: {player.Overall}");
     }
@@ -29,7 +30,7 @@ public class PlayerTests
 
         for (int i = 0; i < 100; i++)
         {
-            players.Add(PlayerBuilder.RandomPlayer(Gender.Male,  new List<Nationality> { Nationality.DK }));
+            players.Add(PlayerBuilder.RandomPlayer(gender: Gender.Male,  nationalities: new List<Nationality> { Nationality.DK }));
         }
 
         foreach (var player in players)
@@ -37,5 +38,13 @@ public class PlayerTests
             Assert.NotNull(player);
             _testOutputHelper.WriteLine($"{player.FirstName} '{player.Alias}' {player.LastName}: {player.Age}{player.Gender.First()}, {player.Nationality}. Overall: {player.Overall}");    
         }
+    }
+
+    [Fact]
+    public void AddPlayer_RandomPlayer_Success()
+    {
+        var dataService = new PlayerDataService();
+        var player = PlayerBuilder.RandomPlayer();
+        Assert.True(dataService.AddPlayer(player));
     }
 }
