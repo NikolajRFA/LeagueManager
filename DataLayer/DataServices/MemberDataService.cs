@@ -16,4 +16,16 @@ public class MemberDataService
         });
         return db.SaveChanges() > 0;
     }
+
+    public bool TerminateMember(int teamId, int playerId, DateOnly toDate)
+    {
+        var db = new Database();
+        var member = db.Members.SingleOrDefault(x => x.TeamId == teamId && x.PlayerId == playerId && x.ToDate == null);
+
+        if (member == null) return false;
+
+        member.ToDate = toDate;
+        return db.SaveChanges() > 0;
+    }
+        
 }
