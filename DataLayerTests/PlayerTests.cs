@@ -47,4 +47,11 @@ public class PlayerTests
         var player = PlayerBuilder.RandomPlayer();
         Assert.True(dataService.AddPlayer(player));
     }
+
+    [Fact]
+    public void IsMember_PlayerWithId1_True()
+    {
+        var memberDataService = new MemberDataService();
+        Assert.True(memberDataService.IsMember(5));
+    }
 }

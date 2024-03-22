@@ -28,5 +28,11 @@ public class MemberDataService
         member.ToDate = toDate;
         return db.SaveChanges() > 0;
     }
-        
+
+    public bool IsMember(int playerId)
+    {
+        var db = new Database();
+        var member = db.Members.FirstOrDefault(x => x.PlayerId == playerId && x.ToDate == null);
+        return member != null;
+    }
 }
