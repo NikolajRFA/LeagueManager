@@ -5,6 +5,13 @@ namespace DataLayer.DataServices;
 // TODO: implement methods to add members to teams.
 public class MemberDataService
 {
+    /// <summary>
+    /// Adds a member relationship between a player and a team.
+    /// </summary>
+    /// <param name="teamId">The id of the team.</param>
+    /// <param name="playerId">The id of the player.</param>
+    /// <param name="fromDate">The start date of the membership.</param>
+    /// <returns>True if the relationship was successfully created.</returns>
     public bool AddMember(int teamId, int playerId, DateOnly fromDate)
     {
         var db = new Database();
@@ -18,6 +25,13 @@ public class MemberDataService
         return db.SaveChanges() > 0;
     }
 
+    /// <summary>
+    /// Terminates an active player from a team.
+    /// </summary>
+    /// <param name="teamId">The id of the team.</param>
+    /// <param name="playerId">The id of the player.</param>
+    /// <param name="toDate">The date of which the player is terminated.</param>
+    /// <returns>Returns true if termination is successful.</returns>
     public bool TerminateMember(int teamId, int playerId, DateOnly toDate)
     {
         var db = new Database();
@@ -29,6 +43,11 @@ public class MemberDataService
         return db.SaveChanges() > 0;
     }
 
+    /// <summary>
+    /// Check if a player currently is a member of a team.
+    /// </summary>
+    /// <param name="playerId">The id of the player to check.</param>
+    /// <returns>True if the player is member of a team.</returns>
     public bool IsMember(int playerId)
     {
         var db = new Database();
