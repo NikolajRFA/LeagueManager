@@ -1,4 +1,5 @@
-﻿using DataLayer.Entities;
+﻿using System.Text.RegularExpressions;
+using DataLayer.Entities;
 
 namespace DataLayer.DataServices;
 
@@ -11,9 +12,13 @@ public class MemberDataService
     /// <param name="teamId">The id of the team.</param>
     /// <param name="playerId">The id of the player.</param>
     /// <param name="fromDate">The start date of the membership.</param>
+    /// <param name="role">(Optional) Role of the player.</param>
     /// <returns>True if the relationship was successfully created.</returns>
-    public bool AddMember(int teamId, int playerId, DateOnly fromDate)
+    public bool AddMember(int teamId, int playerId, DateOnly fromDate, string role = "benched")
     {
+        if (!Regex.IsMatch(role, "benched|top|jungle|mid|bot|support"))
+            throw new ArgumentException("Role has to match 'benched|top|jungle|mid|bot|support'");
+        
         var db = new Database();
         db.Members.Add(new Member
         {
