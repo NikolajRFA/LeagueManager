@@ -31,6 +31,7 @@ public class Database : DbContext
     {
         modelBuilder.Entity<Player>(entity =>
         {
+            // TODO: find fix to get all members of players who have had multiple stays at the same team
             entity.ToTable("player");
             entity.HasKey(x => x.Id);
             entity.HasMany(x => x.Teams)
@@ -52,6 +53,9 @@ public class Database : DbContext
         modelBuilder.Entity<Member>(entity =>
         {
             entity.ToTable("member");
+            entity.Property(e => e.Role)
+                .HasDefaultValue("benched")
+                .ValueGeneratedOnAddOrUpdate();
             entity.HasKey(x => new { x.PlayerId, x.TeamId });
             entity.HasOne<Player>(x => x.Player)
                 .WithMany(x => x.Members);
