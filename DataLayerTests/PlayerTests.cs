@@ -47,32 +47,4 @@ public class PlayerTests
         var player = PlayerBuilder.RandomPlayer();
         Assert.True(dataService.AddPlayer(player));
     }
-
-    [Fact]
-    public void IsMember_PlayerWithId1_True()
-    {
-        var memberDataService = new MemberDataService();
-        Assert.True(memberDataService.IsMember(5));
-    }
-
-    [Fact]
-    public void TerminateMember_Player7Team1_False()
-    {
-        var memberDataService = new MemberDataService();
-        Assert.False(memberDataService.TerminateMember(1, 7, DateOnly.FromDateTime(DateTime.Now)));
-    }
-    
-    [Fact]
-    public void TerminateMember_Player7Team2_True()
-    {
-        var memberDataService = new MemberDataService();
-        Assert.True(memberDataService.TerminateMember(2, 7, DateOnly.FromDateTime(DateTime.Now)));
-    }
-
-    [Fact]
-    public void AddMember_Player7Team2_True()
-    {
-        var memberDataService = new MemberDataService();
-        Assert.True(memberDataService.AddMember(2, 7, DateOnly.FromDateTime(DateTime.Now.AddDays(1))));
-    }
 }

@@ -10,7 +10,9 @@ public class Database : DbContext
 {
     public DbSet<Player> Players { get; set; }
     public DbSet<Team> Teams { get; set; }
+
     public DbSet<Member> Members { get; set; }
+
     //public DbSet<League> Leagues { get; set; }
     public DbSet<Event> Events { get; set; }
     public DbSet<Game> Games { get; set; }
@@ -49,14 +51,14 @@ public class Database : DbContext
             entity.HasMany<Member>(x => x.Members)
                 .WithOne(x => x.Team);
         });
-        
+
         modelBuilder.Entity<Member>(entity =>
         {
             entity.ToTable("member");
+            entity.HasKey(x => new { x.PlayerId, x.TeamId, x.Stay });
             entity.Property(e => e.Role)
                 .HasDefaultValue("benched")
                 .ValueGeneratedOnAddOrUpdate();
-            entity.HasKey(x => new { x.PlayerId, x.TeamId });
             entity.HasOne<Player>(x => x.Player)
                 .WithMany(x => x.Members);
             entity.HasOne<Team>(x => x.Team)
@@ -84,7 +86,7 @@ public class Database : DbContext
             entity.HasOne<Team>(x => x.BlueSide);
             entity.HasOne<Team>(x => x.RedSide);
             entity.HasOne<Team>(x => x.Winner);
-            
+
             entity.HasMany(x => x.Players)
                 .WithMany(x => x.Games)
                 .UsingEntity<Participation>();
@@ -98,7 +100,7 @@ public class Database : DbContext
             entity.ToTable("participation");
             entity.HasKey(x => new { x.GameId, x.PlayerId });
         });
-        
+
         modelBuilder.Entity<TotalSkillResult>().HasNoKey().ToView(null);
 
         modelBuilder.Entity<PlayerSearch>().HasNoKey();

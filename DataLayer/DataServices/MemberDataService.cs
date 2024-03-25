@@ -1,11 +1,20 @@
 ﻿using System.Text.RegularExpressions;
 using DataLayer.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace DataLayer.DataServices;
 
 // TODO: implement methods to add members to teams.
 public class MemberDataService
 {
+    public (List<Member>, int) GetMembersFromPlayer(int playerId, int page = 0, int pageSize = 10)
+    {
+        var db = new Database();
+        var members = db.Members.Where(x => x.PlayerId == playerId);
+
+        return (members.Skip(page * pageSize).Take(pageSize).ToList(), members.Count());
+    }
+
     /// <summary>
     /// Adds a member relationship between a player and a team.
     /// </summary>
@@ -18,16 +27,10 @@ public class MemberDataService
     {
         if (!Regex.IsMatch(role, "benched|top|jungle|mid|bot|support"))
             throw new ArgumentException("Role has to match 'benched|top|jungle|mid|bot|support'");
-        
+
         var db = new Database();
-        db.Members.Add(new Member
-        {
-            TeamId = teamId,
-            PlayerId = playerId,
-            FromDate = fromDate,
-            ToDate = null
-        });
-        return db.SaveChanges() > 0;
+        db.Database.ExecuteSql($"CALL add_member({playerId}, {teamId}, {fromDate}, {role})");
+        return true;
     }
 
     /// <summary>
