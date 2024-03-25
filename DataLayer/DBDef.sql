@@ -52,8 +52,8 @@ CREATE INDEX players_on_word_gin_trgm_idx ON player_name_wi USING GIN (word gin_
 
 CREATE TABLE team
 (
-    id        INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-    name      VARCHAR(100)
+    id   INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    name VARCHAR(100)
     --league_id INTEGER REFERENCES league (id)
 );
 
@@ -61,14 +61,39 @@ CREATE TABLE member
 (
     player_id INTEGER REFERENCES player (id),
     team_id   INTEGER REFERENCES team (id),
+    stay      INTEGER     NOT NULL DEFAULT (0),
     role      VARCHAR(10) NOT NULL DEFAULT ('benched'),
     from_date DATE,
-    to_date   DATE
+    to_date   DATE,
+    PRIMARY KEY (player_id, team_id, stay)
 );
+
+CREATE OR REPLACE PROCEDURE add_member(in_player_id INT, in_team_id INT, in_from_date DATE,
+                                       in_role VARCHAR(10) = 'benched')
+
+    LANGUAGE plpgsql AS
+$$
+DECLARE
+    comp_stay INT := 0;
+BEGIN
+    IF (EXISTS (SELECT * FROM member WHERE player_id = in_player_id AND team_id = in_team_id)) THEN
+        SELECT stay + 1
+        FROM member
+        WHERE player_id = in_player_id
+          AND team_id = in_team_id
+        ORDER BY stay DESC
+        LIMIT 1
+        INTO comp_stay;
+    end if;
+
+    INSERT INTO member (player_id, team_id, stay, role, from_date, to_date)
+    VALUES (in_player_id, in_team_id, comp_stay, in_role, in_from_date, NULL);
+end;
+$$;
 
 CREATE TABLE event
 (
-    id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    id   INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     name VARCHAR(150) NOT NULL
 );
 
@@ -91,9 +116,9 @@ CREATE TABLE participation
     PRIMARY KEY (game_id, player_id)
 );
 
-CREATE UNIQUE INDEX player_team_overlap
+/*CREATE UNIQUE INDEX player_team_overlap
     ON member (player_id)
-    WHERE to_date >= from_date;
+    WHERE to_date >= from_date;*/
 
 --INSERT INTO league (name, region, num_teams)
 --VALUES ('League 1', 'EU', 20);
@@ -146,21 +171,23 @@ BEGIN
 end;
 $$;
 
+CALL add_member(1, 2, CURRENT_DATE - 14, 'top');
+CALL add_member(2, 1, CURRENT_DATE - 14, 'jungle');
+CALL add_member(3, 1, CURRENT_DATE - 14, 'mid');
+CALL add_member(4, 1, CURRENT_DATE - 14, 'bottom');
+CALL add_member(5, 1, CURRENT_DATE - 14, 'support');
+CALL add_member(6, 2, CURRENT_DATE - 14, 'top');
+CALL add_member(7, 2, CURRENT_DATE - 14, 'jungle');
+CALL add_member(8, 2, CURRENT_DATE - 14, 'mid');
+CALL add_member(9, 2, CURRENT_DATE - 14, 'bottom');
+CALL add_member(10, 2, CURRENT_DATE - 14, 'support');
+
 -- TODO: Add non-active players
 INSERT INTO member (player_id, team_id, role, from_date, to_date)
-VALUES (1, 1, 'top', CURRENT_DATE - 14, null),
-       (2, 1, 'jungle', CURRENT_DATE - 14, null),
-       (3, 1, 'mid', CURRENT_DATE - 14, null),
-       (4, 1, 'bottom', CURRENT_DATE - 14, null),
-       (5, 1, 'support', CURRENT_DATE - 14, null),
-       (6, 2, 'top', CURRENT_DATE - 14, null),
-       (7, 2, 'jungle', CURRENT_DATE - 14, null),
-       (8, 2, 'mid', CURRENT_DATE - 14, null),
-       (9, 2, 'bottom', CURRENT_DATE - 14, null),
-       (10, 2, 'support', CURRENT_DATE - 14, null),
-       (11, 2, 'support', CURRENT_DATE - 30, CURRENT_DATE - 22);
+VALUES (11, 2, 'support', CURRENT_DATE - 30, CURRENT_DATE - 22);
 
-INSERT INTO event (name) VALUES ('League 1');
+INSERT INTO event (name)
+VALUES ('League 1');
 
 INSERT INTO game (blue_side_id, red_side_id, winner_id, event_id, date)
 VALUES (1, 2, 1, 1, now());
@@ -199,19 +226,17 @@ $$;
 CREATE OR REPLACE FUNCTION player_search(phrase TEXT, page INT, page_size INT)
     RETURNS table
             (
-                id            INTEGER,
-                total         INTEGER
+                id    INTEGER,
+                total INTEGER
             )
     LANGUAGE plpgsql
 AS
 $$
 BEGIN
     RETURN QUERY
-        WITH cte AS (
-            SELECT player_id, SUM(similarity(word, phrase)) as sim_sum
-            FROM player_name_wi pwi
-            GROUP BY player_id
-        )
+        WITH cte AS (SELECT player_id, SUM(similarity(word, phrase)) as sim_sum
+                     FROM player_name_wi pwi
+                     GROUP BY player_id)
         SELECT cte.player_id, (SELECT count(*)::INT FROM cte) total
         FROM cte
         ORDER BY cte.sim_sum DESC
