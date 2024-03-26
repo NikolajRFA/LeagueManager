@@ -74,7 +74,7 @@ CREATE OR REPLACE PROCEDURE add_member(in_player_id INT, in_team_id INT, in_from
     LANGUAGE plpgsql AS
 $$
 DECLARE
-    comp_stay INT := 0;
+    comp_stay INT := 1;
 BEGIN
     IF (EXISTS (SELECT * FROM member WHERE player_id = in_player_id AND team_id = in_team_id)) THEN
         SELECT stay + 1
