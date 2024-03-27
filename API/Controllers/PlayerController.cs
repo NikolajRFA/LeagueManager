@@ -20,7 +20,7 @@ public class PlayerController(PlayerDataService dataService, LinkGenerator linkG
         if (!Regex.IsMatch(order, "^$|^(overall|age)$") ||
             !Regex.IsMatch(dir, "asc|desc"))
             return BadRequest();
-        
+
         var (players, total) = dataService.GetPlayers(order, dir, page, pageSize);
         var dtos = new List<PlayerDto>();
         foreach (var player in players)
@@ -74,6 +74,26 @@ public class PlayerController(PlayerDataService dataService, LinkGenerator linkG
 
         return Ok(Paging(dtos, total, new IdPagingValues { Id = id, PageSize = pageSize, Page = page },
             nameof(GetGamesFromPlayer)));
+    }
+
+    [HttpGet("{id}/members", Name = nameof(GetMembers))]
+    public IActionResult GetMembers(int id, int page = 0, int pageSize = 10)
+    {
+        var memberDataService = new MemberDataService();
+        var (members, total) = memberDataService.GetMembersFromPlayer(id, page, pageSize);
+
+        var dtos = new List<MemberDto>();
+
+        foreach (var member in members)
+        {
+            var dto = mapper.Map<MemberDto>(member);
+            dto.PlayerUrl = GetUrl(nameof(GetPlayer), new { Id = member.PlayerId });
+            dto.TeamUrl = GetUrl(nameof(TeamController.GetTeam), new { Id = member.TeamId });
+            dtos.Add(dto);
+        }
+
+        return Ok(Paging(dtos, total, new IdPagingValues { Id = id, PageSize = pageSize, Page = page },
+            nameof(GetMembers)));
     }
 
     private PlayerDto MapPlayer(Player player)
