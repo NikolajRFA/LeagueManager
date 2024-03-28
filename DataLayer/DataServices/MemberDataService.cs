@@ -10,7 +10,9 @@ public class MemberDataService
     public (List<Member>, int) GetMembersFromPlayer(int playerId, int page = 0, int pageSize = 10)
     {
         var db = new Database();
-        var members = db.Members.Where(x => x.PlayerId == playerId);
+        var members = db.Members
+            .Include(x => x.Team)
+            .Where(x => x.PlayerId == playerId);
 
         return (members.Skip(page * pageSize).Take(pageSize).ToList(), members.Count());
     }
