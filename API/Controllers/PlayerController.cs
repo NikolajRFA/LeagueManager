@@ -82,13 +82,14 @@ public class PlayerController(PlayerDataService dataService, LinkGenerator linkG
         var memberDataService = new MemberDataService();
         var (members, total) = memberDataService.GetMembersFromPlayer(id, page, pageSize);
 
-        var dtos = new List<MemberDto>();
+        var dtos = new List<PlayerMemberDto>();
 
         foreach (var member in members)
         {
-            var dto = mapper.Map<MemberDto>(member);
+            var dto = mapper.Map<PlayerMemberDto>(member);
             dto.PlayerUrl = GetUrl(nameof(GetPlayer), new { Id = member.PlayerId });
             dto.TeamUrl = GetUrl(nameof(TeamController.GetTeam), new { Id = member.TeamId });
+            dto.TeamName = member.Team.Name;
             dtos.Add(dto);
         }
 
