@@ -5,46 +5,78 @@ import TableRow from "@mui/material/TableRow";
 import TableCell from "@mui/material/TableCell";
 import TableBody from "@mui/material/TableBody";
 import Utils from "../../Utils";
-import {CircularProgress} from "@mui/material";
+import {CircularProgress, SelectChangeEvent} from "@mui/material";
 import Link from "@mui/material/Link";
-import React, {FC} from "react";
+import React, {FC, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import PlayerMember from "../../BusinessLogic/Models/PlayerMember";
 import List from "../../BusinessLogic/Models/List";
+import Paging from "../../Components/Paging";
+import {usePlayerMembers} from "../../BusinessLogic/usePlayerMembers";
+import Paper from "@mui/material/Paper";
+import Container from "@mui/material/Container";
 
 interface MembersProps {
-    members: List<PlayerMember>;
+    playerId: number;
 }
 
-const Members: FC<MembersProps> = ({members}) => {
+const Members: FC<MembersProps> = ({playerId}) => {
+    const pageValues: number[] = [5, 10, 15]
+    const [page, setPage] = useState(1)
+    const [pageSize, setPageSize] = useState(5)
+    const members = usePlayerMembers(playerId, page - 1, pageSize);
     const navigate = useNavigate();
+
+    const handleNextClick = () => {
+        if (page === members.numberOfPages) return;
+        setPage(page + 1);
+    }
+
+    const handlePrevClick = () => {
+        if (page === 1) return;
+        setPage(page - 1);
+    }
+
+    const handleSelectChange = (e: SelectChangeEvent) => {
+        setPageSize(Number(e.target.value));
+    }
+
     return (
         <>
-            <Title>Teams</Title>
-            <Table size="small">
-                <TableHead>
-                    <TableRow>
-                        <TableCell>Team</TableCell>
-                        <TableCell>From Date</TableCell>
-                        <TableCell>To Date</TableCell>
-                    </TableRow>
-                </TableHead>
-                <TableBody>
-                    {members.items ? members.items.map((member: any) => (
-                        <TableRow key={member.playerUrl + member.teamUrl + member.stay}
-                                  onClick={() => navigate(`/games/${Utils.getLastIdFromUrl(member.teamUrl)}`)}
-                                  style={{cursor: "pointer"}}
-                        >
-                            <TableCell>{member.teamName}</TableCell>
-                            <TableCell>{member.fromDate}</TableCell>
-                            <TableCell>{member.toDate ? member.toDate : "Current"}</TableCell>
+            <Container sx={{p: 2, display: 'flex', flexDirection: 'column'}}>
+                <Title>Teams</Title>
+                <Table size="small">
+                    <TableHead>
+                        <TableRow>
+                            <TableCell>Team</TableCell>
+                            <TableCell>From Date</TableCell>
+                            <TableCell>To Date</TableCell>
                         </TableRow>
-                    )) : <CircularProgress/>}
-                </TableBody>
-            </Table>
-            <Link color="primary" href="http://localhost:5000/games" sx={{mt: 3}}>
-                See more games
-            </Link>
+                    </TableHead>
+                    <TableBody>
+                        {members.items ? members.items.map((member: any) => (
+                            <TableRow key={member.playerUrl + member.teamUrl + member.stay}
+                                      onClick={() => navigate(`/games/${Utils.getLastIdFromUrl(member.teamUrl)}`)}
+                                      style={{cursor: "pointer"}}
+                            >
+                                <TableCell>{member.teamName}</TableCell>
+                                <TableCell>{member.fromDate}</TableCell>
+                                <TableCell>{member.toDate ? member.toDate : "Current"}</TableCell>
+                            </TableRow>
+                        )) : <CircularProgress/>}
+                    </TableBody>
+                </Table>
+            </Container>
+            <Container sx={{p: 2}}>
+                <Paging onNextClick={handleNextClick}
+                        onPrevClick={handlePrevClick}
+                        onSelectChange={handleSelectChange}
+                        selectValues={pageValues}
+                        selectDefaultValue={pageSize}
+                        page={page}
+                        numberOfPages={members.loading ? null : members.numberOfPages}
+                />
+            </Container>
         </>
     )
 }
