@@ -27,7 +27,7 @@ const Players: FC = () => {
     const [page, pageSize, handleNextClick, handlePrevClick, handleSelectChange] = usePaging(noPages, pageValues);
     const players = usePlayers(orderBy, isAsc, page - 1, pageSize);
 
-    const {title, setTitle} = useTitleContext();
+    const {setTitle} = useTitleContext();
 
     useEffect(() => {
         setTitle('Players');
