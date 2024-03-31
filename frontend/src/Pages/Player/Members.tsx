@@ -6,11 +6,12 @@ import TableCell from "@mui/material/TableCell";
 import TableBody from "@mui/material/TableBody";
 import Utils from "../../Utils";
 import {CircularProgress, SelectChangeEvent} from "@mui/material";
-import React, {FC, useState} from "react";
+import React, {FC, useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import Paging from "../../Components/Paging";
 import {usePlayerMembers} from "../../BusinessLogic/usePlayerMembers";
 import Container from "@mui/material/Container";
+import usePaging from "../../Hooks/usePaging";
 
 interface MembersProps {
     playerId: number;
@@ -18,24 +19,14 @@ interface MembersProps {
 
 const Members: FC<MembersProps> = ({playerId}) => {
     const pageValues: number[] = [5, 10, 15]
-    const [page, setPage] = useState(1)
-    const [pageSize, setPageSize] = useState(5)
+    const [noPages, setNoPages] = useState(1);
+    const [page, pageSize, handleNextClick, handlePrevClick, handleSelectChange] = usePaging(noPages, pageValues);
     const members = usePlayerMembers(playerId, page - 1, pageSize);
     const navigate = useNavigate();
 
-    const handleNextClick = () => {
-        if (page === members.numberOfPages) return;
-        setPage(page + 1);
-    }
-
-    const handlePrevClick = () => {
-        if (page === 1) return;
-        setPage(page - 1);
-    }
-
-    const handleSelectChange = (e: SelectChangeEvent) => {
-        setPageSize(Number(e.target.value));
-    }
+    useEffect(() => {
+        setNoPages(members.numberOfPages);
+    }, [members]);
 
     return (
         <>
@@ -70,7 +61,7 @@ const Members: FC<MembersProps> = ({playerId}) => {
                         selectValues={pageValues}
                         selectDefaultValue={pageSize}
                         page={page}
-                        numberOfPages={members.loading ? null : members.numberOfPages}
+                        numberOfPages={noPages}
                 />
             </Container>
         </>
