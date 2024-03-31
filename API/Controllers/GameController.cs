@@ -15,9 +15,15 @@ public class GameController(GameDataService dataService, LinkGenerator linkGener
     [HttpGet(Name = nameof(GetGames))]
     public IActionResult GetGames(int page = 0, int pageSize = 10)
     {
-        var (teams, total) = dataService.GetGames(page, pageSize);
+        var (games, total) = dataService.GetGames(page, pageSize);
+        var dtos = new List<GameDto>();
+        
+        foreach (var game in games)
+        {
+            dtos.Add(MapGame(game));
+        }
 
-        return Ok(Paging(teams, total, new PagingValues { Page = page, PageSize = pageSize }, nameof(GetGames)));
+        return Ok(Paging(dtos, total, new PagingValues { Page = page, PageSize = pageSize }, nameof(GetGames)));
     }
 
     [HttpGet("{id}", Name = nameof(GetGame))]
