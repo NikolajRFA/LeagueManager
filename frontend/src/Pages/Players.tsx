@@ -31,6 +31,7 @@ const Players: FC = () => {
         setTitle('Players');
     }, []);
 
+    // TODO: Create simple use paging returning the handlers used in the paging component.
     const handleNextClick = () => {
         if (page === players.numberOfPages) return;
         setPage(page + 1);
