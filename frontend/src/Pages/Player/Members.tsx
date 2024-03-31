@@ -6,14 +6,10 @@ import TableCell from "@mui/material/TableCell";
 import TableBody from "@mui/material/TableBody";
 import Utils from "../../Utils";
 import {CircularProgress, SelectChangeEvent} from "@mui/material";
-import Link from "@mui/material/Link";
 import React, {FC, useState} from "react";
 import {useNavigate} from "react-router-dom";
-import PlayerMember from "../../BusinessLogic/Models/PlayerMember";
-import List from "../../BusinessLogic/Models/List";
 import Paging from "../../Components/Paging";
 import {usePlayerMembers} from "../../BusinessLogic/usePlayerMembers";
-import Paper from "@mui/material/Paper";
 import Container from "@mui/material/Container";
 
 interface MembersProps {
@@ -56,7 +52,7 @@ const Members: FC<MembersProps> = ({playerId}) => {
                     <TableBody>
                         {members.items ? members.items.map((member: any) => (
                             <TableRow key={member.playerUrl + member.teamUrl + member.stay}
-                                      onClick={() => navigate(`/games/${Utils.getLastIdFromUrl(member.teamUrl)}`)}
+                                      onClick={() => navigate(`/teams/${Utils.getLastIdFromUrl(member.teamUrl)}`)}
                                       style={{cursor: "pointer"}}
                             >
                                 <TableCell>{member.teamName}</TableCell>
