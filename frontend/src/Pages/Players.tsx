@@ -17,34 +17,25 @@ import PlayersPlayer from "./Players/PlayersPlayer";
 import Container from "@mui/material/Container";
 import {NavLink} from "react-router-dom";
 import Utils from "../Utils";
+import usePaging from "../Hooks/usePaging";
 
 const Players: FC = () => {
-    const pageValues: number[] = [5, 10, 15]
-    const [page, setPage] = useState(1);
-    const [pageSize, setPageSize] = useState(pageValues[0]);
     const [orderBy, setOrderBy] = useState('overall');
     const [isAsc, setIsAsc] = useState(false);
+    const pageValues: number[] = [5, 10, 15];
+    const [noPages, setNoPages] = useState(1);
+    const [page, pageSize, handleNextClick, handlePrevClick, handleSelectChange] = usePaging(noPages, pageValues);
     const players = usePlayers(orderBy, isAsc, page - 1, pageSize);
+
     const {title, setTitle} = useTitleContext();
 
     useEffect(() => {
         setTitle('Players');
     }, []);
 
-    // TODO: Create simple use paging returning the handlers used in the paging component.
-    const handleNextClick = () => {
-        if (page === players.numberOfPages) return;
-        setPage(page + 1);
-    }
-
-    const handlePrevClick = () => {
-        if (page === 1) return;
-        setPage(page - 1);
-    }
-
-    const handleSelectChange = (e: SelectChangeEvent) => {
-        setPageSize(Number(e.target.value));
-    }
+    useEffect(() => {
+        setNoPages(players.numberOfPages);
+    }, [players]);
 
     const handleAscButtonClick = () => {
         setIsAsc(!isAsc);
@@ -90,7 +81,7 @@ const Players: FC = () => {
                         selectValues={pageValues}
                         selectDefaultValue={pageSize}
                         page={page}
-                        numberOfPages={players.loading ? null : players.numberOfPages}
+                        numberOfPages={noPages}
                 />
             </Container>
     )
