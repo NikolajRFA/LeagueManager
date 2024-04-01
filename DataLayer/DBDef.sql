@@ -3,6 +3,7 @@ SET pg_trgm.similarity_threshold = 0.15;
 
 DROP TABLE IF EXISTS participation;
 DROP TABLE IF EXISTS game;
+DROP TABLE IF EXISTS series;
 DROP TABLE IF EXISTS member;
 DROP TABLE IF EXISTS team;
 DROP TABLE IF EXISTS player_name_wi;
@@ -97,9 +98,10 @@ CREATE TABLE event
     name VARCHAR(150) NOT NULL
 );
 
-CREATE TABLE series 
+CREATE TABLE series
 (
-    id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    id           INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    best_of      INT                      NOT NULL,
     blue_side_id INT REFERENCES team (id) NOT NULL,
     red_side_id  INT REFERENCES team (id) NOT NULL,
     winner_id    INT REFERENCES team (id),
@@ -109,18 +111,18 @@ CREATE TABLE series
 
 CREATE TABLE game
 (
-    id           INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-    series_id   INT REFERENCES series (id) NOT NULL,
-    blue_side_won BOOL NOT NULL
+    id            INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    series_id     INT REFERENCES series (id) NOT NULL,
+    blue_side_won BOOL                       NOT NULL
 );
 
 CREATE TABLE participation
 (
-    game_id   INT REFERENCES game (id)   NOT NULL,
+    series_id INT REFERENCES series (id) NOT NULL,
     player_id INT REFERENCES player (id) NOT NULL,
     role      VARCHAR(10)                NOT NULL,
     team_id   INT REFERENCES team (id),
-    PRIMARY KEY (game_id, player_id)
+    PRIMARY KEY (series_id, player_id)
 );
 
 /*CREATE UNIQUE INDEX player_team_overlap
@@ -196,10 +198,13 @@ VALUES (11, 2, 'support', CURRENT_DATE - 30, CURRENT_DATE - 22);
 INSERT INTO event (name)
 VALUES ('League 1');
 
-INSERT INTO game (blue_side_id, red_side_id, winner_id, event_id, date)
-VALUES (1, 2, 1, 1, now());
+INSERT INTO series (best_of, blue_side_id, red_side_id, winner_id, event_id, date)
+VALUES (1, 1, 2, 1, 1, now());
 
-INSERT INTO participation (game_id, player_id, role, team_id)
+INSERT INTO game (series_id, blue_side_won)
+VALUES (1, true);
+
+INSERT INTO participation (series_id, player_id, role, team_id)
 VALUES (1, 1, 'top', 1),
        (1, 2, 'jungle', 1),
        (1, 3, 'mid', 1),
@@ -252,7 +257,7 @@ end
 $$;
 
 -- TODO: Transactionalize procedure, and add control of if players are added to the participation table.
-CREATE OR REPLACE PROCEDURE play_game(blue_side_team_id INT, red_side_team_id INT, event_id_in INT, game_date DATE)
+CREATE OR REPLACE PROCEDURE play_game(in_series_id INT)
     LANGUAGE plpgsql
 AS
 $$
@@ -267,30 +272,13 @@ DECLARE
     blue_side_performance     INT;
     red_side_performance      INT;
 BEGIN
-    -- Create new game with the teams
-    INSERT INTO game (blue_side_id, red_side_id, event_id, date)
-    VALUES (blue_side_team_id, red_side_team_id, event_id_in, game_date)
-    RETURNING id INTO new_game_id;
-
-    -- Add members to participation table
-    INSERT INTO participation (game_id, player_id, role, team_id)
-    SELECT new_game_id,
-           player_id,
-           role,
-           team_id
-    FROM member
-    WHERE (team_id = blue_side_team_id OR team_id = red_side_team_id)
-      AND role != 'benched'
-      AND from_date <= game_date
-      AND (to_date >= game_date OR to_date IS NULL);
-
     -- Get minimum team skill levels based on the number of players in the teams
     SELECT min_skill_lvl *
-           (SELECT count(*) FROM participation WHERE game_id = new_game_id AND team_id = blue_side_team_id) *
+           (SELECT count(*) FROM participation WHERE series_id = in_series_id AND team_id = (SELECT blue_side_id FROM series WHERE id = in_series_id)) *
            player_amount_of_skills
     INTO min_total_skill_blue_side;
     SELECT min_skill_lvl *
-           (SELECT count(*) FROM participation WHERE game_id = new_game_id AND team_id = red_side_team_id) *
+           (SELECT count(*) FROM participation WHERE series_id = new_game_id AND team_id = (SELECT red_side_id FROM series WHERE id = in_series_id)) *
            player_amount_of_skills
     INTO min_total_skill_red_side;
 
@@ -298,13 +286,13 @@ BEGIN
     SELECT sum(get_total_player_skill(player_id))
     INTO total_skill_blue_side
     FROM participation
-    WHERE game_id = new_game_id
-      AND team_id = blue_side_team_id;
+    WHERE series_id = in_series_id
+      AND team_id = (SELECT blue_side_id FROM series WHERE id = in_series_id);
     SELECT sum(get_total_player_skill(player_id))
     INTO total_skill_red_side
     FROM participation
-    WHERE game_id = new_game_id
-      AND team_id = red_side_team_id;
+    WHERE series_id = in_series_id
+      AND team_id = (SELECT red_side_id FROM series WHERE id = in_series_id);
 
     -- Use randomness to find a game winner
     SELECT floor(random() * (total_skill_blue_side - min_total_skill_blue_side + 1) + min_total_skill_blue_side)::int
@@ -312,17 +300,46 @@ BEGIN
     SELECT floor(random() * (total_skill_red_side - min_total_skill_red_side + 1) + min_total_skill_red_side)::int
     INTO red_side_performance;
 
-    UPDATE game
-    SET winner_id = CASE
-                        WHEN blue_side_performance > red_side_performance THEN blue_side_id
-                        WHEN blue_side_performance = red_side_performance THEN
-                            CASE
-                                WHEN random() < 0.5 THEN blue_side_id
-                                ELSE red_side_id
-                                END
-                        ELSE red_side_id
-        END
-    WHERE id = new_game_id;
+    -- Insert the game
+    INSERT INTO game (series_id, blue_side_won) 
+    VALUES (in_series_id, CASE
+                              WHEN blue_side_performance > red_side_performance THEN TRUE
+                              WHEN blue_side_performance = red_side_performance THEN
+                                  CASE
+                                      WHEN random() < 0.5 THEN TRUE
+                                      ELSE FALSE
+                                      END
+                              ELSE FALSE
+        END);
+end;
+$$;
+
+CREATE OR REPLACE PROCEDURE play_series(in_blue_side_id INT, in_red_side_id INT, in_best_of INT, in_event_id INT,
+                                        in_date DATE)
+    LANGUAGE plpgsql
+AS
+$$
+DECLARE
+    new_series_id INT;
+BEGIN
+    -- Create series
+    INSERT INTO series (best_of, blue_side_id, red_side_id, event_id, date)
+    VALUES (in_best_of, in_blue_side_id, in_red_side_id, in_event_id, in_date)
+    RETURNING id INTO new_series_id;
+
+    -- Add members to participation table
+    INSERT INTO participation (series_id, player_id, role, team_id)
+    SELECT new_series_id,
+           player_id,
+           role,
+           team_id
+    FROM member
+    WHERE (team_id = in_blue_side_id OR team_id = in_red_side_id)
+      AND role != 'benched'
+      AND from_date <= in_date
+      AND (to_date >= in_date OR to_date IS NULL);
+    
+    -- TODO: Add logic for playing the appropriate amount of games
 end;
 $$;
 
