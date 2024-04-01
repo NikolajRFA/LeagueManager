@@ -56,19 +56,19 @@ public class PlayerController(PlayerDataService dataService, LinkGenerator linkG
                 VersusUrl = GetUrl(nameof(TeamController.GetTeam),
                     new
                     {
-                        Id = participation.TeamId == participation.Game.BlueSideId
-                            ? participation.Game.RedSideId
-                            : participation.Game.BlueSideId
+                        Id = participation.TeamId == participation.Series.BlueSideId
+                            ? participation.Series.RedSideId
+                            : participation.Series.BlueSideId
                     }),
-                Versus = participation.TeamId == participation.Game.BlueSideId
-                    ? participation.Game.RedSide.Name
-                    : participation.Game.BlueSide.Name,
-                WinnerUrl = GetUrl(nameof(TeamController.GetTeam), new { Id = participation.Game.WinnerId }),
-                Winner = participation.Game.Winner?.Name,
-                Won = participation.TeamId == participation.Game.WinnerId,
-                Event = participation.Game.Event?.Name,
+                Versus = participation.TeamId == participation.Series.BlueSideId
+                    ? participation.Series.RedSide.Name
+                    : participation.Series.BlueSide.Name,
+                WinnerUrl = GetUrl(nameof(TeamController.GetTeam), new { Id = participation.Series.WinnerId }),
+                Winner = participation.Series.Winner?.Name,
+                Won = participation.TeamId == participation.Series.WinnerId,
+                Event = participation.Series.Event?.Name,
                 EventUrl = null, // TODO: Create EventController.
-                Date = participation.Game.Date,
+                Date = participation.Series.Date,
             })
             .ToList();
 

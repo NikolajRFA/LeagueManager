@@ -21,5 +21,5 @@ public class Player
     public int Farming { get; set; }
     public List<Team> Teams { get; set; }
     public List<Member> Members { get; set; }
-    public List<Game> Games { get; set; }
+    public List<Series> Series { get; set; }
 }

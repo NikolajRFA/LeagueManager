@@ -48,7 +48,7 @@ public class GameController(GameDataService dataService, LinkGenerator linkGener
                 PlayerUrl = GetUrl(nameof(PlayerController.GetPlayer), new {Id = participation.PlayerId}),
                 Team = participation.Team.Name,
                 TeamUrl = GetUrl(nameof(TeamController.GetTeam), new {Id = participation.TeamId}),
-                Side = participation.Game.BlueSideId == participation.TeamId ? "Blue" : "Red",
+                Side = participation.Series.BlueSideId == participation.TeamId ? "Blue" : "Red",
                 FirstName = participation.Player.FirstName,
                 LastName = participation.Player.LastName,
                 Alias = participation.Player.Alias,

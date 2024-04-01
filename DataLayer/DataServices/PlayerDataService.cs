@@ -42,15 +42,15 @@ public class PlayerDataService
         var db = new Database();
         var participations = db.Participations
             .Where(x => x.PlayerId == playerId)
-            .Include(x => x.Game)
+            .Include(x => x.Series)
             .ThenInclude(x => x.BlueSide)
-            .Include(x => x.Game)
+            .Include(x => x.Series)
             .ThenInclude(x => x.RedSide)
-            .Include(x => x.Game)
+            .Include(x => x.Series)
             .ThenInclude(x => x.Winner)
-            .Include(x => x.Game)
+            .Include(x => x.Series)
             .ThenInclude(x => x.Event)
-            .OrderByDescending(x => x.Game.Date);
+            .OrderByDescending(x => x.Series.Date);
 
         return (participations.Skip(page * pageSize).Take(pageSize).ToList(), participations.Count());
     }

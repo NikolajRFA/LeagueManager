@@ -59,28 +59,12 @@ public class DatabaseTests
     }
 
     [Fact]
-    public void GetPlayersFromGame_GameId1_Success()
-    {
-        var db = new Database();
-        var players = db.Games
-            .Include(x => x.Players)
-            .FirstOrDefault()?.Players;
-        
-        Assert.NotNull(players);
-        
-        foreach (var player in players) 
-        {
-            _testOutputHelper.WriteLine($"{player.FirstName} {player.LastName} {player.Age} {player.Nationality}");
-        }
-    }
-
-    [Fact]
-    public void GetGamesFromPlayer_PlayerId1_Success()
+    public void GetSeriesFromPlayer_PlayerId1_Success()
     {
         var db = new Database();
         var games = db.Players
-            .Include(x => x.Games)
-            .FirstOrDefault(x => x.Id == 1)!.Games;
+            .Include(x => x.Series)
+            .FirstOrDefault(x => x.Id == 1)!.Series;
         
         Assert.NotNull(games);
 
@@ -91,10 +75,10 @@ public class DatabaseTests
     }
 
     [Fact]
-    public void GetDateFromGame_GameId1_Success()
+    public void GetDateFromSeries_SeriesId1_Success()
     {
         var db = new Database();
-        var date = db.Games.FirstOrDefault(x => x.Id == 1)!.Date;
+        var date = db.Series.FirstOrDefault(x => x.Id == 1)!.Date;
         
         Assert.Matches(@"\d{2}-\d{2}-\d{4}", date.ToString());
         

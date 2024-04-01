@@ -10,10 +10,14 @@ public class GameDataService
     {
         var db = new Database();
         return (db.Games
-            .Include(x => x.BlueSide)
-            .Include(x => x.RedSide)
-            .Include(x => x.Winner)
-            .Include(x => x.Event)
+            .Include(x => x.Series)
+            .ThenInclude(x => x.BlueSide)
+            .Include(x => x.Series)
+            .ThenInclude(x => x.RedSide)
+            .Include(x => x.Series)
+            .ThenInclude(x => x.Winner)
+            .Include(x => x.Series)
+            .ThenInclude(x => x.Event)
             .Skip(page * pageSize)
             .Take(pageSize)
             .ToList(), db.Games.Count());
@@ -23,10 +27,14 @@ public class GameDataService
     {
         var db = new Database();
         return db.Games
-            .Include(x => x.BlueSide)
-            .Include(x => x.RedSide)
-            .Include(x => x.Winner)
-            .Include(x => x.Event)
+            .Include(x => x.Series)
+            .ThenInclude(x => x.BlueSide)
+            .Include(x => x.Series)
+            .ThenInclude(x => x.RedSide)
+            .Include(x => x.Series)
+            .ThenInclude(x => x.Winner)
+            .Include(x => x.Series)
+            .ThenInclude(x => x.Event)
             .FirstOrDefault(x => x.Id == id);
     }
 
@@ -36,7 +44,7 @@ public class GameDataService
         var participations = db.Participations
             .Include(x => x.Player)
             .Include(x => x.Team)
-            .Include(x => x.Game)
+            .Include(x => x.Series)
             .Where(x => x.GameId == gameId);
 
         return (participations.Skip(page * pageSize).Take(pageSize).ToList(), participations.Count());

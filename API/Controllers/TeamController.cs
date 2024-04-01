@@ -38,7 +38,7 @@ public class TeamController(TeamDataService dataService, LinkGenerator linkGener
     [HttpGet("{id}/games", Name = nameof(GetGamesFromTeam))]
     public IActionResult GetGamesFromTeam(int id, int page = 0, int pageSize = 10)
     {
-        var (games, total) = dataService.GetGames(id, page, pageSize);
+        var (games, total) = dataService.GetSeries(id, page, pageSize);
 
         var dtos = new List<TeamGameDto>();
         foreach (var game in games)

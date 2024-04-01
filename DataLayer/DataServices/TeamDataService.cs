@@ -26,10 +26,10 @@ public class TeamDataService
             .FirstOrDefault(x => x.Id == id);
     }
 
-    public (List<Game>, int) GetGames(int teamId, int page = 0, int pageSize = 10)
+    public (List<Series>, int) GetSeries(int teamId, int page = 0, int pageSize = 10)
     {
         var db = new Database();
-        var games = db.Games
+        var series = db.Series
             .Include(x => x.BlueSide)
             .Include(x => x.RedSide)
             .Include(x => x.Winner)
@@ -37,11 +37,11 @@ public class TeamDataService
             .Where(x => x.BlueSideId == teamId || x.RedSideId == teamId)
             .OrderByDescending(x => x.Date);
 
-        return (games
+        return (series
                 .Skip(page * pageSize)
                 .Take(pageSize)
                 .ToList(),
-            games.Count());
+            series.Count());
     }
 
     public (List<Member>, int) GetMembersFromTeam(int teamId, int page = 0, int pageSize = 10)

@@ -15,6 +15,7 @@ public class Database : DbContext
 
     //public DbSet<League> Leagues { get; set; }
     public DbSet<Event> Events { get; set; }
+    public DbSet<Series> Series { get; set; }
     public DbSet<Game> Games { get; set; }
     public DbSet<Participation> Participations { get; set; }
     public DbSet<TotalSkillResult> TotalSkillResults { get; set; }
@@ -39,7 +40,7 @@ public class Database : DbContext
             entity.HasMany(x => x.Teams)
                 .WithMany(x => x.Players)
                 .UsingEntity<Member>();
-            entity.HasMany(x => x.Games)
+            entity.HasMany(x => x.Series)
                 .WithMany(x => x.Players)
                 .UsingEntity<Participation>();
         });
@@ -83,16 +84,22 @@ public class Database : DbContext
             entity.HasKey(x => x.Id);
             entity.Property(p => p.Id)
                 .ValueGeneratedOnAdd();
+        });
+
+        modelBuilder.Entity<Series>(entity =>
+        {
+            entity.ToTable("series");
+            entity.HasKey(x => x.Id);
             entity.HasOne<Team>(x => x.BlueSide);
             entity.HasOne<Team>(x => x.RedSide);
             entity.HasOne<Team>(x => x.Winner);
-
+            
             entity.HasMany(x => x.Players)
-                .WithMany(x => x.Games)
+                .WithMany(x => x.Series)
                 .UsingEntity<Participation>();
-
+            
             entity.HasOne(x => x.Event)
-                .WithMany(x => x.Games);
+                .WithMany(x => x.Series);
         });
 
         modelBuilder.Entity<Participation>(entity =>

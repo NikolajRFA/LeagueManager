@@ -8,7 +8,7 @@ public class Participation
     public int PlayerId { get; set; }
     public string Role { get; set; }
     public int TeamId { get; set; }
-    public Game Game { get; set; }
+    public Series Series { get; set; }
     public Player Player { get; set; }
     public Team Team { get; set; }
 }
