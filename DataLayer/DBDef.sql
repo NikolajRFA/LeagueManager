@@ -97,14 +97,21 @@ CREATE TABLE event
     name VARCHAR(150) NOT NULL
 );
 
-CREATE TABLE game
+CREATE TABLE series 
 (
-    id           INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     blue_side_id INT REFERENCES team (id) NOT NULL,
     red_side_id  INT REFERENCES team (id) NOT NULL,
     winner_id    INT REFERENCES team (id),
     event_id     INT REFERENCES event (id),
     date         DATE                     NOT NULL
+);
+
+CREATE TABLE game
+(
+    id           INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    series_id   INT REFERENCES series (id) NOT NULL,
+    blue_side_won BOOL NOT NULL
 );
 
 CREATE TABLE participation
