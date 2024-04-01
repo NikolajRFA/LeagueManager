@@ -274,11 +274,17 @@ DECLARE
 BEGIN
     -- Get minimum team skill levels based on the number of players in the teams
     SELECT min_skill_lvl *
-           (SELECT count(*) FROM participation WHERE series_id = in_series_id AND team_id = (SELECT blue_side_id FROM series WHERE id = in_series_id)) *
+           (SELECT count(*)
+            FROM participation
+            WHERE series_id = in_series_id
+              AND team_id = (SELECT blue_side_id FROM series WHERE id = in_series_id)) *
            player_amount_of_skills
     INTO min_total_skill_blue_side;
     SELECT min_skill_lvl *
-           (SELECT count(*) FROM participation WHERE series_id = new_game_id AND team_id = (SELECT red_side_id FROM series WHERE id = in_series_id)) *
+           (SELECT count(*)
+            FROM participation
+            WHERE series_id = new_game_id
+              AND team_id = (SELECT red_side_id FROM series WHERE id = in_series_id)) *
            player_amount_of_skills
     INTO min_total_skill_red_side;
 
@@ -301,7 +307,7 @@ BEGIN
     INTO red_side_performance;
 
     -- Insert the game
-    INSERT INTO game (series_id, blue_side_won) 
+    INSERT INTO game (series_id, blue_side_won)
     VALUES (in_series_id, CASE
                               WHEN blue_side_performance > red_side_performance THEN TRUE
                               WHEN blue_side_performance = red_side_performance THEN
@@ -320,7 +326,9 @@ CREATE OR REPLACE PROCEDURE play_series(in_blue_side_id INT, in_red_side_id INT,
 AS
 $$
 DECLARE
-    new_series_id INT;
+    new_series_id  INT;
+    blue_side_wins INT := 0;
+    red_side_wins  INT := 0;
 BEGIN
     -- Create series
     INSERT INTO series (best_of, blue_side_id, red_side_id, event_id, date)
@@ -338,15 +346,34 @@ BEGIN
       AND role != 'benched'
       AND from_date <= in_date
       AND (to_date >= in_date OR to_date IS NULL);
-    
-    -- TODO: Add logic for playing the appropriate amount of games
+
+    -- Play games until one team wins the series
+    WHILE (blue_side_wins < (in_best_of / 2) + 1) AND (red_side_wins < (in_best_of / 2) + 1)
+        LOOP
+            -- Call play_game procedure and determine the winner
+            CALL play_game(new_series_id);
+
+            -- Find winner of game and update tally
+            IF (SELECT blue_side_won FROM game WHERE series_id = new_series_id ORDER BY id DESC LIMIT 1) THEN
+                blue_side_wins := blue_side_wins + 1;
+            ELSE
+                red_side_wins := red_side_wins + 1;
+            END IF;
+        END LOOP;
+
+    UPDATE series
+    SET winner_id = CASE
+                        WHEN blue_side_wins > red_side_wins THEN in_blue_side_id
+                        WHEN red_side_wins > blue_side_wins THEN in_red_side_id
+        END
+        WHERE id = new_series_id;
 end;
 $$;
 
 CALL update_player_name_wi();
 
 -- Create some more games
-CALL play_game(1, 2, 1, CURRENT_DATE - 12);
-CALL play_game(2, 1, 1, CURRENT_DATE - 10);
-CALL play_game(2, 1, 1, CURRENT_DATE - 8);
-CALL play_game(1, 2, 1, CURRENT_DATE - 5);
+CALL play_series(1, 2, 3, 1, CURRENT_DATE - 12);
+CALL play_series(2, 1, 3, 1, CURRENT_DATE - 10);
+CALL play_series(2, 1, 3, 1, CURRENT_DATE - 8);
+CALL play_series(1, 2, 3, 1, CURRENT_DATE - 5);
