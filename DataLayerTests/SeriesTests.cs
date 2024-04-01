@@ -1,4 +1,5 @@
-﻿using Xunit.Abstractions;
+﻿using DataLayer.DataServices;
+using Xunit.Abstractions;
 
 namespace DataLayerTests;
 
@@ -14,6 +15,8 @@ public class SeriesTests
     [Fact]
     public void GetSeries_Id1_Success()
     {
-        _testOutputHelper.WriteLine("Test");
+        var dataService = new SeriesDataService();
+        var series = dataService.GetSeries(1);
+        Assert.NotNull(series);
     }
 }
