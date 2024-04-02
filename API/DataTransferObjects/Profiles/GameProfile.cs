@@ -7,7 +7,7 @@ public class GameProfile : Profile
 {
     public GameProfile()
     {
-        CreateMap<DataLayer.Entities.Game, GameDto>();
+        CreateMap<DataLayer.Entities.Game, SeriesDto>();
         CreateMap<DataLayer.Entities.Game, PlayerGameDto>();
     }
 }

@@ -4,7 +4,7 @@ namespace DataLayer.Entities;
 
 public class Participation
 {
-    public int GameId { get; set; }
+    public int SeriesId { get; set; }
     public int PlayerId { get; set; }
     public string Role { get; set; }
     public int TeamId { get; set; }

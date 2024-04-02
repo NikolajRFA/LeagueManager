@@ -44,13 +44,13 @@ public class DatabaseTests
     }
 
     [Fact]
-    public void GetParticipations_GameId1_AllParticipations()
+    public void GetParticipations_SeriesId1_AllParticipations()
     {
         var db = new Database();
         var participations = db.Participations
             .Include(x => x.Player)
             .Include(x => x.Team)
-            .Where(x => x.GameId == 1).ToList();
+            .Where(x => x.SeriesId == 1).ToList();
 
         foreach (var participation in participations)
         {

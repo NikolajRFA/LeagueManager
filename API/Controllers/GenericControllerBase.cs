@@ -63,17 +63,17 @@ public abstract class GenericControllerBase : ControllerBase
         return userId;
     }
     
-    protected GameDto MapGame(Game game)
+    protected SeriesDto MapSeries(Series series)
     {
-        var dto = Mapper.Map<GameDto>(game);
-        dto.Url = GetUrl(nameof(GameController.GetGame), new { game.Id });
-        dto.BlueSideUrl = GetUrl(nameof(TeamController.GetTeam), new { Id = game.BlueSideId });
-        dto.RedSideUrl = GetUrl(nameof(TeamController.GetTeam), new { Id = game.RedSideId });
-        dto.WinnerUrl = GetUrl(nameof(TeamController.GetTeam), new { Id = game.WinnerId });
-        dto.BlueSide = game.BlueSide.Name;
-        dto.RedSide = game.RedSide.Name;
-        dto.Winner = game.Winner?.Name;
-        dto.Event = game.Event?.Name;
+        var dto = Mapper.Map<SeriesDto>(series);
+        dto.Url = GetUrl(nameof(GameController.GetGame), new { series.Id });
+        dto.BlueSideUrl = GetUrl(nameof(TeamController.GetTeam), new { Id = series.BlueSideId });
+        dto.RedSideUrl = GetUrl(nameof(TeamController.GetTeam), new { Id = series.RedSideId });
+        dto.WinnerUrl = GetUrl(nameof(TeamController.GetTeam), new { Id = series.WinnerId });
+        dto.BlueSide = series.BlueSide.Name;
+        dto.RedSide = series.RedSide.Name;
+        dto.Winner = series.Winner?.Name;
+        dto.Event = series.Event?.Name;
         dto.EventUrl = null; // TODO: Create event controller.
         return dto;
     }

@@ -105,7 +105,7 @@ public class Database : DbContext
         modelBuilder.Entity<Participation>(entity =>
         {
             entity.ToTable("participation");
-            entity.HasKey(x => new { x.GameId, x.PlayerId });
+            entity.HasKey(x => new { x.SeriesId, x.PlayerId });
         });
 
         modelBuilder.Entity<TotalSkillResult>().HasNoKey().ToView(null);

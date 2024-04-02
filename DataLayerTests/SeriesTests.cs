@@ -16,7 +16,21 @@ public class SeriesTests
     public void GetSeries_Id1_Success()
     {
         var dataService = new SeriesDataService();
-        var series = dataService.GetSeries(1);
+        var series = dataService.GetSingleSeries(1);
         Assert.NotNull(series);
+    }
+    
+    [Fact]
+    public void GetPlayersFromGame_Id1_Success()
+    {
+        var dataService = new SeriesDataService();
+        Assert.NotNull(dataService.GetPlayersFromSeries(1).Item1);
+    }
+    
+    [Fact]
+    public void GetPlayersFromGame_NonExistent_ReturnsNull()
+    {
+        var dataService = new SeriesDataService();
+        Assert.Empty(dataService.GetPlayersFromSeries(-1).Item1);
     }
 }

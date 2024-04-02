@@ -1,6 +1,6 @@
 ﻿namespace API.DataTransferObjects;
 
-public class GameDto
+public class SeriesDto
 {
     public string Url { get; set; }
     public string BlueSide { get; set; }

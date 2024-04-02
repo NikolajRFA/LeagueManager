@@ -21,20 +21,6 @@ public class GameDataserviceTests
     }
 
     [Fact]
-    public void GetPlayersFromGame_Id1_Success()
-    {
-        var dataService = new GameDataService();
-        Assert.NotNull(dataService.GetPlayersFromGame(1));
-    }
-    
-    [Fact]
-    public void GetPlayersFromGame_NonExistent_ReturnsNull()
-    {
-        var dataService = new GameDataService();
-        Assert.Null(dataService.GetPlayersFromGame(-1));
-    }
-
-    [Fact]
     public void PlayGame_Team1AndTeam2_Success()
     {
         var dataService = new GameDataService();

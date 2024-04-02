@@ -48,7 +48,7 @@ public class PlayerController(PlayerDataService dataService, LinkGenerator linkG
 
         var dtos = participations.Select(participation => new PlayerGameDto
             {
-                GameUrl = GetUrl(nameof(GameController.GetGame), new { Id = participation.GameId }),
+                GameUrl = GetUrl(nameof(GameController.GetGame), new { Id = participation.SeriesId }),
                 PlayerUrl = GetUrl(nameof(GetPlayer), new { id }),
                 Role = participation.Role,
                 TeamUrl = GetUrl(nameof(TeamController.GetTeam), new { Id = participation.TeamId }),
