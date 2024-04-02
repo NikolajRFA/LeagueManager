@@ -16,6 +16,7 @@ builder.Services.AddSwaggerGen();
 //builder.Services.AddSingleton<BookmarkDataService>();
 builder.Services.AddSingleton<PlayerDataService>();
 builder.Services.AddSingleton<TeamDataService>();
+builder.Services.AddSingleton<SeriesDataService>();
 builder.Services.AddSingleton<GameDataService>();
 builder.Services.AddSingleton<SearchDataService>();
 //builder.Services.AddSingleton<Hashing>();

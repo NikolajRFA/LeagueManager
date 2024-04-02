@@ -38,30 +38,30 @@ public class TeamController(TeamDataService dataService, LinkGenerator linkGener
     [HttpGet("{id}/games", Name = nameof(GetGamesFromTeam))]
     public IActionResult GetGamesFromTeam(int id, int page = 0, int pageSize = 10)
     {
-        var (games, total) = dataService.GetSeries(id, page, pageSize);
+        var (seriesList, total) = dataService.GetSeries(id, page, pageSize);
 
-        var dtos = new List<TeamGameDto>();
-        foreach (var game in games)
+        var dtos = new List<TeamSeriesDto>();
+        foreach (var series in seriesList)
         {
-            var isBlueSide = game.BlueSideId == id;
-            dtos.Add(new TeamGameDto
+            var isBlueSide = series.BlueSideId == id;
+            dtos.Add(new TeamSeriesDto
             {
-                GameUrl = GetUrl(nameof(GameController.GetGame), new { game.Id }),
+                GameUrl = GetUrl(nameof(GameController.GetGame), new { series.Id }),
                 TeamUrl =
-                    GetUrl(nameof(GetTeam), new { Id = isBlueSide ? game.BlueSideId : game.RedSideId }),
-                Team = isBlueSide ? game.BlueSide.Name : game.RedSide.Name,
+                    GetUrl(nameof(GetTeam), new { Id = isBlueSide ? series.BlueSideId : series.RedSideId }),
+                Team = isBlueSide ? series.BlueSide.Name : series.RedSide.Name,
                 VersusUrl = GetUrl(nameof(GetTeam),
                     new
                     {
-                        Id = isBlueSide ? game.RedSideId : game.BlueSideId
+                        Id = isBlueSide ? series.RedSideId : series.BlueSideId
                     }),
-                Versus = isBlueSide ? game.RedSide.Name : game.BlueSide.Name,
-                WinnerUrl = GetUrl(nameof(GetTeam), new { Id = game.WinnerId }),
-                Winner = game.Winner?.Name,
-                Won = id == game.WinnerId,
-                Event = game.Event?.Name,
+                Versus = isBlueSide ? series.RedSide.Name : series.BlueSide.Name,
+                WinnerUrl = GetUrl(nameof(GetTeam), new { Id = series.WinnerId }),
+                Winner = series.Winner?.Name,
+                Won = id == series.WinnerId,
+                Event = series.Event?.Name,
                 EventUrl = null, // TODO: Create EventController.
-                Date = game.Date,
+                Date = series.Date,
             });
         }
 

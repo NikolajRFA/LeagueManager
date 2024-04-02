@@ -9,7 +9,10 @@ public class SeriesDataService
     {
         var db = new Database();
         var series = db.Series
-            .Include(x => x.Games);
+            .Include(x => x.Games)
+            .Include(x => x.BlueSide)
+            .Include(x => x.RedSide)
+            .Include(x => x.Winner);
 
         return (series.Skip(page * pageSize).Take(pageSize).ToList(), series.Count());
     }
@@ -19,6 +22,9 @@ public class SeriesDataService
         var db = new Database();
         return db.Series
             .Include(x => x.Games)
+            .Include(x => x.BlueSide)
+            .Include(x => x.RedSide)
+            .Include(x => x.Winner)
             .SingleOrDefault(x => x.Id == id);
     }
     

@@ -8,6 +8,6 @@ public class GameProfile : Profile
     public GameProfile()
     {
         CreateMap<DataLayer.Entities.Game, SeriesDto>();
-        CreateMap<DataLayer.Entities.Game, PlayerGameDto>();
+        CreateMap<DataLayer.Entities.Game, PlayerSeriesDto>();
     }
 }
