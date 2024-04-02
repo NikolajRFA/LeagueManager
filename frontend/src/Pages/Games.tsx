@@ -2,19 +2,20 @@ import {FC, useEffect, useState} from "react";
 import Container from "@mui/material/Container";
 import React from "react";
 import usePaging from "../Hooks/usePaging";
-import {useGames} from "../BusinessLogic/useGames";
+import {useSeriesList} from "../BusinessLogic/useSeriesList";
 import {useTitleContext} from "../Contexts/TitleContext";
 import {CircularProgress, Stack} from "@mui/material";
 import {NavLink} from "react-router-dom";
 import Utils from "../Utils";
 import GamesGame from "./Games/GamesGame";
 import Paging from "../Components/Paging";
+import {useSeries} from "../BusinessLogic/useSeries";
 
 const Games: FC = () => {
     const pageValues = [5, 10, 15];
     const [noPages, setNoPages] = useState(1);
     const [page, pageSize, handleNextClick, handlePrevClick, handleSelectChange] = usePaging(noPages, pageValues);
-    const games = useGames(page - 1, pageSize);
+    const games = useSeriesList(page - 1, pageSize);
     const {setTitle} = useTitleContext();
 
 

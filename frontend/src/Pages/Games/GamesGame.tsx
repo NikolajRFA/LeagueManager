@@ -1,9 +1,9 @@
 import React, {FC} from "react";
 import {Card} from "@mui/material";
-import Game from "../../BusinessLogic/Models/Game";
+import Series from "../../BusinessLogic/Models/Series";
 
 interface GamesGameProps {
-    game: Game;
+    game: Series;
 }
 
 const GamesGame: FC<GamesGameProps> = ({game}) => {

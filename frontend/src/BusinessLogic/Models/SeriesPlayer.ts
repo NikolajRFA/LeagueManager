@@ -1,6 +1,6 @@
 import ApiReturn from "./ApiReturn";
 
-export default class GamePlayer extends ApiReturn {
+export default class SeriesPlayer extends ApiReturn {
     playerUrl: string;
     team: string;
     teamUrl: string;

@@ -9,7 +9,7 @@ import Title from './Title';
 import {CircularProgress, Skeleton} from "@mui/material";
 import {useNavigate} from "react-router-dom";
 import Utils from "../Utils";
-import PlayerGame from "../BusinessLogic/Models/PlayerGame";
+import PlayerSeries from "../BusinessLogic/Models/PlayerSeries";
 
 export default function Games({games, isPlayer = false}) {
     const navigate = useNavigate();

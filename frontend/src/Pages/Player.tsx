@@ -6,7 +6,7 @@ import {usePlayer} from "../BusinessLogic/usePlayer";
 import {useNavigate, useParams} from "react-router-dom";
 import PlayerStats from "./Player/PlayerStats";
 import PlayerInfo from "./Player/PlayerInfo";
-import usePlayerGames from "../BusinessLogic/usePlayerGames";
+import usePlayerSeries from "../BusinessLogic/usePlayerSeries";
 import React from "react";
 import {CircularProgress} from "@mui/material";
 import {useTitleContext} from "../Contexts/TitleContext";
@@ -15,7 +15,7 @@ import Members from "./Player/Members";
 export default function Player() {
     const {id} = useParams();
     const playerData = usePlayer(Number(id));
-    const playerGames = usePlayerGames(Number(id));
+    const playerGames = usePlayerSeries(Number(id));
     const {title, setTitle} = useTitleContext();
     const navigate = useNavigate();
 

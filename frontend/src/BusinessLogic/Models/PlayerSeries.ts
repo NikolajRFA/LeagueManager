@@ -1,7 +1,7 @@
 import ApiReturn from "./ApiReturn";
-import TeamGames from "./TeamGames";
+import TeamSeries from "./TeamSeries";
 
-export default class PlayerGame extends TeamGames {
+export default class PlayerSeries extends TeamSeries {
     playerUrl: string;
     role: string;
 
