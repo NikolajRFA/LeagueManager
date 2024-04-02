@@ -180,7 +180,7 @@ BEGIN
 end;
 $$;
 
-CALL add_member(1, 2, CURRENT_DATE - 14, 'top');
+CALL add_member(1, 1, CURRENT_DATE - 14, 'top');
 CALL add_member(2, 1, CURRENT_DATE - 14, 'jungle');
 CALL add_member(3, 1, CURRENT_DATE - 14, 'mid');
 CALL add_member(4, 1, CURRENT_DATE - 14, 'bottom');
@@ -336,6 +336,7 @@ BEGIN
     RETURNING id INTO new_series_id;
 
     -- Add members to participation table
+    -- TODO: handle if there are too many players on one team
     INSERT INTO participation (series_id, player_id, role, team_id)
     SELECT new_series_id,
            player_id,
