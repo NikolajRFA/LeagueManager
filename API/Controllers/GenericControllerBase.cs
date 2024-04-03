@@ -17,14 +17,14 @@ public abstract class GenericControllerBase : ControllerBase
         Mapper = mapper;
         _linkGenerator = linkGenerator;
     }
-    
+
     protected object Paging<T>(IEnumerable<T> items, int total, PagingValues pagingValues, string endpointName)
     {
         var nextPagingValues = (PagingValues)pagingValues.Clone();
         nextPagingValues.Page += 1;
         var prevPagingValues = (PagingValues)pagingValues.Clone();
         prevPagingValues.Page -= 1;
-        
+
         var numPages = (int)Math.Ceiling(total / (double)pagingValues.PageSize);
         var next = pagingValues.Page < numPages - 1
             ? GetUrl(endpointName, nextPagingValues)
@@ -50,7 +50,7 @@ public abstract class GenericControllerBase : ControllerBase
     {
         return _linkGenerator.GetUriByName(HttpContext, name, values) ?? "Not specified";
     }
-    
+
     protected int? ExtractUserIdFromClaim()
     {
         var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier);
@@ -62,7 +62,8 @@ public abstract class GenericControllerBase : ControllerBase
 
         return userId;
     }
-    
+
+    // TODO: Look into creating static mapper utility class
     protected SeriesDto MapSeries(Series series)
     {
         var dto = Mapper.Map<SeriesDto>(series);
@@ -75,6 +76,13 @@ public abstract class GenericControllerBase : ControllerBase
         dto.Winner = series.Winner?.Name;
         dto.Event = series.Event?.Name;
         dto.EventUrl = null; // TODO: Create event controller.
+        dto.Games = series.Games.Select(game =>
+        {
+            var gameDto = Mapper.Map<GameDto>(game);
+            gameDto.Url = GetUrl(nameof(GameController.GetGame), new { game.Id });
+            gameDto.SeriesUrl = GetUrl(nameof(SeriesController.GetSingleSeries), new { Id = game.SeriesId });
+            return gameDto;
+        }).ToList();
         return dto;
     }
 }

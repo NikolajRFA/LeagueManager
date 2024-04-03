@@ -7,10 +7,11 @@ public class SeriesDto
     public string BlueSideUrl { get; set; }
     public string RedSide { get; set; }
     public string RedSideUrl { get; set; }
+    public int BestOf { get; set; }
     public string? Winner { get; set; }
     public string? WinnerUrl { get; set; }
     public string? Event { get; set; }
     public string? EventUrl { get; set; }
-    
     public DateOnly Date { get; set; }
+    public List<GameDto> Games { get; set; }
 }
