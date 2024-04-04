@@ -22,7 +22,6 @@ export default function SeriesSingle() {
         setTitle(`${seriesData.blueSide} vs. ${seriesData.redSide}`);
     }, [seriesData]);
 
-    // TODO: Add games table and score
     return (
         seriesData.loading ? <CircularProgress/> :
             <Grid container spacing={3}>
