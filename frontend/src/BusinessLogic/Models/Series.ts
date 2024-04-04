@@ -1,4 +1,5 @@
 import ApiReturn from "./ApiReturn";
+import Game from "./Game";
 
 export default class Series extends ApiReturn {
     url: string;
@@ -6,11 +7,13 @@ export default class Series extends ApiReturn {
     blueSideUrl: string;
     redSide: string;
     redSideUrl: string;
+    bestOf: number;
     winner: string;
     winnerUrl: string;
     event: string;
     eventUrl: string;
     date: Date;
+    games: Game[];
 
     constructor(data = null) {
         super();
@@ -20,11 +23,13 @@ export default class Series extends ApiReturn {
         this.blueSideUrl = data.blueSideUrl;
         this.redSide = data.redSide;
         this.redSideUrl = data.redSideUrl;
+        this.bestOf = data.bestOf;
         this.winner = data.winner;
         this.winnerUrl = data.winnerUrl;
         this.event = data.event;
         this.eventUrl = data.eventUrl;
         this.date = data.date;
+        this.games = data.games.map(game => new Game(game));
 
         this.loading = false;
     }

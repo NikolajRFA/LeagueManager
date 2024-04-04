@@ -2,7 +2,7 @@ import './App.css';
 import {BrowserRouter, Route, Routes} from "react-router-dom";
 import Home from "./Pages/Home";
 import Player from "./Pages/Player";
-import Game from "./Pages/Game";
+import Series from "./Pages/Series";
 import Team from "./Pages/Team";
 import {useEffect, useState} from "react";
 import React from "react";
@@ -31,7 +31,7 @@ function App() {
                             <Route path="/teams/:id" element={<Team/>}/>
                             <Route path="/games">
                                 <Route path="" element={<Games/>}/>
-                                <Route path=":id" element={<Game/>}/>
+                                <Route path=":id" element={<Series/>}/>
                             </Route>
                         </Routes>
                     </Template>}/>

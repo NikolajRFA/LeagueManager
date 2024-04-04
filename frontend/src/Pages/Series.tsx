@@ -11,11 +11,11 @@ import Team from "./Game/Team";
 import React from "react";
 import {useTitleContext} from "../Contexts/TitleContext";
 
-export default function Game() {
+export default function Series() {
     const {id} = useParams();
     const seriesData = useSeries(Number(id));
     const gamePlayers = useSeriesPlayers(Number(id));
-    const { title, setTitle } = useTitleContext();
+    const {setTitle} = useTitleContext();
 
     useEffect(() => {
         setTitle(`${seriesData.blueSide} vs. ${seriesData.redSide}`);
@@ -40,6 +40,14 @@ export default function Game() {
                                    justifyContent: 'center'
                                }}
                         >
+                            <Stack sx={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+                                <Typography variant="h3">
+                                    {seriesData.games.filter(game => game.blueSideWon).length} - {seriesData.games.filter(game => !game.blueSideWon).length}
+                                </Typography>
+                                <Typography variant="subtitle1">
+                                    Best of {seriesData.bestOf}
+                                </Typography>
+                            </Stack>
                             <Typography variant="h4">
                                 {seriesData.event}
                             </Typography>
