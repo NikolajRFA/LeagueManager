@@ -29,7 +29,7 @@ export const MainListItems = () => {
                 </ListItemIcon>
                 <ListItemText primary="Players"/>
             </ListItemButton>
-            <ListItemButton onClick={() => navigate('/games')}>
+            <ListItemButton onClick={() => navigate('/series')}>
                 <ListItemIcon>
                     <SportsEsportsIcon/>
                 </ListItemIcon>

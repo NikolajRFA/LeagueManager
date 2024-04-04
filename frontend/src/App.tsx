@@ -2,14 +2,14 @@ import './App.css';
 import {BrowserRouter, Route, Routes} from "react-router-dom";
 import Home from "./Pages/Home";
 import Player from "./Pages/Player";
-import Series from "./Pages/Series";
+import SeriesSingle from "./Pages/SeriesSingle";
 import Team from "./Pages/Team";
 import {useEffect, useState} from "react";
 import React from "react";
 import Template from "./Template/Template";
 import {TitleProvider} from "./Contexts/TitleContext";
 import Players from "./Pages/Players";
-import Games from "./Pages/Games";
+import Series from "./Pages/Series";
 
 function App() {
 
@@ -29,9 +29,9 @@ function App() {
                                 <Route path=":id" element={<Player/>}/>
                             </Route>
                             <Route path="/teams/:id" element={<Team/>}/>
-                            <Route path="/games">
-                                <Route path="" element={<Games/>}/>
-                                <Route path=":id" element={<Series/>}/>
+                            <Route path="/series">
+                                <Route path="" element={<Series/>}/>
+                                <Route path=":id" element={<SeriesSingle/>}/>
                             </Route>
                         </Routes>
                     </Template>}/>

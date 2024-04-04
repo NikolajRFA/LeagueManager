@@ -1,115 +1,54 @@
-import {NavLink, useParams} from "react-router-dom";
-import Grid from "@mui/material/Grid";
-import {useSeries} from "../BusinessLogic/useSeries";
-import {useEffect} from "react";
-import Paper from "@mui/material/Paper";
-import {CircularProgress, Stack} from "@mui/material";
-import Typography from "@mui/material/Typography";
-import Players from "./Game/Players";
-import useSeriesPlayers from "../BusinessLogic/useSeriesPlayers";
-import Team from "./Game/Team";
+import {FC, useEffect, useState} from "react";
+import Container from "@mui/material/Container";
 import React from "react";
+import usePaging from "../Hooks/usePaging";
+import {useSeriesList} from "../BusinessLogic/useSeriesList";
 import {useTitleContext} from "../Contexts/TitleContext";
+import {CircularProgress, Stack} from "@mui/material";
+import {NavLink} from "react-router-dom";
+import Utils from "../Utils";
+import SeriesGame from "./Series/SeriesGame";
+import Paging from "../Components/Paging";
+import {useSeries} from "../BusinessLogic/useSeries";
 
-export default function Series() {
-    const {id} = useParams();
-    const seriesData = useSeries(Number(id));
-    const gamePlayers = useSeriesPlayers(Number(id));
+const Series: FC = () => {
+    const pageValues = [5, 10, 15];
+    const [noPages, setNoPages] = useState(1);
+    const [page, pageSize, handleNextClick, handlePrevClick, handleSelectChange] = usePaging(noPages, pageValues);
+    const games = useSeriesList(page - 1, pageSize);
     const {setTitle} = useTitleContext();
 
-    useEffect(() => {
-        setTitle(`${seriesData.blueSide} vs. ${seriesData.redSide}`);
-    }, [seriesData]);
 
-    // TODO: Add games table and score
+    useEffect(() => {
+        setTitle('Series');
+    }, []);
+
+    useEffect(() => {
+        setNoPages(games.numberOfPages)
+    }, [games]);
+
     return (
-        seriesData.loading ? <CircularProgress/> :
-            <Grid container spacing={3}>
-                <Grid item xs={12} md={4} lg={4}>
-                    {seriesData.blueSideUrl ? <Team gameData={seriesData} isBlueSide={true}/> : <CircularProgress/>}
-                </Grid>
-                <Grid item xs={12} md={4} lg={4}>
-                    <Paper>
-                        <Stack spacing={3}
-                               sx={{
-                                   p: 2,
-                                   display: 'flex',
-                                   flexDirection: 'column',
-                                   height: 240,
-                                   alignItems: 'center',
-                                   justifyContent: 'center'
-                               }}
-                        >
-                            <Stack sx={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
-                                <Typography variant="h3">
-                                    {seriesData.games.filter(game => game.blueSideWon).length} - {seriesData.games.filter(game => !game.blueSideWon).length}
-                                </Typography>
-                                <Typography variant="subtitle1">
-                                    Best of {seriesData.bestOf}
-                                </Typography>
-                            </Stack>
-                            <Typography variant="h4">
-                                {seriesData.event}
-                            </Typography>
-                            <Typography variant="h6">
-                                Winner: {seriesData.winner}
-                            </Typography>
-                        </Stack>
-                    </Paper>
-                </Grid>
-                <Grid item xs={12} md={4} lg={4}>
-                    {seriesData.redSideUrl ? <Team gameData={seriesData} isBlueSide={false}/> : <CircularProgress/>}
-                </Grid>
-                <Grid item xs={12} md={4} lg={6}>
-                    <Paper
-                        sx={{
-                            p: 2,
-                            display: 'flex',
-                            flexDirection: 'column',
-                            //height: 240,
-                            alignItems: 'left',
-                            justifyContent: 'center'
-                        }}
-                    >
-                        {!gamePlayers.loading ?
-                            <Players players={gamePlayers.items.filter(item => item.side === "Blue").sort((a, b) => {
-                                const roleOrder = {
-                                    "top": 1,
-                                    "jungle": 2,
-                                    "mid": 3,
-                                    "support": 4,
-                                    "bottom": 5
-                                };
-                                return roleOrder[a.role] - roleOrder[b.role];
-                            })}
-                                     isBlueSide={true}/> : <CircularProgress/>}
-                    </Paper>
-                </Grid>
-                <Grid item xs={12} md={4} lg={6}>
-                    <Paper
-                        sx={{
-                            p: 2,
-                            display: 'flex',
-                            flexDirection: 'column',
-                            //height: 240,
-                            alignItems: 'left',
-                            justifyContent: 'center'
-                        }}
-                    >
-                        {!gamePlayers.loading ?
-                            <Players players={gamePlayers.items.filter(item => item.side === "Red").sort((a, b) => {
-                                const roleOrder = {
-                                    "top": 1,
-                                    "jungle": 2,
-                                    "mid": 3,
-                                    "support": 4,
-                                    "bottom": 5
-                                };
-                                return roleOrder[a.role] - roleOrder[b.role];
-                            })}
-                                     isBlueSide={false}/> : <CircularProgress/>}
-                    </Paper>
-                </Grid>
-            </Grid>
+        games.loading ? <CircularProgress/> :
+            <Container sx={{width: {xs: '100%', sm: '100%', md: '100%', lg: '75%', xl: '75%'}}}>
+                <Stack spacing={2}
+                       style={{marginBottom: '10px'}}
+                >
+                    {games.items.map(game =>
+                        <NavLink to={`/series/${Utils.getLastIdFromUrl(game.url)}`}
+                                 style={{textDecoration: 'none'}}>
+                            <SeriesGame game={game}/>
+                        </NavLink>)}
+                </Stack>
+                <Paging onNextClick={handleNextClick}
+                        onPrevClick={handlePrevClick}
+                        onSelectChange={handleSelectChange}
+                        selectValues={pageValues}
+                        selectDefaultValue={pageSize}
+                        page={page}
+                        numberOfPages={noPages}
+                />
+            </Container>
     )
 }
+
+export default Series;
