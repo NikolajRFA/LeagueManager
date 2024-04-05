@@ -116,6 +116,8 @@ CREATE TABLE game
     blue_side_won BOOL                       NOT NULL
 );
 
+CREATE INDEX series_id_idx ON game (series_id);
+
 CREATE TABLE participation
 (
     series_id INT REFERENCES series (id) NOT NULL,
