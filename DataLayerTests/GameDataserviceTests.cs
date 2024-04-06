@@ -8,7 +8,7 @@ public class GameDataserviceTests
     public void GetGamesFromPlayer_Id1_Success()
     {
         var dataService = new PlayerDataService();
-        var (games, total) = dataService.GetGamesFromPlayer(1);
+        var (games, total) = dataService.GetSeriesFromPlayer(1);
         Assert.NotNull(games);
     }
 
@@ -16,7 +16,7 @@ public class GameDataserviceTests
     public void GetGamesFromPlayer_NonExistent_ReturnsNull()
     {
         var dataService = new PlayerDataService();
-        var (games, total) = dataService.GetGamesFromPlayer(-1);
+        var (games, total) = dataService.GetSeriesFromPlayer(-1);
         Assert.Null(games);
     }
 

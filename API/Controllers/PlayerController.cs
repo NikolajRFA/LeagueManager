@@ -44,7 +44,7 @@ public class PlayerController(PlayerDataService dataService, LinkGenerator linkG
     [HttpGet("{id}/games", Name = nameof(GetGamesFromPlayer))]
     public IActionResult GetGamesFromPlayer(int id, int page = 0, int pageSize = 10)
     {
-        var (participations, total) = dataService.GetGamesFromPlayer(id, page, pageSize);
+        var (participations, total) = dataService.GetSeriesFromPlayer(id, page, pageSize);
 
         var dtos = participations.Select(participation => new PlayerSeriesDto
             {

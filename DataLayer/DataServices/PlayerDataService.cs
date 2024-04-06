@@ -37,7 +37,7 @@ public class PlayerDataService
             .FirstOrDefault(x => x.Id == id);
     }
 
-    public (List<Participation>, int) GetGamesFromPlayer(int playerId, int page = 0, int pageSize = 10)
+    public (List<Participation>, int) GetSeriesFromPlayer(int playerId, int page = 0, int pageSize = 10)
     {
         var db = new Database();
         var participations = db.Participations
