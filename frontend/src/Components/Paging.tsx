@@ -35,7 +35,7 @@ const Paging: FC<PagingProps> = ({
                 <Select value={selectDefaultValue.toString()}
                         onChange={onSelectChange}
                 >
-                    {selectValues.map(value => <MenuItem value={value}>{value}</MenuItem>)}
+                    {selectValues.map(value => <MenuItem value={value} key={value}>{value}</MenuItem>)}
                 </Select>
             </FormControl>
             <Typography variant='subtitle1'>

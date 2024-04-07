@@ -58,7 +58,8 @@ export default function SearchResults({onMount, searchRef, drawerWidth, drawerIs
                     playerSearchData.items.map((item, index) => (
                         <PlayerSearchResult isFirst={index === 0}
                                             isLast={index === playerSearchData.items.length - 1}
-                                            player={item}/>))}
+                                            player={item}
+                                            key={item.url}/>))}
             </Stack>
         </Paper>
     )
