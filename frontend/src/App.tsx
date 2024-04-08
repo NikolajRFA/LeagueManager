@@ -21,7 +21,7 @@ function App() {
         <TitleProvider>
             <BrowserRouter>
                 <Routes>
-                    <Route path="/" element={<Home/>}/>
+
                     <Route path="*" element={<Template>
                         <Routes>
                             <Route path={"/players"}>
@@ -35,6 +35,7 @@ function App() {
                             </Route>
                         </Routes>
                     </Template>}/>
+                    <Route path="/" element={<Home/>}/>
                 </Routes>
             </BrowserRouter>
         </TitleProvider>

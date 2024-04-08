@@ -4,6 +4,8 @@ import {CircularProgress, Stack} from "@mui/material";
 import Divider from "@mui/material/Divider";
 import PlayerSearchResult from "../Components/PlayerSearchResult";
 import {usePlayerSearch} from "../BusinessLogic/usePlayerSearch";
+import Utils from "../Utils";
+import {Link} from "react-router-dom";
 
 export default function SearchResults({onMount, searchRef, drawerWidth, drawerIsOpen}) {
     const [searchPhrase, setSearchPhrase] = useState("");
@@ -56,10 +58,15 @@ export default function SearchResults({onMount, searchRef, drawerWidth, drawerIs
                    divider={<Divider/>}>
                 {playerSearchData.loading ? <CircularProgress/> :
                     playerSearchData.items.map((item, index) => (
-                        <PlayerSearchResult isFirst={index === 0}
-                                            isLast={index === playerSearchData.items.length - 1}
-                                            player={item}
-                                            key={item.url}/>))}
+                        <Link to={`/players/${Utils.getLastIdFromUrl(item.url)}`}
+                              style={{textDecoration: 'none', color: 'black'}}>
+                            <PlayerSearchResult isFirst={index === 0}
+                                                isLast={index === playerSearchData.items.length - 1}
+                                                player={item}
+                                                key={item.url}/>
+                        </Link>))}
+
+
             </Stack>
         </Paper>
     )
