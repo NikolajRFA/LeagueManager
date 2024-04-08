@@ -7,7 +7,6 @@ import {Flag} from "../../Components/Flag";
 export default function TeamInfo({team}) {
     const navigate = useNavigate();
 
-    // TODO: Add flag
     return (
         <Stack spacing={1} sx={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
             <Avatar variant='rounded' sx={{width: 50, height: 50, marginRight: '10px'}}>
