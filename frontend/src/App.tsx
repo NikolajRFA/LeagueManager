@@ -13,10 +13,6 @@ import Series from "./Pages/Series";
 
 function App() {
 
-    useEffect(() => {
-        document.title = 'LOLEngine';
-    }, []);
-
     return (
         <TitleProvider>
             <BrowserRouter>

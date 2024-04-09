@@ -59,11 +59,12 @@ export default function SearchResults({onMount, searchRef, drawerWidth, drawerIs
                 {playerSearchData.loading ? <CircularProgress/> :
                     playerSearchData.items.map((item, index) => (
                         <Link to={`/players/${Utils.getLastIdFromUrl(item.url)}`}
-                              style={{textDecoration: 'none', color: 'black'}}>
+                              style={{textDecoration: 'none', color: 'black'}}
+                              key={item.url}>
                             <PlayerSearchResult isFirst={index === 0}
                                                 isLast={index === playerSearchData.items.length - 1}
                                                 player={item}
-                                                key={item.url}/>
+                                                />
                         </Link>))}
 
 

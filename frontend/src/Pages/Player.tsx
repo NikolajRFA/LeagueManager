@@ -16,8 +16,7 @@ export default function Player() {
     const {id} = useParams();
     const playerData = usePlayer(Number(id));
     const playerGames = usePlayerSeries(Number(id));
-    const {title, setTitle} = useTitleContext();
-    const navigate = useNavigate();
+    const {setTitle} = useTitleContext();
 
     useEffect(() => {
         setTitle(`${playerData.firstName} '${playerData.alias}' ${playerData.lastName}`)

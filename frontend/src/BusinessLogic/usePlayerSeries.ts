@@ -12,7 +12,7 @@ export default function usePlayerSeries(id: number) {
         axios.get(`${API.url}players/${id}/games`)
             .then(res => setPlayerSeriesData(new List<PlayerSeries>(PlayerSeries, res.data)))
             .catch(err => console.error(err));
-    }, []);
+    }, [id]);
 
     return playerSeriesData;
 }

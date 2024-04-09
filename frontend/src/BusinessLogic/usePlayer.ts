@@ -11,7 +11,7 @@ export function usePlayer(id: number) {
         axios.get(`${API.url}players/${id}`)
             .then(res => setPlayerData(new Player(res.data)))
             .catch(err => console.error(err));
-    }, []);
+    }, [id]);
 
     return playerData;
 }
