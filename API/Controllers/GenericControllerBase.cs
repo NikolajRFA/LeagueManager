@@ -87,10 +87,10 @@ public abstract class GenericControllerBase : ControllerBase
     }
 }
 
-public class PagingValues : ICloneable
+public class PagingValues(int page, int pageSize) : ICloneable
 {
-    public int Page { get; set; }
-    public int PageSize { get; set; }
+    public int Page { get; set; } = page;
+    public int PageSize { get; set; } = pageSize;
 
     public object Clone()
     {
@@ -98,13 +98,13 @@ public class PagingValues : ICloneable
     }
 }
 
-public class IdPagingValues : PagingValues
+public class IdPagingValues(int page, int pageSize, int id) : PagingValues(page, pageSize)
 {
-    public int Id { get; set; }
+    public int Id { get; set; } = id;
 }
 
-public class OrderPagingValues : PagingValues
+public class OrderPagingValues(int page, int pageSize, string order, string dir) : PagingValues(page, pageSize)
 {
-    public string Order { get; set; }
-    public string Dir { get; set; }
+    public string Order { get; set; } = order;
+    public string Dir { get; set; } = dir;
 }

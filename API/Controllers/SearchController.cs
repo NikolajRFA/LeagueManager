@@ -32,12 +32,12 @@ public class SearchController(SearchDataService dataService, LinkGenerator linkG
             });
         }
 
-        return Ok(Paging(dtos, total, new SearchPagingValues { Search = search, Page = page, PageSize = pageSize },
+        return Ok(Paging(dtos, total, new SearchPagingValues(page, pageSize, search),
             nameof(GetPlayerSearch)));
     }
 
-    public class SearchPagingValues : PagingValues
+    public class SearchPagingValues(int page, int pageSize, string search) : PagingValues(page, pageSize)
     {
-        public string Search { get; set; }
+        public string Search { get; set; } = search;
     }
 }

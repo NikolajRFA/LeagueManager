@@ -19,6 +19,7 @@ builder.Services.AddSingleton<TeamDataService>();
 builder.Services.AddSingleton<SeriesDataService>();
 builder.Services.AddSingleton<GameDataService>();
 builder.Services.AddSingleton<SearchDataService>();
+builder.Services.AddSingleton<EventDataService>();
 //builder.Services.AddSingleton<Hashing>();
 
 var secret = builder.Configuration.GetSection("Auth:Secret").Value;

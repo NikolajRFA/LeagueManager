@@ -1,6 +1,7 @@
 ﻿using API.DataTransferObjects.Event;
 using AutoMapper;
 using DataLayer.DataServices;
+using DataLayer.Entities;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers;
@@ -10,16 +11,29 @@ namespace API.Controllers;
 public class EventController(EventDataService dataService, LinkGenerator linkGenerator, IMapper mapper)
     : GenericControllerBase(linkGenerator, mapper)
 {
+    [HttpGet(Name = nameof(GetEvents))]
+    public IActionResult GetEvents(int page = 0, int pageSize = 10)
+    {
+        var (events, total) = dataService.GetEvents(page, pageSize);
+        var dtos = events.Select(MapEvent).ToList();
+        return Ok(Paging(dtos, total, new PagingValues(page, pageSize), nameof(GetEvents)));
+    }
+
     [HttpGet("{id}", Name = nameof(GetEvent))]
     public IActionResult GetEvent(int id)
     {
-        var thisEvent = dataService.GetEvent(id);
-        if (thisEvent == null) return NotFound();
-        return Ok(new EventDto
+        var @event = dataService.GetEvent(id);
+        if (@event == null) return NotFound();
+        return Ok(MapEvent(@event));
+    }
+
+    private EventDto MapEvent(Event @event)
+    {
+        return new EventDto
         {
-            Url = GetUrl(nameof(GetEvent), new { thisEvent.Id }),
-            Name = thisEvent.Name,
+            Url = GetUrl(nameof(GetEvent), new { @event.Id }),
+            Name = @event.Name,
             SeriesUrl = "Not implemented"
-        });
+        };
     }
 }

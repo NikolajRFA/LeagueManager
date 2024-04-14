@@ -24,7 +24,7 @@ public class GameController(GameDataService dataService, LinkGenerator linkGener
             dtos.Add(MapGame(game));
         }
 
-        return Ok(Paging(dtos, total, new PagingValues { Page = page, PageSize = pageSize }, nameof(GetGames)));
+        return Ok(Paging(dtos, total, new PagingValues(page, pageSize), nameof(GetGames)));
     }
 
     [HttpGet("{id}", Name = nameof(GetGame))]

@@ -23,7 +23,7 @@ public class TeamController(TeamDataService dataService, LinkGenerator linkGener
             dtos.Add(MapTeam(team));
         }
 
-        return Ok(Paging(dtos, total, new PagingValues { Page = page, PageSize = pageSize }, nameof(GetTeams)));
+        return Ok(Paging(dtos, total, new PagingValues(page, pageSize), nameof(GetTeams)));
     }
 
     [HttpGet("{id}", Name = nameof(GetTeam))]
@@ -65,7 +65,7 @@ public class TeamController(TeamDataService dataService, LinkGenerator linkGener
             });
         }
 
-        return Ok(Paging(dtos, total, new IdPagingValues { Id = id, PageSize = pageSize, Page = page },
+        return Ok(Paging(dtos, total, new IdPagingValues(page, pageSize, id),
             nameof(GetGamesFromTeam)));
     }
 
@@ -85,7 +85,7 @@ public class TeamController(TeamDataService dataService, LinkGenerator linkGener
             dtos.Add(teamMemberDto);
         }
 
-        return Ok(Paging(dtos, total, new IdPagingValues { Id = id, PageSize = pageSize, Page = page },
+        return Ok(Paging(dtos, total, new IdPagingValues(page, pageSize, id),
             nameof(GetMembersFromTeam)));
     }
 
@@ -105,7 +105,7 @@ public class TeamController(TeamDataService dataService, LinkGenerator linkGener
             dtos.Add(teamMemberDto);
         }
 
-        return Ok(Paging(dtos, total, new IdPagingValues { Id = id, PageSize = pageSize, Page = page },
+        return Ok(Paging(dtos, total, new IdPagingValues(page, pageSize, id),
             nameof(GetMembersFromTeam)));
     }
 

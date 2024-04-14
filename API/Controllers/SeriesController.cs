@@ -21,7 +21,7 @@ public class SeriesController(SeriesDataService dataService, LinkGenerator linkG
             dtos.Add(MapSeries(series));
         }
 
-        return Ok(Paging(dtos, total, new PagingValues { Page = page, PageSize = pageSize }, nameof(GetSeries)));
+        return Ok(Paging(dtos, total, new PagingValues(page, pageSize), nameof(GetSeries)));
     }
 
     [HttpGet("{id}", Name = nameof(GetSingleSeries))]
@@ -54,7 +54,7 @@ public class SeriesController(SeriesDataService dataService, LinkGenerator linkG
             });
         }
         
-        return Ok(Paging(dtos, total, new IdPagingValues{Id = id, Page = page, PageSize = pageSize}, nameof(GetPlayersFromSeries)));
+        return Ok(Paging(dtos, total, new IdPagingValues(page, pageSize, id), nameof(GetPlayersFromSeries)));
     }
 
     [HttpPost("play", Name = nameof(PlayGame))]

@@ -29,7 +29,7 @@ public class PlayerController(PlayerDataService dataService, LinkGenerator linkG
         }
 
         return Ok(Paging(dtos, total,
-            new OrderPagingValues { Order = order, Dir = dir, Page = page, PageSize = pageSize }, nameof(GetPlayers)));
+            new OrderPagingValues(page, pageSize, order, dir), nameof(GetPlayers)));
     }
 
     [HttpGet("{id}", Name = nameof(GetPlayer))]
@@ -72,7 +72,7 @@ public class PlayerController(PlayerDataService dataService, LinkGenerator linkG
             })
             .ToList();
 
-        return Ok(Paging(dtos, total, new IdPagingValues { Id = id, PageSize = pageSize, Page = page },
+        return Ok(Paging(dtos, total, new IdPagingValues(page, pageSize, id),
             nameof(GetGamesFromPlayer)));
     }
 
@@ -93,7 +93,7 @@ public class PlayerController(PlayerDataService dataService, LinkGenerator linkG
             dtos.Add(dto);
         }
 
-        return Ok(Paging(dtos, total, new IdPagingValues { Id = id, PageSize = pageSize, Page = page },
+        return Ok(Paging(dtos, total, new IdPagingValues(page, pageSize, id),
             nameof(GetMembers)));
     }
 
