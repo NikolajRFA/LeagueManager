@@ -27,13 +27,21 @@ public class EventController(EventDataService dataService, LinkGenerator linkGen
         return Ok(MapEvent(@event));
     }
 
+    [HttpGet("{id}/series", Name = nameof(GetSeriesFromEvent))]
+    public IActionResult GetSeriesFromEvent(int id, int page = 0, int pageSize = 10)
+    {
+        var (series, total) = dataService.GetSeriesFromEvent(id, page, pageSize);
+        var dtos = series.Select(MapSeries).ToList();
+        return Ok(Paging(dtos, total, new IdPagingValues(page, pageSize, id), nameof(GetSeriesFromEvent)));
+    }
+
     private EventDto MapEvent(Event @event)
     {
         return new EventDto
         {
             Url = GetUrl(nameof(GetEvent), new { @event.Id }),
             Name = @event.Name,
-            SeriesUrl = "Not implemented"
+            SeriesUrl = GetUrl(nameof(GetSeriesFromEvent), new { @event.Id })
         };
     }
 }
