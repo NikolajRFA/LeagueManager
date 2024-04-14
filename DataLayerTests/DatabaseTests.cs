@@ -53,9 +53,8 @@ public class DatabaseTests
             .Where(x => x.SeriesId == 1).ToList();
 
         foreach (var participation in participations)
-        {
-            _testOutputHelper.WriteLine($"{participation.Player.FirstName} {participation.Player.LastName}: {participation.Role} for {participation.Team.Name}");
-        }
+            _testOutputHelper.WriteLine(
+                $"{participation.Player.FirstName} {participation.Player.LastName}: {participation.Role} for {participation.Team.Name}");
     }
 
     [Fact]
@@ -65,13 +64,10 @@ public class DatabaseTests
         var games = db.Players
             .Include(x => x.Series)
             .FirstOrDefault(x => x.Id == 1)!.Series;
-        
+
         Assert.NotNull(games);
 
-        foreach (var game in games)
-        {
-            _testOutputHelper.WriteLine($"{game.Id}");
-        }
+        foreach (var game in games) _testOutputHelper.WriteLine($"{game.Id}");
     }
 
     [Fact]
@@ -79,9 +75,9 @@ public class DatabaseTests
     {
         var db = new Database();
         var date = db.Series.FirstOrDefault(x => x.Id == 1)!.Date;
-        
+
         Assert.Matches(@"\d{2}-\d{2}-\d{4}", date.ToString());
-        
+
         _testOutputHelper.WriteLine(date.ToString());
     }
 }

@@ -93,11 +93,11 @@ public class Database : DbContext
             entity.HasOne<Team>(x => x.BlueSide);
             entity.HasOne<Team>(x => x.RedSide);
             entity.HasOne<Team>(x => x.Winner);
-            
+
             entity.HasMany(x => x.Players)
                 .WithMany(x => x.Series)
                 .UsingEntity<Participation>();
-            
+
             entity.HasOne(x => x.Event)
                 .WithMany(x => x.Series);
         });

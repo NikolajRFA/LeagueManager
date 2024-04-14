@@ -369,7 +369,7 @@ BEGIN
                         WHEN blue_side_wins > red_side_wins THEN in_blue_side_id
                         WHEN red_side_wins > blue_side_wins THEN in_red_side_id
         END
-        WHERE id = new_series_id;
+    WHERE id = new_series_id;
 end;
 $$;
 

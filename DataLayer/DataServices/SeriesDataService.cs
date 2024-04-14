@@ -16,7 +16,7 @@ public class SeriesDataService
 
         return (series.Skip(page * pageSize).Take(pageSize).ToList(), series.Count());
     }
-    
+
     public Series? GetSingleSeries(int id)
     {
         var db = new Database();
@@ -27,7 +27,7 @@ public class SeriesDataService
             .Include(x => x.Winner)
             .SingleOrDefault(x => x.Id == id);
     }
-    
+
     public (List<Participation>, int) GetPlayersFromSeries(int seriesId, int page = 0, int pageSize = 10)
     {
         var db = new Database();

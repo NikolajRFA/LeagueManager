@@ -10,7 +10,7 @@ public class MemberTests
     {
         var dataService = new MemberDataService();
         var (members, count) = dataService.GetMembersFromPlayer(7);
-        
+
         Assert.NotNull(members);
     }
 
@@ -27,7 +27,7 @@ public class MemberTests
         var memberDataService = new MemberDataService();
         Assert.False(memberDataService.TerminateMember(1, 7, DateOnly.FromDateTime(DateTime.Now)));
     }
-    
+
     [Fact]
     public void TerminateMember_Player7Team2_True()
     {

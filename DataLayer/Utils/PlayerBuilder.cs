@@ -51,10 +51,10 @@ public class PlayerBuilder
 
         double NextGaussian(double mean, double stdDev)
         {
-            Random rand = new Random();
-            double u1 = 1.0 - rand.NextDouble(); // Uniform(0,1] random doubles
-            double u2 = 1.0 - rand.NextDouble();
-            double normalRandomValue =
+            var rand = new Random();
+            var u1 = 1.0 - rand.NextDouble(); // Uniform(0,1] random doubles
+            var u2 = 1.0 - rand.NextDouble();
+            var normalRandomValue =
                 Math.Sqrt(-2.0 * Math.Log(u1)) * Math.Sin(2.0 * Math.PI * u2); // Box-Muller transform
             return mean + stdDev * normalRandomValue;
         }

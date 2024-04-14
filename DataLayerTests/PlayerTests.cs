@@ -18,25 +18,27 @@ public class PlayerTests
     [Fact]
     public void RandomPlayer_Single_NewPlayer()
     {
-        var player = PlayerBuilder.RandomPlayer(gender: Gender.Male,  nationalities: new List<Nationality> { Nationality.DK });
+        var player =
+            PlayerBuilder.RandomPlayer(gender: Gender.Male, nationalities: new List<Nationality> { Nationality.DK });
         Assert.NotNull(player);
-        _testOutputHelper.WriteLine($"{player.FirstName} '{player.Alias}' {player.LastName}: {player.Age}{player.Gender.First()}, {player.Nationality}. Overall: {player.Overall}");
+        _testOutputHelper.WriteLine(
+            $"{player.FirstName} '{player.Alias}' {player.LastName}: {player.Age}{player.Gender.First()}, {player.Nationality}. Overall: {player.Overall}");
     }
-    
+
     [Fact]
     public void RandomPlayer_100_NewPlayers()
     {
         var players = new List<Player>();
 
-        for (int i = 0; i < 100; i++)
-        {
-            players.Add(PlayerBuilder.RandomPlayer(gender: Gender.Male,  nationalities: new List<Nationality> { Nationality.DK }));
-        }
+        for (var i = 0; i < 100; i++)
+            players.Add(PlayerBuilder.RandomPlayer(gender: Gender.Male,
+                nationalities: new List<Nationality> { Nationality.DK }));
 
         foreach (var player in players)
         {
             Assert.NotNull(player);
-            _testOutputHelper.WriteLine($"{player.FirstName} '{player.Alias}' {player.LastName}: {player.Age}{player.Gender.First()}, {player.Nationality}. Overall: {player.Overall}");    
+            _testOutputHelper.WriteLine(
+                $"{player.FirstName} '{player.Alias}' {player.LastName}: {player.Age}{player.Gender.First()}, {player.Nationality}. Overall: {player.Overall}");
         }
     }
 

@@ -18,10 +18,7 @@ public class TeamController(TeamDataService dataService, LinkGenerator linkGener
     {
         var (teams, total) = dataService.GetTeams(page, pageSize);
         var dtos = new List<TeamDto>();
-        foreach (var team in teams)
-        {
-            dtos.Add(MapTeam(team));
-        }
+        foreach (var team in teams) dtos.Add(MapTeam(team));
 
         return Ok(Paging(dtos, total, new PagingValues(page, pageSize), nameof(GetTeams)));
     }
@@ -61,7 +58,7 @@ public class TeamController(TeamDataService dataService, LinkGenerator linkGener
                 Won = id == series.WinnerId,
                 Event = series.Event?.Name,
                 EventUrl = null, // TODO: Create EventController.
-                Date = series.Date,
+                Date = series.Date
             });
         }
 
@@ -123,7 +120,7 @@ public class TeamController(TeamDataService dataService, LinkGenerator linkGener
 
     private static string GetTeamFlag(List<Player> players)
     {
-        var euFlags = new List<String>
+        var euFlags = new List<string>
         {
             "AT",
             "BE",
@@ -160,16 +157,15 @@ public class TeamController(TeamDataService dataService, LinkGenerator linkGener
             if (euFlags.Contains(player.Nationality)) euFlagCount++;
             if (flagCounts.TryAdd(player.Nationality, 1)) continue;
             // Increment number of flags.
-            int flagCount = flagCounts[player.Nationality];
+            var flagCount = flagCounts[player.Nationality];
             flagCounts.Remove(player.Nationality);
             flagCounts.Add(player.Nationality, flagCount + 1);
         }
 
         // Check if there are multiple occurrences of any of the flags.
         foreach (var pair in flagCounts)
-        {
-            if (pair.Value >= 3) return pair.Key;
-        }
+            if (pair.Value >= 3)
+                return pair.Key;
 
         if (euFlagCount >= 3) return "EU";
 

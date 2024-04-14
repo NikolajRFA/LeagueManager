@@ -18,7 +18,6 @@ public class SearchController(SearchDataService dataService, LinkGenerator linkG
 
         var dtos = new List<PlayerSearchResultDto>();
         foreach (var player in players)
-        {
             dtos.Add(new PlayerSearchResultDto
             {
                 Url = GetUrl(nameof(PlayerController.GetPlayer), new { player.Id }),
@@ -30,7 +29,6 @@ public class SearchController(SearchDataService dataService, LinkGenerator linkG
                 Nationality = player.Nationality,
                 CurrentTeam = player.Members.SingleOrDefault(x => x.ToDate == null)?.Team.Name
             });
-        }
 
         return Ok(Paging(dtos, total, new SearchPagingValues(page, pageSize, search),
             nameof(GetPlayerSearch)));

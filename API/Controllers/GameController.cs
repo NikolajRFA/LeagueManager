@@ -19,10 +19,7 @@ public class GameController(GameDataService dataService, LinkGenerator linkGener
         var (games, total) = dataService.GetGames(page, pageSize);
         var dtos = new List<GameDto>();
 
-        foreach (var game in games)
-        {
-            dtos.Add(MapGame(game));
-        }
+        foreach (var game in games) dtos.Add(MapGame(game));
 
         return Ok(Paging(dtos, total, new PagingValues(page, pageSize), nameof(GetGames)));
     }

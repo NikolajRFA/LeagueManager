@@ -55,10 +55,7 @@ public abstract class GenericControllerBase : ControllerBase
     {
         var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier);
         if (userIdClaim == null) return null;
-        if (!int.TryParse(userIdClaim.Value, out int userId))
-        {
-            return null;
-        }
+        if (!int.TryParse(userIdClaim.Value, out var userId)) return null;
 
         return userId;
     }
@@ -75,7 +72,8 @@ public abstract class GenericControllerBase : ControllerBase
         dto.RedSide = series.RedSide.Name;
         dto.Winner = series.Winner?.Name;
         dto.Event = series.Event?.Name;
-        dto.EventUrl = GetUrl(nameof(EventController.GetEvent), new {Id = series.EventId}); // TODO: Create event controller.
+        dto.EventUrl =
+            GetUrl(nameof(EventController.GetEvent), new { Id = series.EventId }); // TODO: Create event controller.
         dto.Games = series.Games.Select(game =>
         {
             var gameDto = Mapper.Map<GameDto>(game);

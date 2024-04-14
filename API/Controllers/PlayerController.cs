@@ -23,10 +23,7 @@ public class PlayerController(PlayerDataService dataService, LinkGenerator linkG
 
         var (players, total) = dataService.GetPlayers(order, dir, page, pageSize);
         var dtos = new List<PlayerDto>();
-        foreach (var player in players)
-        {
-            dtos.Add(MapPlayer(player));
-        }
+        foreach (var player in players) dtos.Add(MapPlayer(player));
 
         return Ok(Paging(dtos, total,
             new OrderPagingValues(page, pageSize, order, dir), nameof(GetPlayers)));
@@ -68,7 +65,7 @@ public class PlayerController(PlayerDataService dataService, LinkGenerator linkG
                 Won = participation.TeamId == participation.Series.WinnerId,
                 Event = participation.Series.Event?.Name,
                 EventUrl = null, // TODO: Create EventController.
-                Date = participation.Series.Date,
+                Date = participation.Series.Date
             })
             .ToList();
 
