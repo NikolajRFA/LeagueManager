@@ -34,7 +34,6 @@ public class Database : DbContext
     {
         modelBuilder.Entity<Player>(entity =>
         {
-            // TODO: find fix to get all members of players who have had multiple stays at the same team
             entity.ToTable("player");
             entity.HasKey(x => x.Id);
             entity.HasMany(x => x.Teams)

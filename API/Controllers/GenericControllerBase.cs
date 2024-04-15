@@ -73,7 +73,7 @@ public abstract class GenericControllerBase : ControllerBase
         dto.Winner = series.Winner?.Name;
         dto.Event = series.Event?.Name;
         dto.EventUrl =
-            GetUrl(nameof(EventController.GetEvent), new { Id = series.EventId }); // TODO: Create event controller.
+            GetUrl(nameof(EventController.GetEvent), new { Id = series.EventId });
         dto.Games = series.Games.Select(game =>
         {
             var gameDto = Mapper.Map<GameDto>(game);

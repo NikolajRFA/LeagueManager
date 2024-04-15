@@ -4,7 +4,6 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DataLayer.DataServices;
 
-// TODO: implement methods to add members to teams.
 public class MemberDataService
 {
     public (List<Member>, int) GetMembersFromPlayer(int playerId, int page = 0, int pageSize = 10)

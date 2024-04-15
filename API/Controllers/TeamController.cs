@@ -17,8 +17,7 @@ public class TeamController(TeamDataService dataService, LinkGenerator linkGener
     public IActionResult GetTeams(int page = 0, int pageSize = 10)
     {
         var (teams, total) = dataService.GetTeams(page, pageSize);
-        var dtos = new List<TeamDto>();
-        foreach (var team in teams) dtos.Add(MapTeam(team));
+        var dtos = teams.Select(MapTeam).ToList();
 
         return Ok(Paging(dtos, total, new PagingValues(page, pageSize), nameof(GetTeams)));
     }
@@ -57,7 +56,7 @@ public class TeamController(TeamDataService dataService, LinkGenerator linkGener
                 Winner = series.Winner?.Name,
                 Won = id == series.WinnerId,
                 Event = series.Event?.Name,
-                EventUrl = null, // TODO: Create EventController.
+                EventUrl = GetUrl(nameof(EventController.GetEvent), new { Id = series.EventId }),
                 Date = series.Date
             });
         }
@@ -111,7 +110,6 @@ public class TeamController(TeamDataService dataService, LinkGenerator linkGener
         return new TeamDto
         {
             Name = team.Name,
-            //League = team.League.Name,
             GamesUrl = GetUrl(nameof(GetGamesFromTeam), new { team.Id }),
             Players = GetUrl(nameof(GetMembersFromTeam), new { team.Id }),
             Flag = GetTeamFlag(team.Players)
@@ -162,7 +160,7 @@ public class TeamController(TeamDataService dataService, LinkGenerator linkGener
             flagCounts.Add(player.Nationality, flagCount + 1);
         }
 
-        // Check if there are multiple occurrences of any of the flags.
+        // Check if there are multiple occurrences of the flags.
         foreach (var pair in flagCounts)
             if (pair.Value >= 3)
                 return pair.Key;
