@@ -6,10 +6,10 @@ interface GamesGameProps {
     game: Series;
 }
 
-const SeriesGame: FC<GamesGameProps> = ({game}) => {
+const SeriesSingleSeries: FC<GamesGameProps> = ({game}) => {
     return (
         <Card style={{height: '90px'}}>{game.blueSide} vs. {game.redSide}</Card>
     )
 }
 
-export default SeriesGame;
+export default SeriesSingleSeries;
