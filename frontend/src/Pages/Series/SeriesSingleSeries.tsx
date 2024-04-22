@@ -1,4 +1,4 @@
-import React, {FC} from "react";
+import React, {FC, useEffect, useRef, useState} from "react";
 import {Card} from "@mui/material";
 import Series from "../../BusinessLogic/Models/Series";
 import Grid from "@mui/material/Grid";
@@ -11,12 +11,31 @@ interface GamesGameProps {
 const SeriesSingleSeries: FC<GamesGameProps> = ({game}) => {
     const center = {display: 'flex', alignItems: 'center', justifyContent: 'center'}
     const blueSideIsWinner = game.blueSideUrl === game.winnerUrl;
+    const blueSidePaperRef = useRef(null);
+    const redSidePaperRef = useRef(null);
+    const [widestTeamPaperWidth, setWidestTeamPaperWidth] = useState(0);
+    const teamPaperHeight = 48;
+
+
+    useEffect(() => {
+        console.log(blueSidePaperRef.current.offsetWidth)
+        if (blueSidePaperRef.current.offsetWidth > redSidePaperRef.current.offsetWidth) {
+            setWidestTeamPaperWidth(blueSidePaperRef.current.offsetWidth + 12);
+        } else {
+            setWidestTeamPaperWidth(redSidePaperRef.current.offsetWidth + 12);
+        }
+    }, [blueSidePaperRef.current, redSidePaperRef.current]);
 
     return (
         <Card style={{height: '90px', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
             <Grid container style={center}>
-                <Grid item lg={4} style={center}>
-                    <Paper style={{backgroundColor: blueSideIsWinner ? '#90ee90' : '#FFC0CB'}}>
+                <Grid item lg={4} style={{...center}}>
+                    <Paper ref={blueSidePaperRef} style={{
+                        ...center,
+                        backgroundColor: blueSideIsWinner ? '#90ee90' : '#FFC0CB',
+                        width: `${widestTeamPaperWidth}px`,
+                        height: `${teamPaperHeight}px`
+                    }}>
                         {game.blueSide}
                     </Paper>
                 </Grid>
@@ -24,7 +43,12 @@ const SeriesSingleSeries: FC<GamesGameProps> = ({game}) => {
                     vs.
                 </Grid>
                 <Grid item lg={4} style={center}>
-                    <Paper style={{backgroundColor: !blueSideIsWinner ? '#90ee90' : '#FFC0CB'}}>
+                    <Paper ref={redSidePaperRef} style={{
+                        ...center,
+                        backgroundColor: !blueSideIsWinner ? '#90ee90' : '#FFC0CB',
+                        width: `${widestTeamPaperWidth}px`,
+                        height: `${teamPaperHeight}px`
+                    }}>
                         {game.redSide}
                     </Paper>
                 </Grid>
