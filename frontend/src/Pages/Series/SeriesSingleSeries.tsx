@@ -29,25 +29,27 @@ const SeriesSingleSeries: FC<GamesGameProps> = ({game}) => {
     return (
         <Card style={{height: '90px', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
             <Grid container style={center}>
-                <Grid item lg={4} style={{...center}}>
+                <Grid item md={4} lg={4} style={{...center}}>
                     <Paper ref={blueSidePaperRef} style={{
                         ...center,
                         backgroundColor: blueSideIsWinner ? '#90ee90' : '#FFC0CB',
                         width: `${widestTeamPaperWidth}px`,
-                        height: `${teamPaperHeight}px`
+                        height: `${teamPaperHeight}px`,
+                        textAlign: 'center'
                     }}>
                         {game.blueSide}
                     </Paper>
                 </Grid>
-                <Grid item lg={4} style={center}>
+                <Grid item md={4} lg={4} style={center}>
                     vs.
                 </Grid>
-                <Grid item lg={4} style={center}>
+                <Grid item md={4} lg={4} style={center}>
                     <Paper ref={redSidePaperRef} style={{
                         ...center,
                         backgroundColor: !blueSideIsWinner ? '#90ee90' : '#FFC0CB',
                         width: `${widestTeamPaperWidth}px`,
-                        height: `${teamPaperHeight}px`
+                        height: `${teamPaperHeight}px`,
+                        textAlign: 'center'
                     }}>
                         {game.redSide}
                     </Paper>
