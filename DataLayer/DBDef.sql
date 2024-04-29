@@ -259,6 +259,7 @@ end
 $$;
 
 -- TODO: Transactionalize procedure, and add control of if players are added to the participation table.
+-- TODO: Make games more matchup dependent, ie. game will go through laning-phase where the matchups on the lanes are more important. 
 CREATE OR REPLACE PROCEDURE play_game(in_series_id INT)
     LANGUAGE plpgsql
 AS
