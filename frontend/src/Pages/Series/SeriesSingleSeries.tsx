@@ -3,6 +3,7 @@ import {Card} from "@mui/material";
 import Series from "../../BusinessLogic/Models/Series";
 import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
+import Typography from "@mui/material/Typography";
 
 interface GamesGameProps {
     game: Series;
@@ -11,47 +12,46 @@ interface GamesGameProps {
 const SeriesSingleSeries: FC<GamesGameProps> = ({game}) => {
     const center = {display: 'flex', alignItems: 'center', justifyContent: 'center'}
     const blueSideIsWinner = game.blueSideUrl === game.winnerUrl;
-    const blueSidePaperRef = useRef(null);
-    const redSidePaperRef = useRef(null);
-    const [widestTeamPaperWidth, setWidestTeamPaperWidth] = useState(0);
+    const blueSideTypographyRef = useRef(null);
+    const redSideTypographyRef = useRef(null);
+    const [widestTeamPaperWidth, setWidestTeamPaperWidth] = useState(200);
     const teamPaperHeight = 48;
 
 
     useEffect(() => {
-        console.log(blueSidePaperRef.current.offsetWidth)
-        if (blueSidePaperRef.current.offsetWidth > redSidePaperRef.current.offsetWidth) {
-            setWidestTeamPaperWidth(blueSidePaperRef.current.offsetWidth + 12);
+        if (blueSideTypographyRef.current.offsetWidth > redSideTypographyRef.current.offsetWidth) {
+            setWidestTeamPaperWidth(blueSideTypographyRef.current.offsetWidth + 12);
         } else {
-            setWidestTeamPaperWidth(redSidePaperRef.current.offsetWidth + 12);
+            setWidestTeamPaperWidth(redSideTypographyRef.current.offsetWidth + 12);
         }
-    }, [blueSidePaperRef.current, redSidePaperRef.current]);
+    }, [blueSideTypographyRef.current, redSideTypographyRef.current]);
 
     return (
         <Card style={{height: '90px', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
             <Grid container style={center}>
                 <Grid item md={4} lg={4} xl={4} style={{...center}}>
-                    <Paper ref={blueSidePaperRef} style={{
+                    <Paper style={{
                         ...center,
                         backgroundColor: blueSideIsWinner ? '#90ee90' : '#FFC0CB',
                         width: `${widestTeamPaperWidth}px`,
                         height: `${teamPaperHeight}px`,
                         textAlign: 'center'
                     }}>
-                        {game.blueSide}
+                        <Typography ref={blueSideTypographyRef}>{game.blueSide}</Typography>
                     </Paper>
                 </Grid>
                 <Grid item md={4} lg={4} xl={4} style={center}>
                     vs.
                 </Grid>
                 <Grid item md={4} lg={4} xl={4} style={center}>
-                    <Paper ref={redSidePaperRef} style={{
+                    <Paper style={{
                         ...center,
                         backgroundColor: !blueSideIsWinner ? '#90ee90' : '#FFC0CB',
                         width: `${widestTeamPaperWidth}px`,
                         height: `${teamPaperHeight}px`,
                         textAlign: 'center'
                     }}>
-                        {game.redSide}
+                        <Typography ref={redSideTypographyRef}>{game.redSide}</Typography>
                     </Paper>
                 </Grid>
             </Grid>
