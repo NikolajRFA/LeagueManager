@@ -1,5 +1,5 @@
 import React, {FC, useEffect, useRef, useState} from "react";
-import {Card} from "@mui/material";
+import {Card, Stack} from "@mui/material";
 import Series from "../../BusinessLogic/Models/Series";
 import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
@@ -41,7 +41,10 @@ const SeriesSingleSeries: FC<GamesGameProps> = ({game}) => {
                     </Paper>
                 </Grid>
                 <Grid item md={4} lg={4} xl={4} style={center}>
-                    vs.
+                    <Stack style={center}>
+                        <Typography variant={"h6"}>vs.</Typography>
+                        <Typography variant={"h6"}>{game.games.filter(game => game.blueSideWon).length} - {game.games.filter(game => !game.blueSideWon).length}</Typography>
+                    </Stack>
                 </Grid>
                 <Grid item md={4} lg={4} xl={4} style={center}>
                     <Paper style={{
