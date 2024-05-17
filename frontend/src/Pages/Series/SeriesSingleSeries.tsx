@@ -44,6 +44,7 @@ const SeriesSingleSeries: FC<GamesGameProps> = ({game}) => {
                     <Stack style={center}>
                         <Typography variant={"h6"}>vs.</Typography>
                         <Typography variant={"h6"}>{game.games.filter(game => game.blueSideWon).length} - {game.games.filter(game => !game.blueSideWon).length}</Typography>
+                        <Typography variant={"caption"}>{game.date.toString()}</Typography>
                     </Stack>
                 </Grid>
                 <Grid item md={4} lg={4} xl={4} style={center}>

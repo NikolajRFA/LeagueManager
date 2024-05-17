@@ -12,7 +12,8 @@ public class SeriesDataService
             .Include(x => x.Games)
             .Include(x => x.BlueSide)
             .Include(x => x.RedSide)
-            .Include(x => x.Winner);
+            .Include(x => x.Winner)
+            .OrderByDescending(x => x.Date);
 
         return (series.Skip(page * pageSize).Take(pageSize).ToList(), series.Count());
     }
